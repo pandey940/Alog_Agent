@@ -315,6 +315,62 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch quotes for all chips in both bars (prices + change %)
     fetchAllBarQuotes();
 
+
+    // Auto Refresh Logic
+    let autoRefreshInterval = null;
+    const autoRefreshToggle = document.getElementById('autoRefreshToggle');
+
+    if (autoRefreshToggle) {
+        autoRefreshToggle.addEventListener('change', () => {
+            if (autoRefreshToggle.checked) {
+                startAutoRefresh();
+                // Provide immediate feedback
+                const span = autoRefreshToggle.nextElementSibling;
+                if (span) {
+                    span.classList.remove('text-slate-400');
+                    span.classList.add('text-primary');
+                    span.textContent = 'Refreshing...';
+                    setTimeout(() => { span.textContent = 'Auto Refresh'; }, 1000);
+                }
+            } else {
+                stopAutoRefresh();
+                const span = autoRefreshToggle.nextElementSibling;
+                if (span) {
+                    span.classList.add('text-slate-400');
+                    span.classList.remove('text-primary');
+                }
+            }
+        });
+    }
+
+    function startAutoRefresh() {
+        if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+        console.log("Auto-refresh started");
+
+        // Refresh every 5 seconds
+        autoRefreshInterval = setInterval(() => {
+            if (currentSymbol) {
+                // Flash the "Live Price" label slightly to indicate update
+                const livePriceLabel = document.querySelector('#val-live-price')?.nextElementSibling;
+                if (livePriceLabel) {
+                    livePriceLabel.classList.add('text-primary');
+                    setTimeout(() => livePriceLabel.classList.remove('text-primary'), 500);
+                }
+
+                fetchStockQuote(currentSymbol);
+                renderMarketChart(currentSymbol, currentPeriod, currentInterval);
+            }
+        }, 5000);
+    }
+
+    function stopAutoRefresh() {
+        if (autoRefreshInterval) {
+            clearInterval(autoRefreshInterval);
+            autoRefreshInterval = null;
+            console.log("Auto-refresh stopped");
+        }
+    }
+
     // Initial chart and quote (after DOM is ready)
     selectStock('TCS.NS');
 });
@@ -844,6 +900,9 @@ function getTimeConfig(period) {
     }
     return { unit: getUnitForPeriod(period) };
 }
+
+
+
 
 // Timeframe Button Listeners (use currentTarget so click on icon/child still works)
 document.querySelectorAll('.timeframe-btn').forEach(btn => {
