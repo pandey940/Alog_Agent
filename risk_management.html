@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SATFIN | Risk Management</title>
+    <meta name="description" content="SATFIN - Advanced risk management and controls for algorithmic trading">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="js/config.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside
+            class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col">
+            <div class="p-4">
+                <!-- Satfin Logo -->
+                <div class="flex flex-col items-center pb-4 border-b border-border-dark mb-4">
+                    <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-14 w-auto" />
+                    <p class="text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Risk Controls</p>
+                </div>
+                <nav class="sidebar-nav overflow-y-auto">
+                    <!-- Dashboard - Direct Link -->
+                    <a href="index.html" class="nav-item text-slate-500">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span class="text-sm font-medium">Dashboard</span>
+                    </a>
+
+                    <div class="menu-section-divider"></div>
+                    <div class="menu-section-label">Trading</div>
+
+                    <!-- Strategies Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-500">
+                            <span class="material-symbols-outlined">database</span>
+                            <span class="text-sm font-medium">Strategies</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="strategy_library.html" class="submenu-item">Strategy Library</a>
+                            <a href="#my-strategies" class="submenu-item">My Strategies</a>
+                            <a href="#create-strategy" class="submenu-item">Create New</a>
+                        </div>
+                    </div>
+
+                    <!-- Trading Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-500">
+                            <span class="material-symbols-outlined">bolt</span>
+                            <span class="text-sm font-medium">Trading</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="live_trading.html" class="submenu-item">Live Trading</a>
+                            <a href="paper_trading.html" class="submenu-item">Paper Trading</a>
+                            <a href="#orders" class="submenu-item">Orders</a>
+                            <a href="#positions" class="submenu-item">Positions</a>
+                        </div>
+                    </div>
+
+                    <div class="menu-section-divider"></div>
+                    <div class="menu-section-label">Analytics</div>
+
+                    <!-- Analytics Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-500">
+                            <span class="material-symbols-outlined">history</span>
+                            <span class="text-sm font-medium">Performance</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="backtesting.html" class="submenu-item">Backtesting</a>
+                            <a href="#reports" class="submenu-item">Reports</a>
+                            <a href="#trade-journal" class="submenu-item">Trade Journal</a>
+                        </div>
+                    </div>
+
+                    <div class="menu-section-divider"></div>
+                    <div class="menu-section-label">Configuration</div>
+
+                    <!-- Settings Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-500">
+                            <span class="material-symbols-outlined">shield_with_heart</span>
+                            <span class="text-sm font-medium">Settings</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="risk_management.html" class="submenu-item">Risk Management</a>
+                            <a href="#api-connections" class="submenu-item">API Connections</a>
+                            <a href="#notifications" class="submenu-item">Notifications</a>
+                            <a href="#account" class="submenu-item">Account</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="mt-auto p-6 border-t border-slate-200 dark:border-slate-800">
+                <!-- AI Agent Status -->
+                <div class="p-3 bg-primary/10 border border-primary/20 rounded-lg mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-xl">smart_toy</span>
+                        <div>
+                            <h3 class="text-sm font-semibold">Satfin AI</h3>
+                            <p class="text-xs text-green-400">Running</p>
+                        </div>
+                        <span class="size-2 rounded-full bg-green-400 animate-pulse ml-auto"></span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div
+                        class="size-10 rounded-full bg-slate-800 flex items-center justify-center overflow-hidden border border-slate-700">
+                        <img class="w-full h-full object-cover" data-alt="User profile avatar photo"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpnpW5b9-_-eHCxkgE9e_Xx-pZCYHMaYwLJXPhYBt_ZXLDXmvgOeQs8MkAdk2Stj7Mq8dqcNJ4FAJFZfDJkB17LADULUBaj8d3Sl9zC-VKzdaA3t2NOwE62VT84bbw7NaCmynGTQzRDOHswwqPFL_VAMVOx4aTnISyNSECO79cpUEmfvVUJGy1Wjjo87rzfGMRN7W7OYb6ihNrURwKBs0jn4eLRicDmmGbCwZSZVtSXQEZ3OKbhAWPoFRQPy3DkK9icKAnWIDPr-k" />
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold">Quant_User_88</span>
+                        <span class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Pro Plan</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-y-auto bg-slate-50 dark:bg-background-dark">
+            <!-- Top Header -->
+            <header
+                class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-[#0f2424]/50 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-10">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <div class="size-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-500">System Live</span>
+                    </div>
+                    <div class="h-4 w-px bg-slate-700"></div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-500 tabular-nums">Latency:
+                            14ms</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button
+                        class="size-10 rounded border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-500">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button class="px-4 h-10 bg-primary text-white rounded font-bold text-sm">Save Config</button>
+                </div>
+            </header>
+            <div class="p-8 max-w-7xl mx-auto w-full space-y-8">
+                <!-- Page Heading & Kill Switches -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                    <div class="lg:col-span-1">
+                        <h1 class="text-3xl font-black tracking-tight mb-2">Risk Management</h1>
+                        <p class="text-slate-500 dark:text-slate-400">Global algorithmic safeguards and liquidity
+                            controls.</p>
+                    </div>
+                    <div class="lg:col-span-2 flex flex-wrap gap-4 justify-end">
+                        <button
+                            class="flex-1 min-w-[200px] h-20 bg-risk-danger/10 border-2 border-risk-danger text-risk-danger rounded-lg flex flex-col items-center justify-center hover:bg-risk-danger hover:text-white transition-all group">
+                            <span class="material-symbols-outlined mb-1">emergency_home</span>
+                            <span class="font-black text-xs uppercase tracking-widest">Flatten All Positions</span>
+                        </button>
+                        <button
+                            class="flex-1 min-w-[200px] h-20 bg-risk-warn/10 border-2 border-risk-warn text-risk-warn rounded-lg flex flex-col items-center justify-center hover:bg-risk-warn hover:text-white transition-all">
+                            <span class="material-symbols-outlined mb-1">block</span>
+                            <span class="font-black text-xs uppercase tracking-widest">Halt All Strategies</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Risk Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Daily Loss Limit -->
+                    <div
+                        class="bg-white dark:bg-[#1f2937]/50 border border-slate-200 dark:border-slate-800 p-6 rounded-xl shadow-sm">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Parameter</p>
+                                <h3 class="font-bold text-lg">Max Daily Loss</h3>
+                            </div>
+                            <span class="material-symbols-outlined text-risk-warn">trending_down</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 font-bold">₹</span>
+                                <input
+                                    class="w-full bg-slate-100 dark:bg-slate-900 border-none rounded-lg pl-8 text-xl font-bold tabular-nums focus:ring-2 focus:ring-risk-warn"
+                                    type="text" value="5,000.00" />
+                            </div>
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-slate-500">Current Loss:</span>
+                                <span class="text-risk-warn">-₹1,240.50 (24.8%)</span>
+                            </div>
+                            <div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-risk-warn" style="width: 24.8%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Portfolio Exposure -->
+                    <div
+                        class="bg-white dark:bg-[#1f2937]/50 border border-slate-200 dark:border-slate-800 p-6 rounded-xl shadow-sm">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Parameter</p>
+                                <h3 class="font-bold text-lg">Exposure Cap</h3>
+                            </div>
+                            <span class="material-symbols-outlined text-primary">pie_chart</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 font-bold">%</span>
+                                <input
+                                    class="w-full bg-slate-100 dark:bg-slate-900 border-none rounded-lg pl-8 text-xl font-bold tabular-nums focus:ring-2 focus:ring-primary"
+                                    type="text" value="85.0" />
+                            </div>
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-slate-500">Utilization:</span>
+                                <span class="text-primary">62.0%</span>
+                            </div>
+                            <div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary" style="width: 62%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Leverage Cap -->
+                    <div
+                        class="bg-white dark:bg-[#1f2937]/50 border border-slate-200 dark:border-slate-800 p-6 rounded-xl shadow-sm">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Parameter</p>
+                                <h3 class="font-bold text-lg">Max Leverage</h3>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400">speed</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 font-bold">x</span>
+                                <input
+                                    class="w-full bg-slate-100 dark:bg-slate-900 border-none rounded-lg pl-8 text-xl font-bold tabular-nums focus:ring-2 focus:ring-slate-400"
+                                    type="text" value="3.50" />
+                            </div>
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-slate-500">Current Avg:</span>
+                                <span class="text-slate-400">1.2x</span>
+                            </div>
+                            <div class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-slate-400" style="width: 34%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Broker Connectivity -->
+                    <section class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-xl font-bold">Broker API Connectivity</h2>
+                            <button
+                                class="text-primary text-xs font-bold uppercase tracking-widest flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">add_circle</span> Add Broker
+                            </button>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-[#1f2937]/50 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden">
+                            <table class="w-full text-left">
+                                <thead
+                                    class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                            Broker</th>
+                                        <th
+                                            class="px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                            Status</th>
+                                        <th
+                                            class="px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-500 text-right">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                                    <tr>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="size-8 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-xs">
+                                                    IB</div>
+                                                <span class="font-bold text-sm">Interactive Brokers</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">Connected</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button class="text-slate-400 hover:text-risk-danger transition-colors">
+                                                <span class="material-symbols-outlined">link_off</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="size-8 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-xs">
+                                                    TD</div>
+                                                <span class="font-bold text-sm">TD Ameritrade</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-risk-danger/10 text-risk-danger">Disconnected</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button
+                                                class="text-primary hover:text-primary/70 transition-colors font-bold text-xs uppercase">Reconnect</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                    <!-- Security Settings -->
+                    <section class="space-y-4">
+                        <h2 class="text-xl font-bold">Security &amp; Protection</h2>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div
+                                class="bg-white dark:bg-[#1f2937]/50 border border-slate-200 dark:border-slate-800 p-5 rounded-xl flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                                        <span class="material-symbols-outlined">fingerprint</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-sm">Two-Factor Authentication</h4>
+                                        <p class="text-xs text-slate-500">Enabled - via Google Authenticator</p>
+                                    </div>
+                                </div>
+                                <button
+                                    class="text-xs font-bold px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded">Manage</button>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-[#1f2937]/50 border border-slate-200 dark:border-slate-800 p-5 rounded-xl flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500">
+                                        <span class="material-symbols-outlined">map</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-sm">IP Whitelisting</h4>
+                                        <p class="text-xs text-slate-500">Restrict access to specific trade desks</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span
+                                        class="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">192.168.1.*</span>
+                                    <button
+                                        class="size-6 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-xs">add</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div
+                                class="bg-risk-warn/5 border border-risk-warn/20 p-5 rounded-xl flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="size-10 rounded-lg bg-risk-warn/10 flex items-center justify-center text-risk-warn">
+                                        <span class="material-symbols-outlined">history_toggle_off</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-sm">Auto-Logout Session</h4>
+                                        <p class="text-xs text-slate-500">Halt access after inactivity period</p>
+                                    </div>
+                                </div>
+                                <select
+                                    class="bg-transparent border-none text-xs font-bold focus:ring-0 cursor-pointer">
+                                    <option>15 Minutes</option>
+                                    <option selected="">30 Minutes</option>
+                                    <option>1 Hour</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Audit Log (Simplified) -->
+                <section class="space-y-4 pb-12">
+                    <h2 class="text-xl font-bold">Recent Risk Events</h2>
+                    <div class="space-y-2">
+                        <div
+                            class="flex items-center gap-4 py-3 px-4 bg-white/30 dark:bg-slate-900/30 rounded-lg border-l-2 border-risk-warn">
+                            <span class="text-xs font-bold text-slate-500 tabular-nums">14:02:11</span>
+                            <span
+                                class="text-xs font-bold bg-risk-warn/10 text-risk-warn px-2 py-0.5 rounded uppercase">Warning</span>
+                            <p class="text-sm font-medium">Daily loss limit reached 20% threshold (₹1,000.00)</p>
+                        </div>
+                        <div
+                            class="flex items-center gap-4 py-3 px-4 bg-white/30 dark:bg-slate-900/30 rounded-lg border-l-2 border-primary">
+                            <span class="text-xs font-bold text-slate-500 tabular-nums">13:45:02</span>
+                            <span
+                                class="text-xs font-bold bg-primary/10 text-primary px-2 py-0.5 rounded uppercase">Info</span>
+                            <p class="text-sm font-medium">Strategy 'MeanReversion_V4' initialized with risk multiplier
+                                1.2x</p>
+                        </div>
+                        <div
+                            class="flex items-center gap-4 py-3 px-4 bg-white/30 dark:bg-slate-900/30 rounded-lg border-l-2 border-slate-500">
+                            <span class="text-xs font-bold text-slate-500 tabular-nums">11:12:44</span>
+                            <span
+                                class="text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 px-2 py-0.5 rounded uppercase">System</span>
+                            <p class="text-sm font-medium">Global config export generated successfully</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="js/sidebar.js"></script>
+</body>
+
+</html>

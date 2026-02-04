@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SATFIN | Strategy Library</title>
+    <meta name="description" content="SATFIN - Browse and deploy algorithmic trading strategies">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="js/config.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    <div class="flex h-screen w-full overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside
+            class="w-64 flex-shrink-0 bg-white dark:bg-panel-dark border-r border-slate-200 dark:border-border-dark flex flex-col justify-between p-4">
+            <div class="flex flex-col gap-4">
+                <!-- Satfin Logo -->
+                <div class="flex flex-col items-center border-b border-border-dark pb-4">
+                    <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-14 w-auto" />
+                    <p class="text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
+                        Platform</p>
+                </div>
+                <nav class="sidebar-nav overflow-y-auto">
+                    <!-- Dashboard - Direct Link -->
+                    <a href="index.html" class="nav-item text-slate-500">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span class="text-sm font-medium">Dashboard</span>
+                    </a>
+
+                    <div class="menu-section-divider"></div>
+                    <div class="menu-section-label">Trading</div>
+
+                    <!-- Strategies Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-500">
+                            <span class="material-symbols-outlined">library_books</span>
+                            <span class="text-sm font-medium">Strategies</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="strategy_library.html" class="submenu-item">Strategy Library</a>
+                            <a href="#my-strategies" class="submenu-item">My Strategies</a>
+                            <a href="#create-strategy" class="submenu-item">Create New</a>
+                        </div>
+                    </div>
+
+                    <!-- Trading Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-500">
+                            <span class="material-symbols-outlined">bolt</span>
+                            <span class="text-sm font-medium">Trading</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="live_trading.html" class="submenu-item">Live Trading</a>
+                            <a href="paper_trading.html" class="submenu-item">Paper Trading</a>
+                            <a href="#orders" class="submenu-item">Orders</a>
+                            <a href="#positions" class="submenu-item">Positions</a>
+                        </div>
+                    </div>
+
+                    <div class="menu-section-divider"></div>
+                    <div class="menu-section-label">Analytics</div>
+
+                    <!-- Analytics Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-500">
+                            <span class="material-symbols-outlined">analytics</span>
+                            <span class="text-sm font-medium">Performance</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="backtesting.html" class="submenu-item">Backtesting</a>
+                            <a href="#reports" class="submenu-item">Reports</a>
+                            <a href="#trade-journal" class="submenu-item">Trade Journal</a>
+                        </div>
+                    </div>
+
+                    <!-- Market Data Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-500">
+                            <span class="material-symbols-outlined">show_chart</span>
+                            <span class="text-sm font-medium">Market Data</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="#watchlist" class="submenu-item">Watchlist</a>
+                            <a href="#screener" class="submenu-item">Stock Screener</a>
+                            <a href="#news" class="submenu-item">Market News</a>
+                        </div>
+                    </div>
+
+                    <div class="menu-section-divider"></div>
+                    <div class="menu-section-label">Configuration</div>
+
+                    <!-- Settings Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-500">
+                            <span class="material-symbols-outlined">settings</span>
+                            <span class="text-sm font-medium">Settings</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="risk_management.html" class="submenu-item">Risk Management</a>
+                            <a href="#api-connections" class="submenu-item">API Connections</a>
+                            <a href="#notifications" class="submenu-item">Notifications</a>
+                            <a href="#account" class="submenu-item">Account</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="flex flex-col gap-4 border-t border-slate-200 dark:border-border-dark pt-4 p-4">
+                <!-- AI Agent Status -->
+                <div class="p-3 bg-primary/10 border border-primary/20 rounded-lg">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] uppercase tracking-widest text-primary font-bold">AI Agent</span>
+                        <span class="size-2 rounded-full bg-green-400 animate-pulse"></span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-xl">smart_toy</span>
+                        <div>
+                            <h3 class="text-sm font-semibold">Satfin AI</h3>
+                            <p class="text-xs text-green-400">Running • 3 Active</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 px-2">
+                    <div
+                        class="size-8 rounded-full bg-slate-200 dark:bg-card-dark flex items-center justify-center overflow-hidden border border-border-dark">
+                        <img class="w-full h-full object-cover" data-alt="User profile avatar"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBLHlWQHqzvPs1rULQj4u7ZNMCpV3iNeyKQ3tDJTgrWlsUAiAZ_sy9f1qb8RVZbSvCt7_y3aupGIMlty7ogK0p2pzVVTkaAqLlpb-DpWImIc8QbJsCK545qWxOQFEQdIgKaj_lb2xARH7pfh3RaQOP9gZGP6KNzNA1XGIDR6J2YIh7JSoh1b8yldaq_u1au9skYtnxVCDNQZfdUj-mqV2Vlks-HXmckvY7rg8Hi6qZLg2HzDijQf5DQXOfgF_pee5fynH1DQwaYo8" />
+                    </div>
+                    <div class="flex flex-col overflow-hidden">
+                        <p class="text-xs font-bold truncate">QuantTrader_77</p>
+                        <p class="text-[10px] text-slate-500 uppercase">Pro Account</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col overflow-hidden relative">
+            <!-- Header -->
+            <header
+                class="h-16 flex items-center justify-between px-8 border-b border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark/50 backdrop-blur-md sticky top-0 z-10">
+                <div class="flex items-center gap-6">
+                    <h2 class="text-lg font-bold">Marketplace</h2>
+                    <div class="flex items-center bg-slate-100 dark:bg-card-dark rounded px-3 py-1.5 w-80">
+                        <span class="material-symbols-outlined text-slate-400 text-xl">search</span>
+                        <input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-500"
+                            placeholder="Search strategy names, logic, or tags..." type="text" />
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button
+                        class="bg-primary text-white text-sm font-bold px-4 py-2 rounded flex items-center gap-2 hover:bg-primary/90 transition-all">
+                        <span class="material-symbols-outlined text-lg">add_box</span>
+                        Create Custom
+                    </button>
+                    <div class="flex gap-2">
+                        <button
+                            class="p-2 rounded hover:bg-slate-100 dark:hover:bg-card-dark transition-colors relative">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span
+                                class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-background-dark"></span>
+                        </button>
+                        <button class="p-2 rounded hover:bg-slate-100 dark:hover:bg-card-dark transition-colors">
+                            <span class="material-symbols-outlined">settings</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <!-- Filters Bar -->
+            <div
+                class="flex items-center gap-3 px-8 py-4 border-b border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark/30 overflow-x-auto no-scrollbar">
+                <div class="flex gap-2 shrink-0">
+                    <button
+                        class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary text-white text-xs font-bold">
+                        All Assets
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-card-dark text-slate-600 dark:text-slate-300 text-xs font-medium hover:bg-slate-200 dark:hover:bg-border-dark transition-colors">
+                        Crypto <span class="material-symbols-outlined text-sm">expand_more</span>
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-card-dark text-slate-600 dark:text-slate-300 text-xs font-medium hover:bg-slate-200 dark:hover:bg-border-dark transition-colors">
+                        Forex <span class="material-symbols-outlined text-sm">expand_more</span>
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-card-dark text-slate-600 dark:text-slate-300 text-xs font-medium hover:bg-slate-200 dark:hover:bg-border-dark transition-colors">
+                        Equities <span class="material-symbols-outlined text-sm">expand_more</span>
+                    </button>
+                </div>
+                <div class="w-px h-6 bg-slate-200 dark:border-border-dark mx-2"></div>
+                <div class="flex gap-2 shrink-0">
+                    <button
+                        class="flex items-center gap-2 px-3 py-1.5 rounded bg-slate-100 dark:bg-card-dark text-slate-600 dark:text-slate-300 text-xs font-medium border border-transparent hover:border-primary/50">
+                        <span class="material-symbols-outlined text-sm">shield</span>
+                        Low Risk
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-3 py-1.5 rounded bg-slate-100 dark:bg-card-dark text-slate-600 dark:text-slate-300 text-xs font-medium border border-transparent hover:border-primary/50">
+                        <span class="material-symbols-outlined text-sm">show_chart</span>
+                        High Sharpe
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-3 py-1.5 rounded bg-slate-100 dark:bg-card-dark text-slate-600 dark:text-slate-300 text-xs font-medium border border-transparent hover:border-primary/50">
+                        <span class="material-symbols-outlined text-sm">trending_up</span>
+                        Momentum
+                    </button>
+                </div>
+            </div>
+            <!-- Strategy Grid Scroll Area -->
+            <div class="flex-1 overflow-y-auto p-8">
+                <div class="strategy-grid">
+                    <!-- Card 1: EMA Crossover -->
+                    <div
+                        class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-lg p-5 flex flex-col gap-4 hover:border-primary/50 transition-all group cursor-pointer ring-1 ring-transparent hover:ring-primary/20">
+                        <div class="flex justify-between items-start">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Trend
+                                    Following</span>
+                                <h3 class="text-base font-bold text-slate-900 dark:text-white">EMA Crossover</h3>
+                            </div>
+                            <div
+                                class="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
+                                MEDIUM RISK</div>
+                        </div>
+                        <div
+                            class="h-16 w-full bg-slate-50 dark:bg-background-dark/50 rounded flex items-center justify-center overflow-hidden">
+                            <div
+                                class="w-full h-full bg-gradient-to-r from-transparent via-primary/10 to-transparent flex items-end">
+                                <!-- Minimal Sparkline SVG Mockup -->
+                                <svg class="w-full h-12" preserveaspectratio="none" viewbox="0 0 100 40">
+                                    <path d="M0 35 Q 20 10, 40 30 T 100 5" fill="none" stroke="#007f80"
+                                        stroke-width="2"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">ROI (YTD)</p>
+                                <p class="text-sm font-bold text-green-500">+14.2%</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">Max DD</p>
+                                <p class="text-sm font-bold text-slate-300">-6.4%</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">Sharpe</p>
+                                <p class="text-sm font-bold text-slate-300">1.82</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">Win Rate</p>
+                                <p class="text-sm font-bold text-slate-300">62%</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 line-clamp-2">Dual exponential moving average crossover logic
+                            with dynamic ATR stop-loss adjustments.</p>
+                        <button
+                            class="mt-2 w-full py-2 bg-slate-100 dark:bg-background-dark text-slate-600 dark:text-slate-300 text-xs font-bold rounded group-hover:bg-primary group-hover:text-white transition-all">Configure
+                            Parameters</button>
+                    </div>
+                    <!-- Card 2: RSI Mean Reversion -->
+                    <div
+                        class="bg-white dark:bg-card-dark border border-primary/40 dark:border-primary/40 rounded-lg p-5 flex flex-col gap-4 ring-1 ring-primary/20 relative">
+                        <div
+                            class="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-lg">
+                            ACTIVE</div>
+                        <div class="flex justify-between items-start">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Mean
+                                    Reversion</span>
+                                <h3 class="text-base font-bold text-slate-900 dark:text-white">RSI Mean Reversion</h3>
+                            </div>
+                            <div
+                                class="px-2 py-0.5 rounded text-[10px] font-bold bg-green-500/10 text-green-500 border border-green-500/20">
+                                LOW RISK</div>
+                        </div>
+                        <div
+                            class="h-16 w-full bg-slate-50 dark:bg-background-dark/50 rounded flex items-center justify-center overflow-hidden">
+                            <div
+                                class="w-full h-full bg-gradient-to-r from-transparent via-primary/10 to-transparent flex items-end">
+                                <svg class="w-full h-12" preserveaspectratio="none" viewbox="0 0 100 40">
+                                    <path d="M0 20 Q 15 5, 30 20 T 60 35 T 100 15" fill="none" stroke="#007f80"
+                                        stroke-width="2"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">ROI (YTD)</p>
+                                <p class="text-sm font-bold text-green-500">+8.2%</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">Max DD</p>
+                                <p class="text-sm font-bold text-slate-300">-2.1%</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">Sharpe</p>
+                                <p class="text-sm font-bold text-slate-300">2.45</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">Win Rate</p>
+                                <p class="text-sm font-bold text-slate-300">74%</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 line-clamp-2">Enters long positions when RSI drops below
+                            oversold thresholds during uptrends.</p>
+                        <button
+                            class="mt-2 w-full py-2 bg-primary text-white text-xs font-bold rounded shadow-md">Currently
+                            Running</button>
+                    </div>
+                    <!-- Card 3: VWAP Breakout -->
+                    <div
+                        class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-lg p-5 flex flex-col gap-4 hover:border-primary/50 transition-all group cursor-pointer">
+                        <div class="flex justify-between items-start">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Intraday
+                                    Momentum</span>
+                                <h3 class="text-base font-bold text-slate-900 dark:text-white">VWAP Breakout</h3>
+                            </div>
+                            <div
+                                class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-500 border border-red-500/20">
+                                HIGH RISK</div>
+                        </div>
+                        <div
+                            class="h-16 w-full bg-slate-50 dark:bg-background-dark/50 rounded flex items-center justify-center overflow-hidden">
+                            <div
+                                class="w-full h-full bg-gradient-to-r from-transparent via-red-500/10 to-transparent flex items-end">
+                                <svg class="w-full h-12" preserveaspectratio="none" viewbox="0 0 100 40">
+                                    <path d="M0 38 L 20 30 L 40 35 L 60 10 L 80 15 L 100 2" fill="none" stroke="#ef4444"
+                                        stroke-width="2"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">ROI (YTD)</p>
+                                <p class="text-sm font-bold text-green-500">+28.7%</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">Max DD</p>
+                                <p class="text-sm font-bold text-slate-300">-18.4%</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">Sharpe</p>
+                                <p class="text-sm font-bold text-slate-300">1.15</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">Win Rate</p>
+                                <p class="text-sm font-bold text-slate-300">48%</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 line-clamp-2">High-frequency volume breakout strategy based on
+                            VWAP deviation bands.</p>
+                        <button
+                            class="mt-2 w-full py-2 bg-slate-100 dark:bg-background-dark text-slate-600 dark:text-slate-300 text-xs font-bold rounded group-hover:bg-primary group-hover:text-white transition-all">Configure
+                            Parameters</button>
+                    </div>
+                    <!-- Card 4: MACD Divergence -->
+                    <div
+                        class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-lg p-5 flex flex-col gap-4 hover:border-primary/50 transition-all group cursor-pointer">
+                        <div class="flex justify-between items-start">
+                            <div class="flex flex-col">
+                                <span
+                                    class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Oscillator</span>
+                                <h3 class="text-base font-bold text-slate-900 dark:text-white">MACD Divergence</h3>
+                            </div>
+                            <div
+                                class="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
+                                MEDIUM RISK</div>
+                        </div>
+                        <div
+                            class="h-16 w-full bg-slate-50 dark:bg-background-dark/50 rounded flex items-center justify-center overflow-hidden">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="text-slate-600 text-[10px] font-medium italic">Simulated performance
+                                    pending...</div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 opacity-50">
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">ROI (YTD)</p>
+                                <p class="text-sm font-bold text-slate-300">--</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-[10px] text-slate-500 uppercase">Max DD</p>
+                                <p class="text-sm font-bold text-slate-300">--</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 line-clamp-2">Detects momentum exhaustion via divergence
+                            between price and MACD histograms.</p>
+                        <button
+                            class="mt-2 w-full py-2 bg-slate-100 dark:bg-background-dark text-slate-600 dark:text-slate-300 text-xs font-bold rounded group-hover:bg-primary group-hover:text-white transition-all">Backtest
+                            Logic</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Floating Strategy Detail / Configuration Side Panel (Visible when a strategy is selected) -->
+            <div
+                class="absolute right-0 top-0 bottom-0 w-[420px] bg-white dark:bg-card-dark border-l border-slate-200 dark:border-border-dark shadow-2xl flex flex-col z-20">
+                <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-border-dark">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-bold text-primary uppercase tracking-widest">Configuration</span>
+                        <h2 class="text-lg font-bold">EMA Crossover</h2>
+                    </div>
+                    <button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-background-dark">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-8">
+                    <!-- Execution Toggle Section -->
+                    <div class="p-4 rounded-lg bg-orange-500/5 border border-orange-500/20">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex flex-col">
+                                <p class="text-sm font-bold text-orange-500">Live Execution</p>
+                                <p class="text-[10px] text-orange-500/70">Requires API Connectivity</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input class="sr-only peer" type="checkbox" />
+                                <div
+                                    class="w-11 h-6 bg-slate-200 dark:bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500">
+                                </div>
+                            </label>
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-relaxed italic border-t border-orange-500/10 pt-3">
+                            Warning: Enabling live execution will place real orders on the selected exchange using your
+                            account balance.
+                        </p>
+                    </div>
+                    <!-- Parameters Section -->
+                    <section class="flex flex-col gap-4">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                            Technical Parameters
+                            <span class="material-symbols-outlined text-sm">info</span>
+                        </h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-[11px] font-bold text-slate-500">Fast EMA Period</label>
+                                <input
+                                    class="bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded px-3 py-2 text-sm focus:ring-primary focus:border-primary"
+                                    type="number" value="12" />
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-[11px] font-bold text-slate-500">Slow EMA Period</label>
+                                <input
+                                    class="bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded px-3 py-2 text-sm focus:ring-primary focus:border-primary"
+                                    type="number" value="26" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <div class="flex justify-between items-center">
+                                <label class="text-[11px] font-bold text-slate-500">Entry Sensitivity</label>
+                                <span class="text-[11px] font-bold text-primary">0.85</span>
+                            </div>
+                            <input
+                                class="w-full h-1.5 bg-slate-200 dark:bg-background-dark rounded-lg appearance-none cursor-pointer accent-primary"
+                                type="range" />
+                            <div class="flex justify-between text-[10px] text-slate-500">
+                                <span>Conservative</span>
+                                <span>Aggressive</span>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Risk Management Section -->
+                    <section class="flex flex-col gap-4">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                            Risk Controls
+                            <span class="material-symbols-outlined text-sm">security</span>
+                        </h4>
+                        <div class="flex flex-col gap-4">
+                            <div
+                                class="flex items-center justify-between p-3 bg-slate-50 dark:bg-background-dark rounded border border-slate-200 dark:border-border-dark">
+                                <div class="flex flex-col">
+                                    <p class="text-xs font-bold">Hard Stop Loss</p>
+                                    <p class="text-[10px] text-slate-500">Exit trade immediately if price hits</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        class="w-16 bg-white dark:bg-card-dark border-slate-300 dark:border-border-dark text-center text-xs rounded py-1"
+                                        type="text" value="1.5" />
+                                    <span class="text-xs text-slate-500">%</span>
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center justify-between p-3 bg-slate-50 dark:bg-background-dark rounded border border-slate-200 dark:border-border-dark">
+                                <div class="flex flex-col">
+                                    <p class="text-xs font-bold">Position Sizing</p>
+                                    <p class="text-[10px] text-slate-500">Max capital allocation per trade</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        class="w-16 bg-white dark:bg-card-dark border-slate-300 dark:border-border-dark text-center text-xs rounded py-1"
+                                        type="text" value="10" />
+                                    <span class="text-xs text-slate-500">%</span>
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center justify-between p-3 bg-slate-50 dark:bg-background-dark rounded border border-slate-200 dark:border-border-dark">
+                                <div class="flex flex-col">
+                                    <p class="text-xs font-bold">Max Concurrent Trades</p>
+                                    <p class="text-[10px] text-slate-500">Limit total portfolio exposure</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        class="w-16 bg-white dark:bg-card-dark border-slate-300 dark:border-border-dark text-center text-xs rounded py-1"
+                                        type="number" value="3" />
+                                    <span class="material-symbols-outlined text-xs text-slate-500">swap_vert</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Action Footer -->
+                <div class="p-6 border-t border-slate-200 dark:border-border-dark flex gap-3">
+                    <button
+                        class="flex-1 py-3 border border-primary text-primary text-sm font-bold rounded hover:bg-primary/5 transition-all">
+                        Run Backtest
+                    </button>
+                    <button
+                        class="flex-1 py-3 bg-primary text-white text-sm font-bold rounded shadow-lg shadow-primary/20 hover:brightness-110 transition-all">
+                        Deploy Strategy
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/sidebar.js"></script>
+</body>
+
+</html>

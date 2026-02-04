@@ -1,0 +1,459 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+/* ================================
+   SATFIN Brand Theme
+   Colors: Gold (#9d8a4d), Green (#1a7a4c), Red (#c92a2a)
+   ================================ */
+
+:root {
+    --satfin-gold: #9d8a4d;
+    --satfin-gold-light: #b9a86a;
+    --satfin-gold-dark: #7a6b3c;
+    --satfin-green: #1a7a4c;
+    --satfin-red: #c92a2a;
+    --bg-dark: #0f1318;
+    --panel-dark: #161a20;
+    --card-dark: #1c2128;
+    --border-dark: #2a3038;
+}
+
+body {
+    font-family: 'Manrope', sans-serif;
+}
+
+/* Material Symbols Settings */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+
+/* ================================
+   Custom Scrollbar - Satfin Gold Theme
+   ================================ */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--satfin-gold-dark);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--satfin-gold);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #3a3d42;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: var(--satfin-gold-dark);
+}
+
+/* Utility Classes */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.tabular-nums {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ================================
+   Top Stocks Scrolling Bar (below search)
+   ================================ */
+.top-stocks-bar {
+    scrollbar-width: thin;
+}
+
+.top-stocks-bar::-webkit-scrollbar {
+    height: 4px;
+}
+
+.top-stock-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    background: rgba(148, 163, 184, 0.15);
+    color: #64748b;
+}
+
+.dark .top-stock-chip {
+    background: rgba(148, 163, 184, 0.1);
+    color: #94a3b8;
+}
+
+.top-stock-chip:hover {
+    background: rgba(157, 138, 77, 0.2);
+    color: var(--satfin-gold);
+    border-color: rgba(157, 138, 77, 0.4);
+}
+
+.top-stock-chip.active {
+    background: rgba(157, 138, 77, 0.25);
+    color: var(--satfin-gold);
+    border-color: var(--satfin-gold);
+}
+
+.dark .top-stock-chip.active {
+    background: rgba(157, 138, 77, 0.2);
+    color: var(--satfin-gold-light);
+    border-color: var(--satfin-gold);
+}
+
+.top-stock-chip .chip-change {
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
+.top-stock-chip .chip-change.positive {
+    color: var(--satfin-green);
+}
+
+.top-stock-chip .chip-change.negative {
+    color: var(--satfin-red);
+}
+
+.top-stock-chip .chip-price {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.dark .top-stock-chip .chip-price {
+    color: #94a3b8;
+}
+
+.top-stock-chip.active .chip-price {
+    color: var(--satfin-gold-light);
+}
+
+/* ================================
+   Chart Grids & Backgrounds
+   ================================ */
+.terminal-grid,
+.chart-grid {
+    background-image: radial-gradient(circle, rgba(157, 138, 77, 0.15) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+.chart-gradient {
+    fill: url(#equityGradient);
+}
+
+/* Strategy Grid Layout */
+.strategy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+}
+
+/* ================================
+   Paper Trading Simulation Banner
+   ================================ */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #0d0f11;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--satfin-gold-dark);
+}
+
+.simulation-banner {
+    background: repeating-linear-gradient(45deg,
+            rgba(157, 138, 77, 0.1),
+            rgba(157, 138, 77, 0.1) 10px,
+            rgba(157, 138, 77, 0.05) 10px,
+            rgba(157, 138, 77, 0.05) 20px);
+}
+
+/* ================================
+   Sidebar Navigation Styles
+   ================================ */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.nav-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.menu-toggle:hover {
+    background: rgba(157, 138, 77, 0.1);
+}
+
+.dark .menu-toggle:hover {
+    background: rgba(157, 138, 77, 0.15);
+}
+
+.menu-toggle.active,
+.nav-item.active-link {
+    background: rgba(157, 138, 77, 0.15);
+    color: var(--satfin-gold);
+}
+
+.dark .menu-toggle.active,
+.dark .nav-item.active-link {
+    background: rgba(157, 138, 77, 0.2);
+    color: var(--satfin-gold-light);
+}
+
+.menu-arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    font-size: 1.25rem;
+    color: #64748b;
+}
+
+.menu-arrow.rotate {
+    transform: rotate(180deg);
+}
+
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.submenu.open {
+    max-height: 500px;
+}
+
+.submenu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+    font-size: 0.8125rem;
+    color: #64748b;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.submenu-item:hover {
+    background: rgba(157, 138, 77, 0.1);
+    color: var(--satfin-gold);
+}
+
+.dark .submenu-item:hover {
+    background: rgba(157, 138, 77, 0.15);
+    color: var(--satfin-gold-light);
+}
+
+.submenu-item.active-link {
+    background: rgba(157, 138, 77, 0.15);
+    color: var(--satfin-gold);
+    font-weight: 600;
+}
+
+.submenu-item::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+}
+
+.submenu-item.active-link::before {
+    background: var(--satfin-gold);
+    opacity: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    color: inherit;
+}
+
+.nav-item:hover {
+    background: rgba(157, 138, 77, 0.1);
+}
+
+.dark .nav-item:hover {
+    background: rgba(157, 138, 77, 0.15);
+}
+
+.menu-section-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--satfin-gold);
+    padding: 1rem 0.75rem 0.5rem;
+}
+
+.menu-section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--satfin-gold-dark), transparent);
+    margin: 0.5rem 0;
+}
+
+/* ================================
+   Satfin Logo in Sidebar
+   ================================ */
+.satfin-logo {
+    width: 100%;
+    max-width: 120px;
+    height: auto;
+}
+
+.satfin-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 0.5rem;
+}
+
+/* ================================
+   Trading Specific Styles
+   ================================ */
+.bullish-candle {
+    fill: var(--satfin-green);
+    stroke: var(--satfin-green);
+}
+
+.bearish-candle {
+    fill: var(--satfin-red);
+    stroke: var(--satfin-red);
+}
+
+.price-up {
+    color: var(--satfin-green);
+}
+
+.price-down {
+    color: var(--satfin-red);
+}
+
+/* Glow Effects */
+.glow-gold {
+    box-shadow: 0 0 20px rgba(157, 138, 77, 0.3);
+}
+
+.glow-green {
+    box-shadow: 0 0 20px rgba(26, 122, 76, 0.3);
+}
+
+.glow-red {
+    box-shadow: 0 0 20px rgba(201, 42, 42, 0.3);
+}
+
+/* ================================
+   Button Styles with Satfin Theme
+   ================================ */
+.btn-primary {
+    background: var(--satfin-gold);
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: var(--satfin-gold-light);
+    box-shadow: 0 4px 12px rgba(157, 138, 77, 0.3);
+}
+
+.btn-success {
+    background: var(--satfin-green);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #1f8f5a;
+}
+
+.btn-danger {
+    background: var(--satfin-red);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #d93636;
+}
+
+/* ================================
+   Card Hover Effects
+   ================================ */
+.card-gold-hover {
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.card-gold-hover:hover {
+    border-color: rgba(157, 138, 77, 0.5);
+    box-shadow: 0 8px 24px rgba(157, 138, 77, 0.15);
+}
+
+/* ================================
+   Gradient Backgrounds
+   ================================ */
+.gradient-gold {
+    background: linear-gradient(135deg, var(--satfin-gold) 0%, var(--satfin-gold-dark) 100%);
+}
+
+.gradient-dark {
+    background: linear-gradient(180deg, var(--bg-dark) 0%, var(--panel-dark) 100%);
+}
+
+/* ================================
+   Status Indicators
+   ================================ */
+.status-live {
+    background: var(--satfin-green);
+    box-shadow: 0 0 8px var(--satfin-green);
+}
+
+.status-paper {
+    background: var(--satfin-gold);
+    box-shadow: 0 0 8px var(--satfin-gold);
+}
+
+.status-error {
+    background: var(--satfin-red);
+    box-shadow: 0 0 8px var(--satfin-red);
+}

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SATFIN | Algorithmic Trading Execution Platform</title>
+    <meta name="description"
+        content="SATFIN - Professional Algorithmic Trading Platform for Indian Stock Market. Trading | Investing | Training">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <!-- Date adapter -->
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside
+            class="w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0">
+            <!-- Satfin Logo -->
+            <div class="p-4 border-b border-slate-200 dark:border-border-dark">
+                <div class="flex items-center justify-center">
+                    <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
+                </div>
+                <p class="text-center text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
+                    Platform</p>
+            </div>
+            <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
+                <!-- Dashboard - Direct Link -->
+                <a href="index.html" class="nav-item text-slate-600 dark:text-slate-400">
+                    <span class="material-symbols-outlined text-xl">dashboard</span>
+                    <span class="text-sm font-medium">Dashboard</span>
+                </a>
+
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Trading</div>
+
+                <!-- Strategies Menu -->
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">settings_input_component</span>
+                        <span class="text-sm font-medium">Strategies</span>
+                        <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                    </div>
+                    <div class="submenu">
+                        <a href="strategy_library.html" class="submenu-item">Strategy Library</a>
+                        <a href="#my-strategies" class="submenu-item">My Strategies</a>
+                        <a href="#create-strategy" class="submenu-item">Create New</a>
+                    </div>
+                </div>
+
+                <!-- Trading Menu -->
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">bolt</span>
+                        <span class="text-sm font-medium">Trading</span>
+                        <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                    </div>
+                    <div class="submenu">
+                        <a href="live_trading.html" class="submenu-item">Live Trading</a>
+                        <a href="paper_trading.html" class="submenu-item">Paper Trading</a>
+                        <a href="#orders" class="submenu-item">Orders</a>
+                        <a href="#positions" class="submenu-item">Positions</a>
+                    </div>
+                </div>
+
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Analytics</div>
+
+                <!-- Analytics Menu -->
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">analytics</span>
+                        <span class="text-sm font-medium">Performance</span>
+                        <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                    </div>
+                    <div class="submenu">
+                        <a href="backtesting.html" class="submenu-item">Backtesting</a>
+                        <a href="#reports" class="submenu-item">Reports</a>
+                        <a href="#trade-journal" class="submenu-item">Trade Journal</a>
+                    </div>
+                </div>
+
+                <!-- Market Data Menu -->
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">show_chart</span>
+                        <span class="text-sm font-medium">Market Data</span>
+                        <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                    </div>
+                    <div class="submenu">
+                        <a href="#watchlist" class="submenu-item">Watchlist</a>
+                        <a href="#screener" class="submenu-item">Stock Screener</a>
+                        <a href="#news" class="submenu-item">Market News</a>
+                    </div>
+                </div>
+
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Configuration</div>
+
+                <!-- Settings Menu -->
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">settings</span>
+                        <span class="text-sm font-medium">Settings</span>
+                        <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                    </div>
+                    <div class="submenu">
+                        <a href="risk_management.html" class="submenu-item">Risk Management</a>
+                        <a href="#api-connections" class="submenu-item">API Connections</a>
+                        <a href="#notifications" class="submenu-item">Notifications</a>
+                        <a href="#account" class="submenu-item">Account</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="p-4 space-y-4">
+                <!-- AI Agent Status -->
+                <div class="p-3 bg-primary/10 border border-primary/20 rounded-lg">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] uppercase tracking-widest text-primary font-bold">AI Agent</span>
+                        <span class="size-2 rounded-full bg-green-400 animate-pulse"></span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-xl">smart_toy</span>
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Satfin AI</h3>
+                            <p class="text-xs text-green-400">Running • 3 Active</p>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-[10px] text-slate-500 dark:text-slate-400">
+                        Last Analysis: 2 min ago
+                    </div>
+                </div>
+                <button
+                    class="w-full flex items-center justify-center gap-2 py-3 rounded bg-danger hover:bg-danger/90 text-white font-bold text-xs tracking-widest uppercase transition-all shadow-lg shadow-danger/20">
+                    <span class="material-symbols-outlined text-base">emergency_home</span>
+                    KILL SWITCH
+                </button>
+                <div class="space-y-1">
+                    <div
+                        class="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+                        <span class="material-symbols-outlined text-xl">help_center</span>
+                        <span class="text-sm font-medium">Support</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- Main Workspace -->
+        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50 dark:bg-background-dark">
+            <!-- Top Navigation -->
+            <header
+                class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex items-center justify-between px-8 shrink-0">
+                <div class="flex items-center gap-6 flex-1">
+                    <div class="relative flex items-center gap-2 text-slate-400">
+                        <span class="material-symbols-outlined text-xl">search</span>
+                        <input id="globalSearchInput"
+                            class="bg-transparent border-none focus:ring-0 text-sm w-64 placeholder:text-slate-500"
+                            placeholder="Search BSE/NSE stocks (e.g., RELIANCE, TCS)..." type="text"
+                            autocomplete="off" />
+                        <div id="searchResults"
+                            class="hidden absolute top-full left-0 right-0 mt-2 bg-white dark:bg-panel-dark border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex flex-col items-end mr-2">
+                        <span class="text-[10px] text-slate-500 uppercase tracking-tighter">Connection Status</span>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-success"></span>
+                            <span class="text-xs font-bold uppercase">LIVE - BSE/NSE (ALPHA VANTAGE)</span>
+                        </div>
+                    </div>
+                    <!-- Notification Bell with Dropdown -->
+                    <div class="relative" id="notificationContainer">
+                        <button id="notificationBtn"
+                            class="p-2 text-slate-400 hover:text-primary transition-colors relative">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="absolute top-1 right-1 w-2 h-2 bg-danger rounded-full"></span>
+                        </button>
+                        <div id="notificationDropdown"
+                            class="hidden absolute right-0 top-full mt-2 w-80 bg-white dark:bg-panel-dark border border-slate-200 dark:border-border-dark rounded-lg shadow-xl z-50">
+                            <div class="p-3 border-b border-slate-200 dark:border-border-dark">
+                                <h3 class="font-bold text-sm">Notifications</h3>
+                            </div>
+                            <div class="max-h-64 overflow-y-auto">
+                                <div
+                                    class="p-3 hover:bg-slate-50 dark:hover:bg-card-dark border-b border-slate-100 dark:border-border-dark">
+                                    <div class="flex items-start gap-2">
+                                        <span class="material-symbols-outlined text-success text-sm">trending_up</span>
+                                        <div>
+                                            <p class="text-sm font-medium">RELIANCE.BSE +2.4%</p>
+                                            <p class="text-xs text-slate-500">Target reached at ₹2,450</p>
+                                            <p class="text-[10px] text-slate-400 mt-1">2 min ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="p-3 hover:bg-slate-50 dark:hover:bg-card-dark border-b border-slate-100 dark:border-border-dark">
+                                    <div class="flex items-start gap-2">
+                                        <span class="material-symbols-outlined text-primary text-sm">smart_toy</span>
+                                        <div>
+                                            <p class="text-sm font-medium">AI Agent Active</p>
+                                            <p class="text-xs text-slate-500">Monitoring 5 positions</p>
+                                            <p class="text-[10px] text-slate-400 mt-1">15 min ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 hover:bg-slate-50 dark:hover:bg-card-dark">
+                                    <div class="flex items-start gap-2">
+                                        <span class="material-symbols-outlined text-danger text-sm">warning</span>
+                                        <div>
+                                            <p class="text-sm font-medium">Stop Loss Triggered</p>
+                                            <p class="text-xs text-slate-500">TATASTEEL.BSE sold at ₹142.50</p>
+                                            <p class="text-[10px] text-slate-400 mt-1">1 hour ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-2 border-t border-slate-200 dark:border-border-dark">
+                                <button class="w-full text-center text-xs text-primary hover:underline">View All
+                                    Notifications</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Profile Image with Dropdown -->
+                    <div class="relative" id="profileContainer">
+                        <button id="profileBtn"
+                            class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-2 border-primary/30 hover:border-primary transition-colors">
+                            <span class="material-symbols-outlined text-primary">person</span>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 top-full mt-2 w-48 bg-white dark:bg-panel-dark border border-slate-200 dark:border-border-dark rounded-lg shadow-xl z-50">
+                            <div class="p-3 border-b border-slate-200 dark:border-border-dark">
+                                <p class="font-bold text-sm">Trader_Pro</p>
+                                <p class="text-xs text-slate-500">Pro Account</p>
+                            </div>
+                            <div class="py-1">
+                                <a href="#profile"
+                                    class="block px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-card-dark">My
+                                    Profile</a>
+                                <a href="#settings"
+                                    class="block px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-card-dark">Settings</a>
+                                <a href="#api-keys"
+                                    class="block px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-card-dark">API
+                                    Keys</a>
+                            </div>
+                            <div class="border-t border-slate-200 dark:border-border-dark py-1">
+                                <a href="#logout"
+                                    class="block px-3 py-2 text-sm text-danger hover:bg-slate-50 dark:hover:bg-card-dark">Sign
+                                    Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Top Stocks Scrolling Bar (below search) -->
+            <div class="top-stocks-bar border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark px-4 py-2 flex items-center gap-2 overflow-x-auto shrink-0">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider shrink-0 pr-2">Top</span>
+                <div id="topStocksScroll" class="flex items-center gap-2 min-w-0 flex-1">
+                    <!-- Filled by JS: TCS, RELIANCE, INFY, HDFCBANK, etc. with price + change -->
+                </div>
+            </div>
+            <!-- Long Term Investment Stocks Bar -->
+            <div class="top-stocks-bar border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark px-4 py-2 flex items-center gap-2 overflow-x-auto shrink-0">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider shrink-0 pr-2">Long Term</span>
+                <div id="longTermStocksScroll" class="flex items-center gap-2 min-w-0 flex-1">
+                    <!-- Filled by JS: blue chips for long term investment -->
+                </div>
+            </div>
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-8 no-scrollbar">
+                <!-- Performance Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div
+                        class="bg-white dark:bg-panel-dark p-5 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Portfolio Value</span>
+                            <span class="material-symbols-outlined text-slate-400 text-lg">account_balance</span>
+                        </div>
+                        <div id="val-equity" class="text-2xl font-extrabold tracking-tight">₹1,248,500.00</div>
+                        <div class="flex items-center gap-1 mt-2">
+                            <span class="text-success text-xs font-bold">+1.2%</span>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wide">TODAY</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-panel-dark p-5 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Net 24h P&amp;L</span>
+                            <span class="material-symbols-outlined text-slate-400 text-lg">monitoring</span>
+                        </div>
+                        <div id="val-pnl" class="text-2xl font-extrabold tracking-tight text-success">+₹14,240.15</div>
+                        <div class="flex items-center gap-1 mt-2">
+                            <span class="text-success text-xs font-bold">+3.2%</span>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wide">MTD: +8.4%</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-panel-dark p-5 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Active Strategies</span>
+                            <span class="material-symbols-outlined text-slate-400 text-lg">smart_toy</span>
+                        </div>
+                        <div id="active-strategies-count" class="text-2xl font-extrabold tracking-tight">08 / 12</div>
+                        <div class="flex items-center gap-1 mt-2 text-slate-400">
+                            <span id="active-strategies-status" class="text-primary text-xs font-bold">4 PAUSED</span>
+                            <span class="text-[10px] uppercase tracking-wide">SYSTEM OK</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-panel-dark p-5 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-colors cursor-default">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Margin Utilization</span>
+                            <span class="material-symbols-outlined text-slate-400 text-lg">speed</span>
+                        </div>
+                        <div id="margin-util-value" class="text-2xl font-extrabold tracking-tight">22.4%</div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-800 h-1 mt-3 rounded-full overflow-hidden">
+                            <div id="margin-util-bar" class="bg-primary h-full" style="width: 22.4%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-12 gap-6 pb-6">
+                    <!-- Main Chart Area (Full Width) -->
+                    <div class="col-span-12 space-y-6">
+                        <div
+                            class="bg-white dark:bg-panel-dark p-6 rounded-lg border border-slate-200 dark:border-slate-800">
+                            <div class="flex justify-between items-center mb-6">
+                                <div>
+                                    <h3 id="main-chart-title" class="text-sm font-bold uppercase tracking-wide mb-1">
+                                        Portfolio Equity Curve
+                                    </h3>
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-xs font-medium text-slate-500">Global Strategy
+                                        </span>
+                                        <div
+                                            class="flex items-center space-x-1 bg-slate-100 dark:bg-slate-800/50 p-1 rounded-md">
+                                            <button data-period="1d" data-interval="5m" id="btn-1d"
+                                                class="timeframe-btn px-2 py-0.5 rounded text-[10px] font-bold text-slate-400 uppercase hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">1D</button>
+                                            <button data-period="5d" data-interval="15m" id="btn-1w"
+                                                class="timeframe-btn px-2 py-0.5 rounded text-[10px] font-bold text-slate-400 uppercase hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">1W</button>
+                                            <button data-period="1mo" data-interval="1d" id="btn-1m"
+                                                class="timeframe-btn px-2 py-0.5 rounded text-[10px] font-bold bg-primary/20 text-primary uppercase transition-colors">1M</button>
+                                            <button data-period="6mo" data-interval="1wk" id="btn-6m"
+                                                class="timeframe-btn px-2 py-0.5 rounded text-[10px] font-bold text-slate-400 uppercase hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">6M</button>
+                                            <button data-period="1y" data-interval="1wk" id="btn-1y"
+                                                class="timeframe-btn px-2 py-0.5 rounded text-[10px] font-bold text-slate-400 uppercase hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">1Y</button>
+                                        </div>
+
+                                        <!-- Indicators Dropdown -->
+                                        <div class="relative">
+                                            <button id="indicatorsBtn"
+                                                class="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-primary transition-colors flex items-center gap-1 text-[10px] font-bold uppercase">
+                                                <span class="material-symbols-outlined text-sm">show_chart</span>
+                                                Indicators
+                                            </button>
+                                            <!-- Dropdown Menu -->
+                                            <div id="indicatorsDropdown"
+                                                class="hidden absolute top-full left-0 mt-1 w-40 bg-white dark:bg-panel-dark border border-slate-200 dark:border-slate-700 rounded shadow-xl z-20">
+                                                <div class="p-2 space-y-1">
+                                                    <label
+                                                        class="flex items-center gap-2 px-2 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded cursor-pointer">
+                                                        <input type="checkbox"
+                                                            class="indicator-checkbox form-checkbox h-3 w-3 text-primary rounded bg-slate-100 border-slate-300 dark:bg-slate-800 dark:border-slate-600 focus:ring-0"
+                                                            value="ema">
+                                                        <span
+                                                            class="text-xs font-medium text-slate-600 dark:text-slate-300">EMA
+                                                            (9/21)</span>
+                                                    </label>
+                                                    <label
+                                                        class="flex items-center gap-2 px-2 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded cursor-pointer">
+                                                        <input type="checkbox"
+                                                            class="indicator-checkbox form-checkbox h-3 w-3 text-primary rounded bg-slate-100 border-slate-300 dark:bg-slate-800 dark:border-slate-600 focus:ring-0"
+                                                            value="vwap">
+                                                        <span
+                                                            class="text-xs font-medium text-slate-600 dark:text-slate-300">VWAP</span>
+                                                    </label>
+                                                    <label
+                                                        class="flex items-center gap-2 px-2 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded cursor-pointer">
+                                                        <input type="checkbox"
+                                                            class="indicator-checkbox form-checkbox h-3 w-3 text-primary rounded bg-slate-100 border-slate-300 dark:bg-slate-800 dark:border-slate-600 focus:ring-0"
+                                                            value="rsi">
+                                                        <span
+                                                            class="text-xs font-medium text-slate-600 dark:text-slate-300">RSI
+                                                            (14)</span>
+                                                    </label>
+                                                    <label
+                                                        class="flex items-center gap-2 px-2 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded cursor-pointer">
+                                                        <input type="checkbox"
+                                                            class="indicator-checkbox form-checkbox h-3 w-3 text-primary rounded bg-slate-100 border-slate-300 dark:bg-slate-800 dark:border-slate-600 focus:ring-0"
+                                                            value="macd">
+                                                        <span
+                                                            class="text-xs font-medium text-slate-600 dark:text-slate-300">MACD</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Full View Toggle -->
+                                        <button id="fullViewBtn"
+                                            class="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-primary transition-colors"
+                                            title="Full View">
+                                            <span class="material-symbols-outlined text-sm">open_in_full</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div id="val-live-price" class="text-lg font-bold text-success leading-none">Loading...
+                                    </div>
+                                    <span class="text-[10px] text-slate-500 uppercase font-medium">Live Price</span>
+                                </div>
+                            </div>
+                            <div id="chartContainer"
+                                class="relative h-64 w-full terminal-grid rounded border border-slate-200 dark:border-slate-800/50 p-2 transition-all duration-300">
+                                <canvas id="marketChart"></canvas>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-12 gap-6">
+                    <!-- Strategies Table -->
+                    <div class="col-span-12 lg:col-span-8 space-y-6">
+                        <div
+                            class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
+                            <div
+                                class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                                <h3 class="text-sm font-bold uppercase tracking-wide">Running Strategies</h3>
+                                <button class="text-[10px] font-bold text-primary uppercase flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">filter_alt</span> FILTER
+                                </button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm">
+                                    <thead>
+                                        <tr
+                                            class="text-[10px] font-bold text-slate-500 uppercase tracking-wider bg-slate-50/50 dark:bg-slate-800/20 border-b border-slate-200 dark:border-slate-800">
+                                            <th class="px-6 py-3">Strategy Name</th>
+                                            <th class="px-6 py-3 text-center">Status</th>
+                                            <th class="px-6 py-3 text-right">Daily P&amp;L</th>
+                                            <th class="px-6 py-3 text-right">Drawdown</th>
+                                            <th class="px-6 py-3 text-center">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="strategies-table-body"
+                                        class="divide-y divide-slate-200 dark:divide-slate-800">
+                                        <!-- Dynamic Strategies will be loaded here -->
+                                        <tr class="animate-pulse">
+                                            <td colspan="5" class="px-6 py-4 text-center text-slate-400 text-xs">Loading
+                                                strategies...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Alert Bar -->
+                    <div class="col-span-12 lg:col-span-4 space-y-6">
+                        <div
+                            class="bg-white dark:bg-panel-dark p-6 rounded-lg border border-slate-200 dark:border-slate-800 h-full">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-sm font-bold uppercase tracking-wide">Risk Alerts</h3>
+                                <span id="alerts-active-count" class="px-2 py-0.5 rounded-full bg-danger/20 text-danger text-[10px] font-bold">— ACTIVE</span>
+                            </div>
+                            <div class="space-y-4">
+                                <div id="alerts-container" class="space-y-4">
+                                    <!-- Dynamic Alerts -->
+                                    <div class="text-center text-slate-400 text-xs py-4">Checking for alerts...</div>
+                                </div>
+                                <button
+                                    class="w-full py-3 rounded border border-dashed border-slate-300 dark:border-slate-700 text-[10px] font-bold text-slate-500 uppercase tracking-widest hover:border-primary hover:text-primary transition-all">
+                                    View Full Event Log
+                                </button>
+                            </div>
+                            <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
+                                <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Market
+                                    Exposure</h4>
+                                <div id="exposure-container" class="space-y-4">
+                                    <!-- Dynamic Exposure -->
+                                    <div
+                                        class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden animate-pulse">
+                                    </div>
+                                    <div
+                                        class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden animate-pulse">
+                                    </div>
+                                    <div
+                                        class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden animate-pulse">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script src="js/dashboard.js?v=2.4"></script>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/sidebar.js"></script>
+</body>
+
+</html>

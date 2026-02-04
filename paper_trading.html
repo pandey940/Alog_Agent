@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SATFIN | Paper Trading Simulator</title>
+    <meta name="description" content="SATFIN - Risk-free paper trading simulator for strategy testing">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="js/config.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+    <div class="flex h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 border-r border-border-dark bg-panel-dark flex flex-col justify-between p-4">
+            <div class="flex flex-col gap-4">
+                <!-- Satfin Logo -->
+                <div class="flex flex-col items-center pb-4 border-b border-border-dark">
+                    <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-14 w-auto" />
+                    <p class="text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Paper Trading</p>
+                </div>
+
+                <!-- System Status -->
+                <div class="p-3 bg-primary/10 border border-primary/20 rounded-lg">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] uppercase tracking-widest text-primary font-bold">System Status</span>
+                        <span class="size-2 rounded-full bg-green-400 animate-pulse"></span>
+                    </div>
+                    <h2 class="text-white text-sm font-semibold truncate">Mean Reversion v2.1</h2>
+                    <p class="text-primary text-xs font-mono mt-1">ID: MR-992-DELTA</p>
+                    <p class="text-xs text-green-400 flex items-center gap-1 mt-2">
+                        <span class="material-symbols-outlined text-sm">terminal</span> SIMULATION ACTIVE
+                    </p>
+                </div>
+
+                <nav class="sidebar-nav overflow-y-auto">
+                    <!-- Dashboard - Direct Link -->
+                    <a href="index.html" class="nav-item text-slate-400">
+                        <span class="material-symbols-outlined text-xl">dashboard</span>
+                        <span class="text-sm font-medium">Dashboard</span>
+                    </a>
+
+                    <div class="menu-section-divider"></div>
+                    <div class="menu-section-label">Trading</div>
+
+                    <!-- Strategies Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-400">
+                            <span class="material-symbols-outlined text-xl">science</span>
+                            <span class="text-sm font-medium">Strategies</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="strategy_library.html" class="submenu-item">Strategy Library</a>
+                            <a href="#my-strategies" class="submenu-item">My Strategies</a>
+                            <a href="#create-strategy" class="submenu-item">Create New</a>
+                        </div>
+                    </div>
+
+                    <!-- Trading Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-400">
+                            <span class="material-symbols-outlined text-xl">terminal</span>
+                            <span class="text-sm font-medium">Trading</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="live_trading.html" class="submenu-item">Live Trading</a>
+                            <a href="paper_trading.html" class="submenu-item">Paper Trading</a>
+                            <a href="#orders" class="submenu-item">Orders</a>
+                            <a href="#positions" class="submenu-item">Positions</a>
+                        </div>
+                    </div>
+
+                    <div class="menu-section-divider"></div>
+                    <div class="menu-section-label">Analytics</div>
+
+                    <!-- Analytics Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-400">
+                            <span class="material-symbols-outlined text-xl">analytics</span>
+                            <span class="text-sm font-medium">Performance</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="backtesting.html" class="submenu-item">Backtesting</a>
+                            <a href="#reports" class="submenu-item">Reports</a>
+                            <a href="#trade-journal" class="submenu-item">Trade Journal</a>
+                        </div>
+                    </div>
+
+                    <div class="menu-section-divider"></div>
+                    <div class="menu-section-label">Configuration</div>
+
+                    <!-- Settings Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-400">
+                            <span class="material-symbols-outlined text-xl">settings</span>
+                            <span class="text-sm font-medium">Settings</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="risk_management.html" class="submenu-item">Risk Management</a>
+                            <a href="#api-connections" class="submenu-item">API Connections</a>
+                            <a href="#notifications" class="submenu-item">Notifications</a>
+                            <a href="#account" class="submenu-item">Account</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="pt-4 border-t border-white/5 space-y-3">
+                <!-- AI Agent Status -->
+                <div class="p-3 bg-primary/10 border border-primary/20 rounded-lg">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-xl">smart_toy</span>
+                        <div>
+                            <h3 class="text-sm font-semibold text-white">Satfin AI</h3>
+                            <p class="text-xs text-primary">Simulation Mode</p>
+                        </div>
+                        <span class="size-2 rounded-full bg-primary animate-pulse ml-auto"></span>
+                    </div>
+                </div>
+                <button
+                    class="w-full flex items-center justify-center gap-2 bg-danger/10 hover:bg-danger/20 text-danger border border-danger/30 py-3 rounded-lg transition-all font-bold text-xs uppercase tracking-widest">
+                    <span class="material-symbols-outlined text-lg">stop_circle</span>
+                    Kill Switch (Halt Algo)
+                </button>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Progress & Stats Header -->
+            <div class="p-6 bg-background-dark/50 border-b border-white/5 space-y-6">
+                <!-- Progress Bar -->
+                <div class="max-w-4xl">
+                    <div class="flex justify-between items-end mb-2">
+                        <div>
+                            <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Verification Progress
+                            </p>
+                            <h2 class="text-white text-lg font-bold">Path to Live Trading</h2>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-primary text-2xl font-bold">75%</span>
+                            <p class="text-slate-500 text-xs">15 of 20 successful trades completed</p>
+                        </div>
+                    </div>
+                    <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-primary shadow-[0_0_10px_rgba(0,127,128,0.5)] transition-all duration-1000"
+                            style="width: 75%;"></div>
+                    </div>
+                </div>
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-surface-dark p-4 rounded-xl border border-white/5 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-2 opacity-10">
+                            <span class="material-symbols-outlined text-4xl">account_balance_wallet</span>
+                        </div>
+                        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Virtual Equity</p>
+                        <p class="text-2xl font-bold text-white mt-1 font-mono">₹104,250.00</p>
+                        <p class="text-green-400 text-xs font-medium mt-1 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-xs">trending_up</span> +4.25% Total
+                        </p>
+                    </div>
+                    <div class="bg-surface-dark p-4 rounded-xl border border-white/5 border-l-primary/50 border-l-2">
+                        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Session P&amp;L</p>
+                        <p class="text-2xl font-bold text-success mt-1 font-mono">+₹4,250.00</p>
+                        <p class="text-slate-500 text-xs font-medium mt-1">Real-time simulation</p>
+                    </div>
+                    <div class="bg-surface-dark p-4 rounded-xl border border-white/5">
+                        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Active Orders</p>
+                        <p class="text-2xl font-bold text-white mt-1 font-mono">12</p>
+                        <p class="text-slate-500 text-xs font-medium mt-1">Pending Execution</p>
+                    </div>
+                    <div class="bg-surface-dark p-4 rounded-xl border border-white/5">
+                        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Risk Exposure</p>
+                        <p class="text-2xl font-bold text-orange-400 mt-1 font-mono">22.4%</p>
+                        <p class="text-slate-500 text-xs font-medium mt-1">Calculated VaR</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Terminal Grid -->
+            <div class="flex-1 grid grid-cols-12 gap-px bg-white/5 overflow-hidden">
+                <!-- Order Book (Left) -->
+                <section class="col-span-3 bg-surface-dark flex flex-col">
+                    <div class="p-3 border-b border-white/5 flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Order Book</span>
+                        <span class="text-[10px] text-slate-500 font-mono">RELIANCE.NSE</span>
+                    </div>
+                    <div class="flex-1 overflow-y-auto custom-scrollbar font-mono text-[11px]">
+                        <!-- Asks -->
+                        <div class="flex flex-col-reverse">
+                            <div class="grid grid-cols-3 px-3 py-0.5 text-danger bg-danger/5">
+                                <span>64,245.20</span><span class="text-right">0.421</span><span
+                                    class="text-right text-slate-500">27,047</span>
+                            </div>
+                            <div class="grid grid-cols-3 px-3 py-0.5 text-danger bg-danger/10">
+                                <span>64,244.80</span><span class="text-right">1.220</span><span
+                                    class="text-right text-slate-500">78,378</span>
+                            </div>
+                            <div class="grid grid-cols-3 px-3 py-0.5 text-danger bg-danger/5">
+                                <span>64,243.50</span><span class="text-right">0.055</span><span
+                                    class="text-right text-slate-500">3,533</span>
+                            </div>
+                            <div class="grid grid-cols-3 px-3 py-0.5 text-danger"><span>64,242.10</span><span
+                                    class="text-right">0.890</span><span class="text-right text-slate-500">57,175</span>
+                            </div>
+                        </div>
+                        <!-- Spread -->
+                        <div class="py-2 px-3 border-y border-white/5 my-1 text-center bg-white/5">
+                            <span class="text-white font-bold text-sm">64,240.00</span>
+                            <span class="text-slate-500 text-[10px] block">Spread: 2.10 (0.003%)</span>
+                        </div>
+                        <!-- Bids -->
+                        <div class="flex flex-col">
+                            <div class="grid grid-cols-3 px-3 py-0.5 text-green-400"><span>64,237.90</span><span
+                                    class="text-right">0.120</span><span class="text-right text-slate-500">7,708</span>
+                            </div>
+                            <div class="grid grid-cols-3 px-3 py-0.5 text-green-400 bg-green-400/5">
+                                <span>64,236.50</span><span class="text-right">2.500</span><span
+                                    class="text-right text-slate-500">160,591</span>
+                            </div>
+                            <div class="grid grid-cols-3 px-3 py-0.5 text-green-400 bg-green-400/10">
+                                <span>64,235.00</span><span class="text-right">0.842</span><span
+                                    class="text-right text-slate-500">54,085</span>
+                            </div>
+                            <div class="grid grid-cols-3 px-3 py-0.5 text-green-400"><span>64,234.10</span><span
+                                    class="text-right">0.015</span><span class="text-right text-slate-500">963</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Open Positions (Center) -->
+                <section class="col-span-6 bg-surface-dark flex flex-col border-x border-white/5">
+                    <div class="p-3 border-b border-white/5 flex items-center justify-between simulation-banner">
+                        <span class="text-xs font-bold text-white uppercase tracking-widest">Active Positions</span>
+                        <span class="px-2 py-0.5 bg-primary text-[10px] text-white rounded font-bold">PAPER MODE</span>
+                    </div>
+                    <div class="flex-1 overflow-x-auto overflow-y-auto custom-scrollbar">
+                        <table class="w-full text-left text-sm">
+                            <thead
+                                class="sticky top-0 bg-surface-dark text-slate-500 text-[10px] uppercase font-bold border-b border-white/5">
+                                <tr>
+                                    <th class="px-4 py-3">Symbol</th>
+                                    <th class="px-4 py-3">Size</th>
+                                    <th class="px-4 py-3">Entry</th>
+                                    <th class="px-4 py-3">Mark Price</th>
+                                    <th class="px-4 py-3 text-right">P&amp;L (ROE)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="px-4 py-4 font-bold text-white">RELIANCE.NSE</td>
+                                    <td class="px-4 py-4 text-green-400 font-mono">+500</td>
+                                    <td class="px-4 py-4 text-slate-400 font-mono">2,845.00</td>
+                                    <td class="px-4 py-4 text-white font-mono">2,934.50</td>
+                                    <td class="px-4 py-4 text-right">
+                                        <div class="text-green-400 font-bold">+₹44,750</div>
+                                        <div class="text-[10px] text-green-400/70">+3.14%</div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="px-4 py-4 font-bold text-white">TATASTEEL.NSE</td>
+                                    <td class="px-4 py-4 text-danger font-mono">-200</td>
+                                    <td class="px-4 py-4 text-slate-400 font-mono">142.50</td>
+                                    <td class="px-4 py-4 text-white font-mono">139.20</td>
+                                    <td class="px-4 py-4 text-right">
+                                        <div class="text-green-400 font-bold">+₹660</div>
+                                        <div class="text-[10px] text-green-400/70">+2.31%</div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="px-4 py-4 font-bold text-white">INFY.NSE</td>
+                                    <td class="px-4 py-4 text-green-400 font-mono">+300</td>
+                                    <td class="px-4 py-4 text-slate-400 font-mono">1,520.00</td>
+                                    <td class="px-4 py-4 text-white font-mono">1,502.40</td>
+                                    <td class="px-4 py-4 text-right">
+                                        <div class="text-danger font-bold">-₹5,280</div>
+                                        <div class="text-[10px] text-danger/70">-1.16%</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <!-- Strategy Log (Right) -->
+                <section class="col-span-3 bg-surface-dark flex flex-col">
+                    <div class="p-3 border-b border-white/5 flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Strategy Log</span>
+                        <button
+                            class="material-symbols-outlined text-slate-500 text-sm hover:text-white transition-colors">delete_sweep</button>
+                    </div>
+                    <div
+                        class="flex-1 bg-background-dark p-3 font-mono text-[11px] leading-relaxed overflow-y-auto custom-scrollbar">
+                        <div class="space-y-2">
+                            <div class="flex gap-2">
+                                <span class="text-slate-600">[14:22:01]</span>
+                                <span class="text-primary font-bold">INFO:</span>
+                                <span class="text-slate-300">Strategy sequence initialized successfully.</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-slate-600">[14:22:05]</span>
+                                <span class="text-yellow-500 font-bold">SCAN:</span>
+                                <span class="text-slate-400">Scanning RSI(14) for mean-reversion signals...</span>
+                            </div>
+                            <div class="flex gap-2 p-1 bg-primary/10 rounded">
+                                <span class="text-slate-600">[14:23:45]</span>
+                                <span class="text-primary font-bold">EXEC:</span>
+                                <span class="text-white">Condition Met: RSI &gt; 70. Placing Virtual SELL order.</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-slate-600">[14:23:46]</span>
+                                <span class="text-green-400 font-bold">SUCCESS:</span>
+                                <span class="text-slate-400">Market Sell RELIANCE.NSE @ 2,934.50 FILLED.</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-slate-600">[14:24:12]</span>
+                                <span class="text-slate-500 font-bold">LOG:</span>
+                                <span class="text-slate-500">Adjusting stop-loss trailing distance to 0.5%.</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-slate-600">[14:25:00]</span>
+                                <span class="text-primary font-bold">INFO:</span>
+                                <span class="text-slate-300">Websocket latency: 12ms.</span>
+                            </div>
+                            <div class="flex gap-2 p-1 bg-danger/10 rounded">
+                                <span class="text-slate-600">[14:26:30]</span>
+                                <span class="text-danger font-bold">RISK:</span>
+                                <span class="text-white">Drawdown warning: Account reached -1.2% daily limit.</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-slate-600">[14:27:01]</span>
+                                <span class="text-yellow-500 font-bold">SCAN:</span>
+                                <span class="text-slate-400">RSI cooling down (62.4). Monitoring...</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-slate-600">[14:28:15]</span>
+                                <span class="text-slate-500 font-bold">LOG:</span>
+                                <span class="text-slate-500">Virtual balance sync completed.</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-slate-600">[14:28:15]</span>
+                                <span class="text-slate-500 font-bold">LOG:</span>
+                                <span class="text-slate-500">Heartbeat: All sub-processes nominal.</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- Footer Status Bar -->
+            <footer
+                class="h-8 bg-surface-dark border-t border-white/10 flex items-center justify-between px-4 text-[10px] text-slate-500 font-medium">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-1.5">
+                        <span class="size-2 rounded-full bg-green-500"></span>
+                        <span class="uppercase">Data Feed: Connected</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 border-l border-white/10 pl-4">
+                        <span class="uppercase">Mode: Simulation</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 border-l border-white/10 pl-4">
+                        <span class="uppercase">Server: Tokyo-AWS-2</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 uppercase">
+                    <span>Latency: 14ms</span>
+                    <span class="text-primary">UTC 14:29:44</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="js/sidebar.js"></script>
+</body>
+
+</html>
