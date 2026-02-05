@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Stock Screener | SATFIN</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="js/config.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div class="flex h-screen overflow-hidden">
+        <aside
+            class="w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0">
+            <div class="p-4 border-b border-slate-200 dark:border-border-dark">
+                <div class="flex items-center justify-center">
+                    <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
+                </div>
+                <p class="text-center text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
+                    Platform</p>
+            </div>
+            <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
+                <a href="index.html" class="nav-item text-slate-600 dark:text-slate-400">
+                    <span class="material-symbols-outlined text-xl">dashboard</span><span
+                        class="text-sm font-medium">Dashboard</span>
+                </a>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Trading</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">settings_input_component</span><span
+                            class="text-sm font-medium">Strategies</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="strategy_library.html" class="submenu-item">Strategy Library</a><a
+                            href="my_strategies.html" class="submenu-item">My Strategies</a><a
+                            href="create_strategy.html" class="submenu-item">Create New</a></div>
+                </div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">bolt</span><span
+                            class="text-sm font-medium">Trading</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="live_trading.html" class="submenu-item">Live Trading</a><a
+                            href="paper_trading.html" class="submenu-item">Paper Trading</a><a href="orders.html"
+                            class="submenu-item">Orders</a><a href="positions.html" class="submenu-item">Positions</a>
+                    </div>
+                </div>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Analytics</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">analytics</span><span
+                            class="text-sm font-medium">Performance</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="backtesting.html" class="submenu-item">Backtesting</a><a
+                            href="reports.html" class="submenu-item">Reports</a><a href="trade_journal.html"
+                            class="submenu-item">Trade Journal</a></div>
+                </div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">show_chart</span><span
+                            class="text-sm font-medium">Market Data</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="watchlist.html" class="submenu-item">Watchlist</a><a
+                            href="screener.html" class="submenu-item active">Stock Screener</a><a
+                            href="market_news.html" class="submenu-item">Market News</a></div>
+                </div>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Configuration</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">settings</span><span
+                            class="text-sm font-medium">Settings</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="risk_management.html" class="submenu-item">Risk Management</a><a
+                            href="api_connections.html" class="submenu-item">API Connections</a><a
+                            href="notifications.html" class="submenu-item">Notifications</a><a href="account.html"
+                            class="submenu-item">Account</a></div>
+                </div>
+            </nav>
+        </aside>
+        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50 dark:bg-background-dark">
+            <header
+                class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex items-center justify-between px-8 shrink-0">
+                <h1 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wide">Stock Screener</h1>
+                <div class="flex items-center gap-4"><button
+                        class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/30"><span
+                            class="material-symbols-outlined text-primary">person</span></button></div>
+            </header>
+            <div class="flex-1 overflow-hidden p-8 flex gap-6">
+                <!-- Filter Sidebar -->
+                <div
+                    class="w-72 shrink-0 bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4 overflow-y-auto">
+                    <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4">
+                        Filters</h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs text-slate-500 mb-1 block">Market Cap</label>
+                            <select
+                                class="w-full text-sm bg-slate-50 dark:bg-slate-800 border-0 rounded px-3 py-2 dark:text-white">
+                                <option value="all">All</option>
+                                <option value="large">Large (₹10,000Cr+)</option>
+                                <option value="mid">Mid (₹2,000Cr - ₹10,000Cr)</option>
+                                <option value="small">Small (&lt;₹2,000Cr)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-500 mb-1 block">Sector</label>
+                            <select
+                                class="w-full text-sm bg-slate-50 dark:bg-slate-800 border-0 rounded px-3 py-2 dark:text-white">
+                                <option value="all">All Sectors</option>
+                                <option value="tech">Technology</option>
+                                <option value="finance">Financial</option>
+                                <option value="health">Healthcare</option>
+                                <option value="energy">Energy</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-500 mb-1 block">RSI Range</label>
+                            <div class="flex gap-2">
+                                <input type="number" placeholder="Min"
+                                    class="w-1/2 text-sm bg-slate-50 dark:bg-slate-800 border-0 rounded px-3 py-2 dark:text-white">
+                                <input type="number" placeholder="Max"
+                                    class="w-1/2 text-sm bg-slate-50 dark:bg-slate-800 border-0 rounded px-3 py-2 dark:text-white">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-500 mb-1 block">Volume (Min)</label>
+                            <select
+                                class="w-full text-sm bg-slate-50 dark:bg-slate-800 border-0 rounded px-3 py-2 dark:text-white">
+                                <option value="0">Any</option>
+                                <option value="100000">100K+</option>
+                                <option value="500000">500K+</option>
+                                <option value="1000000">1M+</option>
+                            </select>
+                        </div>
+                        <button
+                            class="w-full mt-4 px-4 py-2 text-sm font-semibold bg-primary text-white rounded hover:brightness-110 transition-all">
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Table -->
+                <div
+                    class="flex-1 bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col">
+                    <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                            Results <span class="text-slate-400 font-normal">(248 stocks)</span></h3>
+                        <input type="text"
+                            class="text-sm bg-slate-50 dark:bg-slate-800 border-0 rounded px-3 py-1.5 dark:text-white w-48"
+                            placeholder="Search symbol...">
+                    </div>
+                    <div class="flex-1 overflow-y-auto">
+                        <table class="w-full text-sm">
+                            <thead
+                                class="bg-slate-50 dark:bg-slate-800/50 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 sticky top-0">
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-semibold">Symbol</th>
+                                    <th class="text-right px-4 py-2 font-semibold">Price</th>
+                                    <th class="text-right px-4 py-2 font-semibold">Change</th>
+                                    <th class="text-right px-4 py-2 font-semibold">Volume</th>
+                                    <th class="text-right px-4 py-2 font-semibold">RSI</th>
+                                    <th class="text-left px-4 py-2 font-semibold">Sector</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer">
+                                    <td class="px-4 py-2 font-semibold">AAPL</td>
+                                    <td class="px-4 py-2 text-right font-mono">₹178.85</td>
+                                    <td class="px-4 py-2 text-right font-mono text-emerald-500">+1.22%</td>
+                                    <td class="px-4 py-2 text-right font-mono text-slate-500">52.3M</td>
+                                    <td class="px-4 py-2 text-right font-mono">58</td>
+                                    <td class="px-4 py-2 text-slate-500">Technology</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer">
+                                    <td class="px-4 py-2 font-semibold">MSFT</td>
+                                    <td class="px-4 py-2 text-right font-mono">₹415.32</td>
+                                    <td class="px-4 py-2 text-right font-mono text-rose-500">-0.35%</td>
+                                    <td class="px-4 py-2 text-right font-mono text-slate-500">18.7M</td>
+                                    <td class="px-4 py-2 text-right font-mono">52</td>
+                                    <td class="px-4 py-2 text-slate-500">Technology</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer">
+                                    <td class="px-4 py-2 font-semibold">GOOGL</td>
+                                    <td class="px-4 py-2 text-right font-mono">₹151.20</td>
+                                    <td class="px-4 py-2 text-right font-mono text-emerald-500">+2.58%</td>
+                                    <td class="px-4 py-2 text-right font-mono text-slate-500">25.1M</td>
+                                    <td class="px-4 py-2 text-right font-mono">65</td>
+                                    <td class="px-4 py-2 text-slate-500">Technology</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer">
+                                    <td class="px-4 py-2 font-semibold">NVDA</td>
+                                    <td class="px-4 py-2 text-right font-mono">₹878.50</td>
+                                    <td class="px-4 py-2 text-right font-mono text-emerald-500">+1.42%</td>
+                                    <td class="px-4 py-2 text-right font-mono text-slate-500">45.8M</td>
+                                    <td class="px-4 py-2 text-right font-mono">72</td>
+                                    <td class="px-4 py-2 text-slate-500">Technology</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer">
+                                    <td class="px-4 py-2 font-semibold">JPM</td>
+                                    <td class="px-4 py-2 text-right font-mono">₹195.40</td>
+                                    <td class="px-4 py-2 text-right font-mono text-emerald-500">+0.85%</td>
+                                    <td class="px-4 py-2 text-right font-mono text-slate-500">8.2M</td>
+                                    <td class="px-4 py-2 text-right font-mono">55</td>
+                                    <td class="px-4 py-2 text-slate-500">Financial</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/sidebar.js"></script>
+</body>
+
+</html>

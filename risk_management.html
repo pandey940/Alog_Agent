@@ -24,10 +24,10 @@
                     <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-14 w-auto" />
                     <p class="text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Risk Controls</p>
                 </div>
-                <nav class="sidebar-nav overflow-y-auto">
+                <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
                     <!-- Dashboard - Direct Link -->
-                    <a href="index.html" class="nav-item text-slate-500">
-                        <span class="material-symbols-outlined">dashboard</span>
+                    <a href="index.html" class="nav-item text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">dashboard</span>
                         <span class="text-sm font-medium">Dashboard</span>
                     </a>
 
@@ -36,30 +36,30 @@
 
                     <!-- Strategies Menu -->
                     <div class="nav-group">
-                        <div class="menu-toggle text-slate-500">
-                            <span class="material-symbols-outlined">database</span>
+                        <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-xl">settings_input_component</span>
                             <span class="text-sm font-medium">Strategies</span>
                             <span class="material-symbols-outlined menu-arrow">expand_more</span>
                         </div>
                         <div class="submenu">
                             <a href="strategy_library.html" class="submenu-item">Strategy Library</a>
-                            <a href="#my-strategies" class="submenu-item">My Strategies</a>
-                            <a href="#create-strategy" class="submenu-item">Create New</a>
+                            <a href="my_strategies.html" class="submenu-item">My Strategies</a>
+                            <a href="create_strategy.html" class="submenu-item">Create New</a>
                         </div>
                     </div>
 
                     <!-- Trading Menu -->
                     <div class="nav-group">
-                        <div class="menu-toggle text-slate-500">
-                            <span class="material-symbols-outlined">bolt</span>
+                        <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-xl">bolt</span>
                             <span class="text-sm font-medium">Trading</span>
                             <span class="material-symbols-outlined menu-arrow">expand_more</span>
                         </div>
                         <div class="submenu">
                             <a href="live_trading.html" class="submenu-item">Live Trading</a>
                             <a href="paper_trading.html" class="submenu-item">Paper Trading</a>
-                            <a href="#orders" class="submenu-item">Orders</a>
-                            <a href="#positions" class="submenu-item">Positions</a>
+                            <a href="orders.html" class="submenu-item">Orders</a>
+                            <a href="positions.html" class="submenu-item">Positions</a>
                         </div>
                     </div>
 
@@ -68,15 +68,29 @@
 
                     <!-- Analytics Menu -->
                     <div class="nav-group">
-                        <div class="menu-toggle text-slate-500">
-                            <span class="material-symbols-outlined">history</span>
+                        <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-xl">analytics</span>
                             <span class="text-sm font-medium">Performance</span>
                             <span class="material-symbols-outlined menu-arrow">expand_more</span>
                         </div>
                         <div class="submenu">
                             <a href="backtesting.html" class="submenu-item">Backtesting</a>
-                            <a href="#reports" class="submenu-item">Reports</a>
-                            <a href="#trade-journal" class="submenu-item">Trade Journal</a>
+                            <a href="reports.html" class="submenu-item">Reports</a>
+                            <a href="trade_journal.html" class="submenu-item">Trade Journal</a>
+                        </div>
+                    </div>
+
+                    <!-- Market Data Menu -->
+                    <div class="nav-group">
+                        <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-xl">show_chart</span>
+                            <span class="text-sm font-medium">Market Data</span>
+                            <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="watchlist.html" class="submenu-item">Watchlist</a>
+                            <a href="screener.html" class="submenu-item">Stock Screener</a>
+                            <a href="market_news.html" class="submenu-item">Market News</a>
                         </div>
                     </div>
 
@@ -85,16 +99,16 @@
 
                     <!-- Settings Menu -->
                     <div class="nav-group">
-                        <div class="menu-toggle text-slate-500">
-                            <span class="material-symbols-outlined">shield_with_heart</span>
+                        <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-xl">settings</span>
                             <span class="text-sm font-medium">Settings</span>
                             <span class="material-symbols-outlined menu-arrow">expand_more</span>
                         </div>
                         <div class="submenu">
-                            <a href="risk_management.html" class="submenu-item">Risk Management</a>
-                            <a href="#api-connections" class="submenu-item">API Connections</a>
-                            <a href="#notifications" class="submenu-item">Notifications</a>
-                            <a href="#account" class="submenu-item">Account</a>
+                            <a href="risk_management.html" class="submenu-item active">Risk Management</a>
+                            <a href="api_connections.html" class="submenu-item">API Connections</a>
+                            <a href="notifications.html" class="submenu-item">Notifications</a>
+                            <a href="account.html" class="submenu-item">Account</a>
                         </div>
                     </div>
                 </nav>

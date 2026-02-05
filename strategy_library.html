@@ -25,10 +25,10 @@
                     <p class="text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
                         Platform</p>
                 </div>
-                <nav class="sidebar-nav overflow-y-auto">
+                <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
                     <!-- Dashboard - Direct Link -->
-                    <a href="index.html" class="nav-item text-slate-500">
-                        <span class="material-symbols-outlined">dashboard</span>
+                    <a href="index.html" class="nav-item text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">dashboard</span>
                         <span class="text-sm font-medium">Dashboard</span>
                     </a>
 
@@ -37,30 +37,30 @@
 
                     <!-- Strategies Menu -->
                     <div class="nav-group">
-                        <div class="menu-toggle text-slate-500">
-                            <span class="material-symbols-outlined">library_books</span>
+                        <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-xl">settings_input_component</span>
                             <span class="text-sm font-medium">Strategies</span>
                             <span class="material-symbols-outlined menu-arrow">expand_more</span>
                         </div>
                         <div class="submenu">
-                            <a href="strategy_library.html" class="submenu-item">Strategy Library</a>
-                            <a href="#my-strategies" class="submenu-item">My Strategies</a>
-                            <a href="#create-strategy" class="submenu-item">Create New</a>
+                            <a href="strategy_library.html" class="submenu-item active">Strategy Library</a>
+                            <a href="my_strategies.html" class="submenu-item">My Strategies</a>
+                            <a href="create_strategy.html" class="submenu-item">Create New</a>
                         </div>
                     </div>
 
                     <!-- Trading Menu -->
                     <div class="nav-group">
-                        <div class="menu-toggle text-slate-500">
-                            <span class="material-symbols-outlined">bolt</span>
+                        <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-xl">bolt</span>
                             <span class="text-sm font-medium">Trading</span>
                             <span class="material-symbols-outlined menu-arrow">expand_more</span>
                         </div>
                         <div class="submenu">
                             <a href="live_trading.html" class="submenu-item">Live Trading</a>
                             <a href="paper_trading.html" class="submenu-item">Paper Trading</a>
-                            <a href="#orders" class="submenu-item">Orders</a>
-                            <a href="#positions" class="submenu-item">Positions</a>
+                            <a href="orders.html" class="submenu-item">Orders</a>
+                            <a href="positions.html" class="submenu-item">Positions</a>
                         </div>
                     </div>
 
@@ -69,29 +69,29 @@
 
                     <!-- Analytics Menu -->
                     <div class="nav-group">
-                        <div class="menu-toggle text-slate-500">
-                            <span class="material-symbols-outlined">analytics</span>
+                        <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-xl">analytics</span>
                             <span class="text-sm font-medium">Performance</span>
                             <span class="material-symbols-outlined menu-arrow">expand_more</span>
                         </div>
                         <div class="submenu">
                             <a href="backtesting.html" class="submenu-item">Backtesting</a>
-                            <a href="#reports" class="submenu-item">Reports</a>
-                            <a href="#trade-journal" class="submenu-item">Trade Journal</a>
+                            <a href="reports.html" class="submenu-item">Reports</a>
+                            <a href="trade_journal.html" class="submenu-item">Trade Journal</a>
                         </div>
                     </div>
 
                     <!-- Market Data Menu -->
                     <div class="nav-group">
-                        <div class="menu-toggle text-slate-500">
-                            <span class="material-symbols-outlined">show_chart</span>
+                        <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-xl">show_chart</span>
                             <span class="text-sm font-medium">Market Data</span>
                             <span class="material-symbols-outlined menu-arrow">expand_more</span>
                         </div>
                         <div class="submenu">
-                            <a href="#watchlist" class="submenu-item">Watchlist</a>
-                            <a href="#screener" class="submenu-item">Stock Screener</a>
-                            <a href="#news" class="submenu-item">Market News</a>
+                            <a href="watchlist.html" class="submenu-item">Watchlist</a>
+                            <a href="screener.html" class="submenu-item">Stock Screener</a>
+                            <a href="market_news.html" class="submenu-item">Market News</a>
                         </div>
                     </div>
 
@@ -100,16 +100,16 @@
 
                     <!-- Settings Menu -->
                     <div class="nav-group">
-                        <div class="menu-toggle text-slate-500">
-                            <span class="material-symbols-outlined">settings</span>
+                        <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                            <span class="material-symbols-outlined text-xl">settings</span>
                             <span class="text-sm font-medium">Settings</span>
                             <span class="material-symbols-outlined menu-arrow">expand_more</span>
                         </div>
                         <div class="submenu">
                             <a href="risk_management.html" class="submenu-item">Risk Management</a>
-                            <a href="#api-connections" class="submenu-item">API Connections</a>
-                            <a href="#notifications" class="submenu-item">Notifications</a>
-                            <a href="#account" class="submenu-item">Account</a>
+                            <a href="api_connections.html" class="submenu-item">API Connections</a>
+                            <a href="notifications.html" class="submenu-item">Notifications</a>
+                            <a href="account.html" class="submenu-item">Account</a>
                         </div>
                     </div>
                 </nav>
@@ -214,8 +214,36 @@
                     </button>
                 </div>
             </div>
+
             <!-- Strategy Grid Scroll Area -->
-            <div class="flex-1 overflow-y-auto p-8">
+            <div id="main-scroll-container" class="flex-1 overflow-y-auto px-8 pb-8 pt-4">
+
+                <!-- My Strategies Section -->
+                <div id="my-strategies" class="mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-sm font-bold uppercase tracking-wide flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">smart_toy</span>
+                            My Active Strategies
+                        </h2>
+                        <button
+                            class="text-[10px] font-bold text-slate-500 hover:text-primary transition-colors uppercase">Manage
+                            All</button>
+                    </div>
+
+                    <div id="my-strategies-container"
+                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <div id="my-strategies-loading"
+                            class="col-span-full py-8 flex flex-col items-center justify-center text-slate-400">
+                            <span
+                                class="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin mb-2"></span>
+                            <span class="text-xs">Syncing strategies...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full h-px bg-slate-200 dark:border-border-dark mb-8"></div>
+
+                <h2 class="text-sm font-bold uppercase tracking-wide mb-4 text-slate-500">Strategy Library</h2>
                 <div class="strategy-grid">
                     <!-- Card 1: EMA Crossover -->
                     <div
@@ -237,7 +265,8 @@
                                 <!-- Minimal Sparkline SVG Mockup -->
                                 <svg class="w-full h-12" preserveaspectratio="none" viewbox="0 0 100 40">
                                     <path d="M0 35 Q 20 10, 40 30 T 100 5" fill="none" stroke="#007f80"
-                                        stroke-width="2"></path>
+                                        stroke-width="2">
+                                    </path>
                                 </svg>
                             </div>
                         </div>
@@ -401,14 +430,15 @@
                 </div>
             </div>
             <!-- Floating Strategy Detail / Configuration Side Panel (Visible when a strategy is selected) -->
-            <div
-                class="absolute right-0 top-0 bottom-0 w-[420px] bg-white dark:bg-card-dark border-l border-slate-200 dark:border-border-dark shadow-2xl flex flex-col z-20">
+            <div id="strategy-config-panel"
+                class="hidden absolute right-0 top-0 bottom-0 w-[420px] bg-white dark:bg-card-dark border-l border-slate-200 dark:border-border-dark shadow-2xl flex flex-col z-20">
                 <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-border-dark">
                     <div class="flex flex-col">
                         <span class="text-[10px] font-bold text-primary uppercase tracking-widest">Configuration</span>
                         <h2 class="text-lg font-bold">EMA Crossover</h2>
                     </div>
-                    <button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-background-dark">
+                    <button id="close-config-panel"
+                        class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-background-dark">
                         <span class="material-symbols-outlined">close</span>
                     </button>
                 </div>
@@ -530,6 +560,80 @@
         </main>
     </div>
     <script src="js/sidebar.js"></script>
+    <script src="js/strategies.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const configPanel = document.getElementById('strategy-config-panel');
+            const closeBtn = document.getElementById('close-config-panel');
+            const configButtons = document.querySelectorAll('.strategy-grid button');
+            const runBacktestBtn = configPanel?.querySelector('button:contains("Run Backtest")') ||
+                Array.from(configPanel?.querySelectorAll('button') || []).find(b => b.textContent.includes('Run Backtest'));
+            const deployBtn = configPanel?.querySelector('button:contains("Deploy Strategy")') ||
+                Array.from(configPanel?.querySelectorAll('button') || []).find(b => b.textContent.includes('Deploy Strategy'));
+
+            // Open panel when clicking Configure Parameters buttons
+            configButtons.forEach(btn => {
+                if (btn.textContent.includes('Configure')) {
+                    btn.addEventListener('click', () => {
+                        configPanel?.classList.remove('hidden');
+                    });
+                }
+            });
+
+            // Close panel
+            closeBtn?.addEventListener('click', () => {
+                configPanel?.classList.add('hidden');
+            });
+
+            // Run Backtest button
+            if (runBacktestBtn) {
+                runBacktestBtn.addEventListener('click', () => {
+                    const fastEMA = configPanel.querySelector('input[type="number"][value="12"]')?.value || 12;
+                    const slowEMA = configPanel.querySelector('input[type="number"][value="26"]')?.value || 26;
+                    alert(`Running backtest with parameters:\n- Fast EMA: ${fastEMA}\n- Slow EMA: ${slowEMA}\n\nBacktest started! Results will appear in the Backtesting page.`);
+                });
+            }
+
+            // Deploy Strategy button
+            if (deployBtn) {
+                deployBtn.addEventListener('click', () => {
+                    const liveToggle = configPanel.querySelector('input[type="checkbox"]');
+                    const isLive = liveToggle?.checked;
+                    if (isLive) {
+                        if (confirm('⚠️ Live execution is enabled! This will place real orders.\n\nAre you sure you want to deploy this strategy?')) {
+                            alert('✅ Strategy deployed successfully in LIVE mode!\n\nMonitor your trades in the Live Trading page.');
+                            configPanel.classList.add('hidden');
+                        }
+                    } else {
+                        alert('✅ Strategy deployed successfully in PAPER TRADING mode!\n\nMonitor your trades in the Paper Trading page.');
+                        configPanel.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Also handle button clicks via event delegation
+            configPanel?.addEventListener('click', (e) => {
+                const btn = e.target.closest('button');
+                if (!btn) return;
+
+                if (btn.textContent.includes('Run Backtest')) {
+                    alert('📊 Backtest initiated!\n\nParameters saved. Check the Backtesting page for results.');
+                } else if (btn.textContent.includes('Deploy Strategy')) {
+                    const liveToggle = configPanel.querySelector('input[type="checkbox"]');
+                    const mode = liveToggle?.checked ? 'LIVE' : 'PAPER';
+                    if (liveToggle?.checked) {
+                        if (confirm('⚠️ Live execution is enabled!\n\nAre you sure you want to deploy?')) {
+                            alert(`✅ Strategy deployed in ${mode} mode!`);
+                            configPanel.classList.add('hidden');
+                        }
+                    } else {
+                        alert(`✅ Strategy deployed in ${mode} mode!`);
+                        configPanel.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

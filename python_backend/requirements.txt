@@ -3,3 +3,4 @@ flask-cors>=3.0
 yfinance>=0.2
 pandas>=1.0
 requests>=2.0
+dhanhq>=2.0.2

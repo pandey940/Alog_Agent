@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>My Strategies | SATFIN</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="js/config.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div class="flex h-screen overflow-hidden">
+        <aside
+            class="w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0">
+            <div class="p-4 border-b border-slate-200 dark:border-border-dark">
+                <div class="flex items-center justify-center">
+                    <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
+                </div>
+                <p class="text-center text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
+                    Platform</p>
+            </div>
+            <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
+                <a href="index.html" class="nav-item text-slate-600 dark:text-slate-400">
+                    <span class="material-symbols-outlined text-xl">dashboard</span><span
+                        class="text-sm font-medium">Dashboard</span>
+                </a>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Trading</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">settings_input_component</span><span
+                            class="text-sm font-medium">Strategies</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="strategy_library.html" class="submenu-item">Strategy Library</a><a
+                            href="my_strategies.html" class="submenu-item active">My Strategies</a><a
+                            href="create_strategy.html" class="submenu-item">Create New</a></div>
+                </div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">bolt</span><span
+                            class="text-sm font-medium">Trading</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="live_trading.html" class="submenu-item">Live Trading</a><a
+                            href="paper_trading.html" class="submenu-item">Paper Trading</a><a href="orders.html"
+                            class="submenu-item">Orders</a><a href="positions.html" class="submenu-item">Positions</a>
+                    </div>
+                </div>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Analytics</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">analytics</span><span
+                            class="text-sm font-medium">Performance</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="backtesting.html" class="submenu-item">Backtesting</a><a
+                            href="reports.html" class="submenu-item">Reports</a><a href="trade_journal.html"
+                            class="submenu-item">Trade Journal</a></div>
+                </div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">show_chart</span><span
+                            class="text-sm font-medium">Market Data</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="watchlist.html" class="submenu-item">Watchlist</a><a
+                            href="screener.html" class="submenu-item">Stock Screener</a><a href="market_news.html"
+                            class="submenu-item">Market News</a></div>
+                </div>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Configuration</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">settings</span><span
+                            class="text-sm font-medium">Settings</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="risk_management.html" class="submenu-item">Risk Management</a><a
+                            href="api_connections.html" class="submenu-item">API Connections</a><a
+                            href="notifications.html" class="submenu-item">Notifications</a><a href="account.html"
+                            class="submenu-item">Account</a></div>
+                </div>
+            </nav>
+        </aside>
+        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50 dark:bg-background-dark">
+            <header
+                class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex items-center justify-between px-8 shrink-0">
+                <h1 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wide">My Strategies</h1>
+                <div class="flex items-center gap-4">
+                    <a href="create_strategy.html"
+                        class="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-primary text-white rounded hover:brightness-110 transition-all">
+                        <span class="material-symbols-outlined text-base">add</span> New Strategy
+                    </a>
+                    <button
+                        class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/30"><span
+                            class="material-symbols-outlined text-primary">person</span></button>
+                </div>
+            </header>
+            <div class="flex-1 overflow-y-auto p-8">
+                <!-- Strategy Cards Grid -->
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Strategy Card 1 -->
+                    <div
+                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition-shadow">
+                        <div class="p-4 border-b border-slate-100 dark:border-slate-800">
+                            <div class="flex items-start justify-between mb-2">
+                                <div>
+                                    <h3 class="font-bold text-slate-900 dark:text-white">MACD Crossover</h3>
+                                    <p class="text-xs text-slate-500">Trend Following • 15m</p>
+                                </div>
+                                <span
+                                    class="flex items-center gap-1 px-2 py-0.5 text-xs font-semibold bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Live
+                                </span>
+                            </div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">Uses MACD crossover
+                                signals with RSI confirmation for trend entries.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/30">
+                            <div class="grid grid-cols-3 gap-2 text-center mb-3">
+                                <div>
+                                    <p class="text-xs text-slate-500">Win Rate</p>
+                                    <p class="font-bold text-emerald-500">68%</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500">P&L</p>
+                                    <p class="font-bold text-emerald-500">+₹2,450</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500">Trades</p>
+                                    <p class="font-bold text-slate-900 dark:text-white">47</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button
+                                    class="flex-1 px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600">Edit</button>
+                                <button
+                                    class="flex-1 px-3 py-1.5 text-xs font-semibold bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 rounded hover:bg-amber-200">Pause</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Strategy Card 2 -->
+                    <div
+                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition-shadow">
+                        <div class="p-4 border-b border-slate-100 dark:border-slate-800">
+                            <div class="flex items-start justify-between mb-2">
+                                <div>
+                                    <h3 class="font-bold text-slate-900 dark:text-white">RSI Reversal</h3>
+                                    <p class="text-xs text-slate-500">Mean Reversion • 1h</p>
+                                </div>
+                                <span
+                                    class="px-2 py-0.5 text-xs font-semibold bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded">Paper</span>
+                            </div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">Buys oversold conditions
+                                and sells overbought using RSI levels.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/30">
+                            <div class="grid grid-cols-3 gap-2 text-center mb-3">
+                                <div>
+                                    <p class="text-xs text-slate-500">Win Rate</p>
+                                    <p class="font-bold text-emerald-500">72%</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500">P&L</p>
+                                    <p class="font-bold text-emerald-500">+₹890</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500">Trades</p>
+                                    <p class="font-bold text-slate-900 dark:text-white">23</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button
+                                    class="flex-1 px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600">Edit</button>
+                                <button
+                                    class="flex-1 px-3 py-1.5 text-xs font-semibold bg-emerald-500 text-white rounded hover:bg-emerald-600">Go
+                                    Live</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Strategy Card 3 -->
+                    <div
+                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition-shadow">
+                        <div class="p-4 border-b border-slate-100 dark:border-slate-800">
+                            <div class="flex items-start justify-between mb-2">
+                                <div>
+                                    <h3 class="font-bold text-slate-900 dark:text-white">Bollinger Breakout</h3>
+                                    <p class="text-xs text-slate-500">Volatility • 4h</p>
+                                </div>
+                                <span
+                                    class="px-2 py-0.5 text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded">Draft</span>
+                            </div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">Enters on Bollinger Band
+                                breakouts with volume confirmation.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800/30">
+                            <div class="grid grid-cols-3 gap-2 text-center mb-3">
+                                <div>
+                                    <p class="text-xs text-slate-500">Win Rate</p>
+                                    <p class="font-bold text-slate-400">—</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500">P&L</p>
+                                    <p class="font-bold text-slate-400">—</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500">Trades</p>
+                                    <p class="font-bold text-slate-400">0</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button
+                                    class="flex-1 px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-600">Edit</button>
+                                <button
+                                    class="flex-1 px-3 py-1.5 text-xs font-semibold bg-blue-500 text-white rounded hover:bg-blue-600">Backtest</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add New Strategy Card -->
+                    <div
+                        class="bg-white dark:bg-panel-dark rounded-lg border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center p-8 cursor-pointer hover:border-primary hover:bg-primary/5 transition-colors min-h-[280px]">
+                        <span class="material-symbols-outlined text-4xl text-slate-400 mb-3">add_circle</span>
+                        <p class="font-semibold text-slate-600 dark:text-slate-300">Create New Strategy</p>
+                        <p class="text-xs text-slate-400 text-center mt-1">Build a custom trading strategy</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Orders | SATFIN</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="js/config.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div class="flex h-screen overflow-hidden">
+        <aside
+            class="w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0">
+            <div class="p-4 border-b border-slate-200 dark:border-border-dark">
+                <div class="flex items-center justify-center">
+                    <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
+                </div>
+                <p class="text-center text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
+                    Platform</p>
+            </div>
+            <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
+                <a href="index.html" class="nav-item text-slate-600 dark:text-slate-400">
+                    <span class="material-symbols-outlined text-xl">dashboard</span><span
+                        class="text-sm font-medium">Dashboard</span>
+                </a>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Trading</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">settings_input_component</span><span
+                            class="text-sm font-medium">Strategies</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="strategy_library.html" class="submenu-item">Strategy Library</a><a
+                            href="my_strategies.html" class="submenu-item">My Strategies</a><a
+                            href="create_strategy.html" class="submenu-item">Create New</a></div>
+                </div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">bolt</span><span
+                            class="text-sm font-medium">Trading</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="live_trading.html" class="submenu-item">Live Trading</a><a
+                            href="paper_trading.html" class="submenu-item">Paper Trading</a><a href="orders.html"
+                            class="submenu-item active">Orders</a><a href="positions.html"
+                            class="submenu-item">Positions</a></div>
+                </div>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Analytics</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">analytics</span><span
+                            class="text-sm font-medium">Performance</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="backtesting.html" class="submenu-item">Backtesting</a><a
+                            href="reports.html" class="submenu-item">Reports</a><a href="trade_journal.html"
+                            class="submenu-item">Trade Journal</a></div>
+                </div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">show_chart</span><span
+                            class="text-sm font-medium">Market Data</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="watchlist.html" class="submenu-item">Watchlist</a><a
+                            href="screener.html" class="submenu-item">Stock Screener</a><a href="market_news.html"
+                            class="submenu-item">Market News</a></div>
+                </div>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Configuration</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">settings</span><span
+                            class="text-sm font-medium">Settings</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="risk_management.html" class="submenu-item">Risk Management</a><a
+                            href="api_connections.html" class="submenu-item">API Connections</a><a
+                            href="notifications.html" class="submenu-item">Notifications</a><a href="account.html"
+                            class="submenu-item">Account</a></div>
+                </div>
+            </nav>
+        </aside>
+        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50 dark:bg-background-dark">
+            <header
+                class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex items-center justify-between px-8 shrink-0">
+                <h1 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wide">Order History</h1>
+                <div class="flex items-center gap-4"><button
+                        class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/30"><span
+                            class="material-symbols-outlined text-primary">person</span></button></div>
+            </header>
+            <div class="flex-1 overflow-y-auto p-8">
+                <!-- Tabs -->
+                <div class="flex items-center gap-1 mb-6 border-b border-slate-200 dark:border-slate-700">
+                    <button
+                        class="order-tab active px-4 py-2.5 text-sm font-semibold border-b-2 border-primary text-primary -mb-px transition-colors"
+                        data-tab="open">
+                        Open <span
+                            class="ml-1.5 px-1.5 py-0.5 bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 text-xs font-bold rounded">3</span>
+                    </button>
+                    <button
+                        class="order-tab px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 -mb-px transition-colors"
+                        data-tab="executed">
+                        Executed <span
+                            class="ml-1.5 px-1.5 py-0.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 text-xs font-bold rounded">12</span>
+                    </button>
+                    <button
+                        class="order-tab px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 -mb-px transition-colors"
+                        data-tab="cancelled">
+                        Cancelled
+                    </button>
+                </div>
+
+                <!-- Orders Table -->
+                <div
+                    class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
+                    <table class="w-full text-sm">
+                        <thead
+                            class="bg-slate-50 dark:bg-slate-800/50 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                            <tr>
+                                <th class="text-left px-4 py-3 font-semibold">Symbol</th>
+                                <th class="text-left px-4 py-3 font-semibold">Type</th>
+                                <th class="text-right px-4 py-3 font-semibold">Qty</th>
+                                <th class="text-right px-4 py-3 font-semibold">Price</th>
+                                <th class="text-left px-4 py-3 font-semibold">Status</th>
+                                <th class="text-left px-4 py-3 font-semibold">Time</th>
+                                <th class="text-right px-4 py-3 font-semibold">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body" class="divide-y divide-slate-100 dark:divide-slate-800">
+                            <!-- Rows will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/sidebar.js"></script>
+    <script src="js/orders.js"></script>
+</body>
+
+</html>

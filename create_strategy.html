@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Create Strategy | SATFIN</title>
+    <meta name="description" content="Create new algorithmic trading strategies on SATFIN.">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="js/config.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside
+            class="w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0">
+            <!-- Satfin Logo -->
+            <div class="p-4 border-b border-slate-200 dark:border-border-dark">
+                <div class="flex items-center justify-center">
+                    <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
+                </div>
+                <p class="text-center text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
+                    Platform</p>
+            </div>
+            <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
+                <!-- Dashboard -->
+                <a href="index.html" class="nav-item text-slate-600 dark:text-slate-400">
+                    <span class="material-symbols-outlined text-xl">dashboard</span>
+                    <span class="text-sm font-medium">Dashboard</span>
+                </a>
+
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Trading</div>
+
+                <!-- Strategies Menu -->
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">settings_input_component</span>
+                        <span class="text-sm font-medium">Strategies</span>
+                        <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                    </div>
+                    <div class="submenu">
+                        <a href="strategy_library.html" class="submenu-item">Strategy Library</a>
+                        <a href="my_strategies.html" class="submenu-item">My Strategies</a>
+                        <a href="create_strategy.html" class="submenu-item active">Create New</a>
+                    </div>
+                </div>
+
+                <!-- Trading Menu -->
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">bolt</span>
+                        <span class="text-sm font-medium">Trading</span>
+                        <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                    </div>
+                    <div class="submenu">
+                        <a href="live_trading.html" class="submenu-item">Live Trading</a>
+                        <a href="paper_trading.html" class="submenu-item">Paper Trading</a>
+                        <a href="orders.html" class="submenu-item">Orders</a>
+                        <a href="positions.html" class="submenu-item">Positions</a>
+                    </div>
+                </div>
+
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Analytics</div>
+
+                <!-- Analytics Menu -->
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">analytics</span>
+                        <span class="text-sm font-medium">Performance</span>
+                        <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                    </div>
+                    <div class="submenu">
+                        <a href="backtesting.html" class="submenu-item">Backtesting</a>
+                        <a href="reports.html" class="submenu-item">Reports</a>
+                        <a href="trade_journal.html" class="submenu-item">Trade Journal</a>
+                    </div>
+                </div>
+
+                <!-- Market Data Menu -->
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">show_chart</span>
+                        <span class="text-sm font-medium">Market Data</span>
+                        <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                    </div>
+                    <div class="submenu">
+                        <a href="watchlist.html" class="submenu-item">Watchlist</a>
+                        <a href="screener.html" class="submenu-item">Stock Screener</a>
+                        <a href="market_news.html" class="submenu-item">Market News</a>
+                    </div>
+                </div>
+
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Configuration</div>
+
+                <!-- Settings Menu -->
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-xl">settings</span>
+                        <span class="text-sm font-medium">Settings</span>
+                        <span class="material-symbols-outlined menu-arrow">expand_more</span>
+                    </div>
+                    <div class="submenu">
+                        <a href="risk_management.html" class="submenu-item">Risk Management</a>
+                        <a href="api_connections.html" class="submenu-item">API Connections</a>
+                        <a href="notifications.html" class="submenu-item">Notifications</a>
+                        <a href="account.html" class="submenu-item">Account</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="p-4 space-y-4">
+                <button
+                    class="w-full flex items-center justify-center gap-2 py-3 rounded bg-danger hover:bg-danger/90 text-white font-bold text-xs tracking-widest uppercase transition-all shadow-lg shadow-danger/20">
+                    <span class="material-symbols-outlined text-base">emergency_home</span>
+                    KILL SWITCH
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50 dark:bg-background-dark">
+            <!-- Top Navigation -->
+            <header
+                class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex items-center justify-between px-8 shrink-0">
+                <div class="flex items-center gap-6 flex-1">
+                    <h1 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wide">Create New
+                        Strategy</h1>
+                </div>
+                <!-- Right Side Tools (Search, Notifications, Profile) -->
+                <div class="flex items-center gap-4">
+                    <!-- Profile Image -->
+                    <div class="relative">
+                        <button
+                            class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-2 border-primary/30 hover:border-primary transition-colors">
+                            <span class="material-symbols-outlined text-primary">person</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <div class="flex-1 overflow-y-auto p-8">
+                <!-- Wizard Steps -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-between max-w-3xl mx-auto">
+                        <!-- Step 1 -->
+                        <div class="flex flex-col items-center relative z-10 step-indicator active" data-step="1">
+                            <div
+                                class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center font-bold mb-2 transition-all border-2 border-transparent">
+                                1</div>
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Basics</span>
+                        </div>
+                        <div class="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700 mx-4 relative top-[-14px] -z-0">
+                            <div class="h-full bg-primary transition-all duration-300 w-0" id="progress-bar-1"></div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="flex flex-col items-center relative z-10 step-indicator" data-step="2">
+                            <div
+                                class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center font-bold mb-2 transition-all border-2 border-transparent">
+                                2</div>
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Logic</span>
+                        </div>
+                        <div class="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700 mx-4 relative top-[-14px] -z-0">
+                            <div class="h-full bg-primary transition-all duration-300 w-0" id="progress-bar-2"></div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex flex-col items-center relative z-10 step-indicator" data-step="3">
+                            <div
+                                class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center font-bold mb-2 transition-all border-2 border-transparent">
+                                3</div>
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Risk</span>
+                        </div>
+                        <div class="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700 mx-4 relative top-[-14px] -z-0">
+                            <div class="h-full bg-primary transition-all duration-300 w-0" id="progress-bar-3"></div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="flex flex-col items-center relative z-10 step-indicator" data-step="4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center font-bold mb-2 transition-all border-2 border-transparent">
+                                4</div>
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Review</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wizard Content -->
+                <div
+                    class="max-w-3xl mx-auto bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                    <form id="strategy-form" class="p-8">
+
+                        <!-- Step 1: Basics -->
+                        <div class="wizard-step" id="step-1">
+                            <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">info</span> Strategy Basics
+                            </h2>
+
+                            <div class="space-y-6">
+                                <div>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Strategy
+                                        Name</label>
+                                    <input type="text" name="name"
+                                        class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-md px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all dark:text-white"
+                                        placeholder="e.g. MACD Crossover Trend" required>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Market</label>
+                                        <select name="market"
+                                            class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-md px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all dark:text-white">
+                                            <option value="crypto">Crypto (Spot)</option>
+                                            <option value="stocks">Stocks (US)</option>
+                                            <option value="forex">Forex</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Timeframe</label>
+                                        <select name="timeframe"
+                                            class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-md px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all dark:text-white">
+                                            <option value="1m">1 Minute</option>
+                                            <option value="5m">5 Minutes</option>
+                                            <option value="15m" selected>15 Minutes</option>
+                                            <option value="1h">1 Hour</option>
+                                            <option value="4h">4 Hours</option>
+                                            <option value="1d">1 Day</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Description</label>
+                                    <textarea name="description" rows="4"
+                                        class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-md px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all dark:text-white"
+                                        placeholder="Describe how your strategy works..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Logic -->
+                        <div class="wizard-step hidden" id="step-2">
+                            <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">functions</span> Trading Logic
+                            </h2>
+
+                            <div class="space-y-8">
+                                <!-- Buy Condition -->
+                                <div
+                                    class="p-4 border border-emerald-500/20 bg-emerald-50/50 dark:bg-emerald-900/10 rounded-lg">
+                                    <h3
+                                        class="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">arrow_upward</span> Buy
+                                        Condition
+                                    </h3>
+                                    <div class="grid grid-cols-3 gap-4 items-end">
+                                        <div>
+                                            <label class="text-xs text-slate-500 mb-1 block">Indicator 1</label>
+                                            <select
+                                                class="w-full text-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded px-3 py-2 dark:text-white">
+                                                <option value="ema_9">EMA 9</option>
+                                                <option value="rsi">RSI</option>
+                                                <option value="price">Close Price</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="text-xs text-slate-500 mb-1 block">Operator</label>
+                                            <select
+                                                class="w-full text-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded px-3 py-2 dark:text-white text-center font-mono">
+                                                <option value="gt">&gt;</option>
+                                                <option value="lt">&lt;</option>
+                                                <option value="cross_up">Crosses Up</option>
+                                                <option value="cross_down">Crosses Down</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="text-xs text-slate-500 mb-1 block">Indicator 2 / Value</label>
+                                            <select
+                                                class="w-full text-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded px-3 py-2 dark:text-white">
+                                                <option value="ema_21">EMA 21</option>
+                                                <option value="vwap">VWAP</option>
+                                                <option value="value">Static Value</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="button"
+                                        class="mt-4 text-xs font-semibold text-emerald-600 flex items-center gap-1 hover:underline">
+                                        <span class="material-symbols-outlined text-sm">add</span> Add Another Condition
+                                    </button>
+                                </div>
+
+                                <!-- Sell Condition -->
+                                <div class="p-4 border border-rose-500/20 bg-rose-50/50 dark:bg-rose-900/10 rounded-lg">
+                                    <h3
+                                        class="text-sm font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">arrow_downward</span> Sell /
+                                        Exit Condition
+                                    </h3>
+                                    <div class="grid grid-cols-3 gap-4 items-end">
+                                        <div>
+                                            <label class="text-xs text-slate-500 mb-1 block">Indicator 1</label>
+                                            <select
+                                                class="w-full text-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded px-3 py-2 dark:text-white">
+                                                <option value="ema_9">EMA 9</option>
+                                                <option value="rsi">RSI</option>
+                                                <option value="price">Close Price</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="text-xs text-slate-500 mb-1 block">Operator</label>
+                                            <select
+                                                class="w-full text-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded px-3 py-2 dark:text-white text-center font-mono">
+                                                <option value="lt">&lt;</option>
+                                                <option value="gt">&gt;</option>
+                                                <option value="cross_down">Crosses Down</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="text-xs text-slate-500 mb-1 block">Indicator 2 / Value</label>
+                                            <select
+                                                class="w-full text-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded px-3 py-2 dark:text-white">
+                                                <option value="ema_21">EMA 21</option>
+                                                <option value="vwap">VWAP</option>
+                                                <option value="number">Static Value</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Risk -->
+                        <div class="wizard-step hidden" id="step-3">
+                            <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">shield</span> Risk Management
+                            </h2>
+                            <div class="space-y-6">
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Stop
+                                            Loss (%)</label>
+                                        <div class="relative">
+                                            <input type="number" step="0.1" value="2.0"
+                                                class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-md pl-4 pr-12 py-2.5 outline-none dark:text-white text-right">
+                                            <span class="absolute right-4 top-2.5 text-slate-400 font-medium">%</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Take
+                                            Profit (%)</label>
+                                        <div class="relative">
+                                            <input type="number" step="0.1" value="5.0"
+                                                class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-md pl-4 pr-12 py-2.5 outline-none dark:text-white text-right">
+                                            <span class="absolute right-4 top-2.5 text-slate-400 font-medium">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="border-t border-slate-200 dark:border-slate-700 my-6"></div>
+
+                                <div>
+                                    <label
+                                        class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Position
+                                        Sizing</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label
+                                            class="flex items-center gap-3 p-3 border border-slate-200 dark:border-slate-700 rounded cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                            <input type="radio" name="sizing" value="fixed" checked
+                                                class="text-primary focus:ring-primary">
+                                            <div>
+                                                <span class="block text-sm font-medium dark:text-white">Fixed
+                                                    Amount</span>
+                                                <span class="block text-xs text-slate-500">Invest a fixed $ amount per
+                                                    trade</span>
+                                            </div>
+                                        </label>
+                                        <label
+                                            class="flex items-center gap-3 p-3 border border-slate-200 dark:border-slate-700 rounded cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800">
+                                            <input type="radio" name="sizing" value="percent"
+                                                class="text-primary focus:ring-primary">
+                                            <div>
+                                                <span class="block text-sm font-medium dark:text-white">% of
+                                                    Equity</span>
+                                                <span class="block text-xs text-slate-500">Risk a % of total planned
+                                                    capital</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="mt-4">
+                                        <label
+                                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Amount</label>
+                                        <div class="relative">
+                                            <span class="absolute left-4 top-2.5 text-slate-400 font-medium">$</span>
+                                            <input type="number" value="1000"
+                                                class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-md pl-8 pr-4 py-2.5 outline-none dark:text-white">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Review -->
+                        <div class="wizard-step hidden" id="step-4">
+                            <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">check_circle</span> Review Strategy
+                            </h2>
+                            <div
+                                class="bg-indigo-50/50 dark:bg-indigo-900/20 p-6 rounded-lg border border-indigo-100 dark:border-indigo-800 text-center mb-6">
+                                <h3 class="text-lg font-bold text-indigo-900 dark:text-indigo-300" id="review-name">New
+                                    Strategy</h3>
+                                <p class="text-sm text-indigo-700 dark:text-indigo-400 mt-1"><span
+                                        id="review-market">Crypto</span> • <span id="review-timeframe">15m</span></p>
+                            </div>
+
+                            <div class="space-y-4 text-sm text-slate-600 dark:text-slate-400">
+                                <p class="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+                                    <span>Logic Type</span>
+                                    <span class="font-medium text-slate-900 dark:text-white">Technical Analysis
+                                        (EMA/RSI)</span>
+                                </p>
+                                <p class="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+                                    <span>Stop Loss</span>
+                                    <span class="font-medium text-danger">2.0%</span>
+                                </p>
+                                <p class="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+                                    <span>Take Profit</span>
+                                    <span class="font-medium text-emerald-500">5.0%</span>
+                                </p>
+                                <p class="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+                                    <span>Capital Allocation</span>
+                                    <span class="font-medium text-slate-900 dark:text-white">₹10,000 / trade</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Navigation Buttons -->
+                        <div
+                            class="mt-10 flex items-center justify-between pt-6 border-t border-slate-200 dark:border-slate-800">
+                            <button type="button" id="btn-back"
+                                class="hidden px-6 py-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                Back
+                            </button>
+                            <div class="ml-auto">
+                                <button type="button" id="btn-next"
+                                    class="px-6 py-2 bg-primary text-white rounded font-medium hover:brightness-110 transition-all shadow-lg shadow-primary/25">
+                                    Next Step
+                                </button>
+                                <button type="submit" id="btn-submit"
+                                    class="hidden px-6 py-2 bg-emerald-500 text-white rounded font-medium hover:brightness-110 transition-all shadow-lg shadow-emerald-500/25">
+                                    Create Strategy
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/sidebar.js"></script>
+    <script src="js/create_strategy.js"></script>
+</body>
+
+</html>

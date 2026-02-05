@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Market News | SATFIN</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="js/config.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div class="flex h-screen overflow-hidden">
+        <aside
+            class="w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0">
+            <div class="p-4 border-b border-slate-200 dark:border-border-dark">
+                <div class="flex items-center justify-center">
+                    <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
+                </div>
+                <p class="text-center text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
+                    Platform</p>
+            </div>
+            <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
+                <a href="index.html" class="nav-item text-slate-600 dark:text-slate-400">
+                    <span class="material-symbols-outlined text-xl">dashboard</span><span
+                        class="text-sm font-medium">Dashboard</span>
+                </a>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Trading</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">settings_input_component</span><span
+                            class="text-sm font-medium">Strategies</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="strategy_library.html" class="submenu-item">Strategy Library</a><a
+                            href="my_strategies.html" class="submenu-item">My Strategies</a><a
+                            href="create_strategy.html" class="submenu-item">Create New</a></div>
+                </div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">bolt</span><span
+                            class="text-sm font-medium">Trading</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="live_trading.html" class="submenu-item">Live Trading</a><a
+                            href="paper_trading.html" class="submenu-item">Paper Trading</a><a href="orders.html"
+                            class="submenu-item">Orders</a><a href="positions.html" class="submenu-item">Positions</a>
+                    </div>
+                </div>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Analytics</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">analytics</span><span
+                            class="text-sm font-medium">Performance</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="backtesting.html" class="submenu-item">Backtesting</a><a
+                            href="reports.html" class="submenu-item">Reports</a><a href="trade_journal.html"
+                            class="submenu-item">Trade Journal</a></div>
+                </div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">show_chart</span><span
+                            class="text-sm font-medium">Market Data</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="watchlist.html" class="submenu-item">Watchlist</a><a
+                            href="screener.html" class="submenu-item">Stock Screener</a><a href="market_news.html"
+                            class="submenu-item active">Market News</a></div>
+                </div>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Configuration</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">settings</span><span
+                            class="text-sm font-medium">Settings</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="risk_management.html" class="submenu-item">Risk Management</a><a
+                            href="api_connections.html" class="submenu-item">API Connections</a><a
+                            href="notifications.html" class="submenu-item">Notifications</a><a href="account.html"
+                            class="submenu-item">Account</a></div>
+                </div>
+            </nav>
+        </aside>
+        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50 dark:bg-background-dark">
+            <header
+                class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex items-center justify-between px-8 shrink-0">
+                <h1 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wide">Market News</h1>
+                <div class="flex items-center gap-4"><button
+                        class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/30"><span
+                            class="material-symbols-outlined text-primary">person</span></button></div>
+            </header>
+            <div class="flex-1 overflow-y-auto p-8">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-2">
+                        <button class="px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded">All</button>
+                        <button
+                            class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-700">Stocks</button>
+                        <button
+                            class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-700">Crypto</button>
+                        <button
+                            class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-700">Economy</button>
+                    </div>
+                    <input type="text"
+                        class="text-sm bg-slate-100 dark:bg-slate-800 border-0 rounded px-4 py-2 dark:text-white w-64"
+                        placeholder="Search news...">
+                </div>
+
+                <!-- News Feed -->
+                <div class="space-y-4">
+                    <!-- News Card -->
+                    <div
+                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                        <div class="flex gap-4">
+                            <div
+                                class="w-24 h-24 rounded bg-gradient-to-br from-blue-500 to-indigo-600 shrink-0 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-white text-3xl">trending_up</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span
+                                        class="px-2 py-0.5 text-xs font-semibold bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded">Bullish</span>
+                                    <span class="text-xs text-slate-400">Reuters • 2h ago</span>
+                                </div>
+                                <h3 class="font-bold text-slate-900 dark:text-white mb-1">NVIDIA Surges 5% on Strong AI
+                                    Chip Demand Forecast</h3>
+                                <p class="text-sm text-slate-500 line-clamp-2">NVIDIA reported record-breaking AI chip
+                                    sales and raised guidance, sending shares to all-time highs as data center demand
+                                    continues to accelerate.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                        <div class="flex gap-4">
+                            <div
+                                class="w-24 h-24 rounded bg-gradient-to-br from-rose-500 to-orange-600 shrink-0 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-white text-3xl">trending_down</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span
+                                        class="px-2 py-0.5 text-xs font-semibold bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400 rounded">Bearish</span>
+                                    <span class="text-xs text-slate-400">Bloomberg • 4h ago</span>
+                                </div>
+                                <h3 class="font-bold text-slate-900 dark:text-white mb-1">Fed Signals Rates May Stay
+                                    Higher for Longer</h3>
+                                <p class="text-sm text-slate-500 line-clamp-2">Federal Reserve officials indicated that
+                                    interest rates may need to remain elevated to combat persistent inflation, dampening
+                                    rate-cut expectations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                        <div class="flex gap-4">
+                            <div
+                                class="w-24 h-24 rounded bg-gradient-to-br from-amber-500 to-yellow-600 shrink-0 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-white text-3xl">currency_bitcoin</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span
+                                        class="px-2 py-0.5 text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded">Neutral</span>
+                                    <span class="text-xs text-slate-400">CoinDesk • 6h ago</span>
+                                </div>
+                                <h3 class="font-bold text-slate-900 dark:text-white mb-1">Bitcoin ETF Inflows Slow as
+                                    Price Consolidates Near ₹78L</h3>
+                                <p class="text-sm text-slate-500 line-clamp-2">Spot Bitcoin ETFs saw reduced inflows
+                                    this week as the flagship cryptocurrency consolidates after its recent rally to new
+                                    highs.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                        <div class="flex gap-4">
+                            <div
+                                class="w-24 h-24 rounded bg-gradient-to-br from-emerald-500 to-teal-600 shrink-0 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-white text-3xl">electric_car</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span
+                                        class="px-2 py-0.5 text-xs font-semibold bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded">Bullish</span>
+                                    <span class="text-xs text-slate-400">WSJ • 8h ago</span>
+                                </div>
+                                <h3 class="font-bold text-slate-900 dark:text-white mb-1">Tesla Announces New
+                                    Gigafactory in India</h3>
+                                <p class="text-sm text-slate-500 line-clamp-2">Tesla confirmed plans to build a new
+                                    manufacturing facility in India, marking a major expansion into the world's
+                                    third-largest auto market.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/sidebar.js"></script>
+</body>
+
+</html>

@@ -4,6 +4,12 @@ import random
 import yfinance as yf
 import pandas as pd
 import requests
+from dhanhq import dhanhq
+
+# Initialize DhanHQ client
+# TODO: Replace "client_id" and "access_token" with actual credentials or environment variables
+dhan = dhanhq("client_id", "access_token")
+
 
 app = Flask(__name__)
 # Enable CORS for all routes to allow requests from the frontend
