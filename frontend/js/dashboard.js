@@ -290,6 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchStrategies();
     fetchAlerts();
     fetchExposure();
+    fetchAvailableFund();
 
     // Refresh stats, strategies, alerts, exposure every 15 seconds so all features stay dynamic
     setInterval(() => {
@@ -297,7 +298,31 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchStrategies();
         fetchAlerts();
         fetchExposure();
+        fetchAvailableFund();
     }, 15000);
+
+    // Fetch available fund for header display
+    async function fetchAvailableFund() {
+        const headerFundEl = document.getElementById('headerAvailableFund');
+        if (!headerFundEl) return;
+
+        const baseUrl = window.APP_CONFIG?.PYTHON_API_URL || 'http://127.0.0.1:5001/api';
+        try {
+            const response = await fetch(`${baseUrl}/account/funds`);
+            if (!response.ok) throw new Error('Funds API Error');
+            const data = await response.json();
+
+            if (data.status === 'success' && data.data) {
+                headerFundEl.textContent = data.data.formatted_balance || '₹0.00';
+                // Add a subtle animation on update
+                headerFundEl.classList.add('animate-pulse');
+                setTimeout(() => headerFundEl.classList.remove('animate-pulse'), 500);
+            }
+        } catch (error) {
+            console.error('Error fetching funds:', error);
+            headerFundEl.textContent = '₹—';
+        }
+    }
 
     // Single entry point when user selects a stock (chip or search): updates chart, quote, P&L, title, highlight
     function selectStock(symbol) {

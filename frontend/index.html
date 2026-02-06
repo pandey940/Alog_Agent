@@ -48,9 +48,9 @@
                         <span class="material-symbols-outlined menu-arrow">expand_more</span>
                     </div>
                     <div class="submenu">
-                        <a href="strategy_library.html" class="submenu-item">Strategy Library</a>
-                        <a href="my_strategies.html" class="submenu-item">My Strategies</a>
-                        <a href="create_strategy.html" class="submenu-item">Create New</a>
+                        <a href="pages/strategy_library.html" class="submenu-item">Strategy Library</a>
+                        <a href="pages/my_strategies.html" class="submenu-item">My Strategies</a>
+                        <a href="pages/create_strategy.html" class="submenu-item">Create New</a>
                     </div>
                 </div>
 
@@ -62,10 +62,10 @@
                         <span class="material-symbols-outlined menu-arrow">expand_more</span>
                     </div>
                     <div class="submenu">
-                        <a href="live_trading.html" class="submenu-item">Live Trading</a>
-                        <a href="paper_trading.html" class="submenu-item">Paper Trading</a>
-                        <a href="orders.html" class="submenu-item">Orders</a>
-                        <a href="positions.html" class="submenu-item">Positions</a>
+                        <a href="pages/live_trading.html" class="submenu-item">Live Trading</a>
+                        <a href="pages/paper_trading.html" class="submenu-item">Paper Trading</a>
+                        <a href="pages/orders.html" class="submenu-item">Orders</a>
+                        <a href="pages/positions.html" class="submenu-item">Positions</a>
                     </div>
                 </div>
 
@@ -80,9 +80,9 @@
                         <span class="material-symbols-outlined menu-arrow">expand_more</span>
                     </div>
                     <div class="submenu">
-                        <a href="backtesting.html" class="submenu-item">Backtesting</a>
-                        <a href="reports.html" class="submenu-item">Reports</a>
-                        <a href="trade_journal.html" class="submenu-item">Trade Journal</a>
+                        <a href="pages/backtesting.html" class="submenu-item">Backtesting</a>
+                        <a href="pages/reports.html" class="submenu-item">Reports</a>
+                        <a href="pages/trade_journal.html" class="submenu-item">Trade Journal</a>
                     </div>
                 </div>
 
@@ -94,9 +94,9 @@
                         <span class="material-symbols-outlined menu-arrow">expand_more</span>
                     </div>
                     <div class="submenu">
-                        <a href="watchlist.html" class="submenu-item">Watchlist</a>
-                        <a href="screener.html" class="submenu-item">Stock Screener</a>
-                        <a href="market_news.html" class="submenu-item">Market News</a>
+                        <a href="pages/watchlist.html" class="submenu-item">Watchlist</a>
+                        <a href="pages/screener.html" class="submenu-item">Stock Screener</a>
+                        <a href="pages/market_news.html" class="submenu-item">Market News</a>
                     </div>
                 </div>
 
@@ -111,10 +111,10 @@
                         <span class="material-symbols-outlined menu-arrow">expand_more</span>
                     </div>
                     <div class="submenu">
-                        <a href="risk_management.html" class="submenu-item">Risk Management</a>
-                        <a href="api_connections.html" class="submenu-item">API Connections</a>
-                        <a href="notifications.html" class="submenu-item">Notifications</a>
-                        <a href="account.html" class="submenu-item">Account</a>
+                        <a href="pages/risk_management.html" class="submenu-item">Risk Management</a>
+                        <a href="pages/api_connections.html" class="submenu-item">API Connections</a>
+                        <a href="pages/notifications.html" class="submenu-item">Notifications</a>
+                        <a href="pages/account.html" class="submenu-item">Account</a>
                     </div>
                 </div>
             </nav>
@@ -155,24 +155,42 @@
             <!-- Top Navigation -->
             <header
                 class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex items-center justify-between px-8 shrink-0">
-                <div class="flex items-center gap-6 flex-1">
-                    <div class="relative flex items-center gap-2 text-slate-400">
-                        <span class="material-symbols-outlined text-xl">search</span>
-                        <input id="globalSearchInput"
-                            class="bg-transparent border-none focus:ring-0 text-sm w-64 placeholder:text-slate-500"
-                            placeholder="Search BSE/NSE stocks (e.g., RELIANCE, TCS)..." type="text"
-                            autocomplete="off" />
+                <div class="flex items-center gap-4 flex-1">
+                    <!-- Search Bar (Optimized) -->
+                    <div class="relative flex items-center flex-1 max-w-md">
+                        <div
+                            class="flex items-center w-full px-3 py-2 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/30 transition-all">
+                            <span class="material-symbols-outlined text-slate-400 text-lg mr-2">search</span>
+                            <input id="globalSearchInput"
+                                class="bg-transparent border-none outline-none focus:ring-0 text-sm w-full placeholder:text-slate-400 text-slate-900 dark:text-white"
+                                placeholder="Search stocks... (e.g., RELIANCE, TCS)" type="text" autocomplete="off" />
+                            <kbd
+                                class="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-slate-200 dark:bg-slate-700 rounded">⌘K</kbd>
+                        </div>
                         <div id="searchResults"
-                            class="hidden absolute top-full left-0 right-0 mt-2 bg-white dark:bg-panel-dark border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+                            class="hidden absolute top-full left-0 right-0 mt-2 bg-white dark:bg-panel-dark border border-slate-200 dark:border-slate-700 rounded-lg shadow-2xl z-50 max-h-80 overflow-y-auto">
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center gap-4">
-                    <div class="flex flex-col items-end mr-2">
+                <div class="flex items-center gap-3">
+                    <!-- Available Fund Display (Compact) -->
+                    <div
+                        class="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg">
+                        <span class="material-symbols-outlined text-primary text-lg">account_balance_wallet</span>
                         <div class="flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-success"></span>
-                            <span class="text-xs font-bold uppercase">LIVE STOCK SIGNAL</span>
+                            <span id="headerAvailableFund"
+                                class="text-sm font-bold text-slate-900 dark:text-white">₹0.00</span>
                         </div>
+                        <button onclick="window.open('https://login.dhan.co/', '_blank')"
+                            class="ml-1 px-2 py-1 bg-success hover:bg-success/90 text-white text-[10px] font-bold rounded flex items-center gap-0.5 transition-all hover:scale-105">
+                            <span class="material-symbols-outlined text-xs">add</span>
+                            Add
+                        </button>
+                    </div>
+                    <!-- Live Status -->
+                    <div class="flex items-center gap-1.5 px-2 py-1 bg-success/10 border border-success/20 rounded">
+                        <span class="w-1.5 h-1.5 rounded-full bg-success animate-pulse"></span>
+                        <span class="text-[10px] font-bold text-success uppercase">LIVE</span>
                     </div>
                     <!-- Notification Bell with Dropdown -->
                     <div class="relative" id="notificationContainer">
