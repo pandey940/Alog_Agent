@@ -12,11 +12,11 @@ const TOP_STOCKS = [
     'HINDUNILVR.NS', 'AXISBANK.NS', 'ASIANPAINT.NS', 'MARUTI.NS', 'HCLTECH.NS'
 ];
 
-// Long-term investment stocks (blue chips / index heavyweights)
+// Long-term investment stocks (diversified blue chips - no duplicates with TOP_STOCKS)
 const LONG_TERM_STOCKS = [
-    'RELIANCE.NS', 'HDFCBANK.NS', 'INFY.NS', 'TCS.NS', 'ICICIBANK.NS',
-    'ITC.NS', 'HINDUNILVR.NS', 'KOTAKBANK.NS', 'BHARTIARTL.NS', 'LT.NS',
-    'ASIANPAINT.NS', 'HDFC.NS', 'NESTLEIND.NS', 'TITAN.NS', 'BAJFINANCE.NS'
+    'NESTLEIND.NS', 'TITAN.NS', 'BAJFINANCE.NS', 'WIPRO.NS', 'TECHM.NS',
+    'ULTRACEMCO.NS', 'POWERGRID.NS', 'NTPC.NS', 'ONGC.NS', 'COALINDIA.NS',
+    'DRREDDY.NS', 'CIPLA.NS', 'SUNPHARMA.NS', 'DIVISLAB.NS', 'ADANIENT.NS'
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -291,6 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchAlerts();
     fetchExposure();
     fetchAvailableFund();
+    fetchPortfolioSummary();
 
     // Refresh stats, strategies, alerts, exposure every 15 seconds so all features stay dynamic
     setInterval(() => {
@@ -299,6 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchAlerts();
         fetchExposure();
         fetchAvailableFund();
+        fetchPortfolioSummary();
     }, 15000);
 
     // Fetch available fund for header display
@@ -321,6 +323,81 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching funds:', error);
             headerFundEl.textContent = '₹—';
+        }
+    }
+
+    // Fetch portfolio holdings summary for Portfolio Value and P&L cards
+    async function fetchPortfolioSummary() {
+        const valEquity = document.getElementById('val-equity');
+        const valEquityChange = document.getElementById('val-equity-change');
+        const valPnl = document.getElementById('val-pnl');
+        const valPnlChange = document.getElementById('val-pnl-change');
+
+        const baseUrl = window.APP_CONFIG?.PYTHON_API_URL || 'http://127.0.0.1:5001/api';
+
+        try {
+            const response = await fetch(`${baseUrl}/account/holdings`);
+            if (!response.ok) throw new Error('Holdings API Error');
+            const data = await response.json();
+
+            if (data.status === 'success' && data.data?.summary) {
+                const summary = data.data.summary;
+                const totalValue = summary.total_value || 0;
+                const totalPnl = summary.total_pnl || 0;
+                const pnlPercent = totalValue > 0 ? (totalPnl / (totalValue - totalPnl)) * 100 : 0;
+
+                // Update Portfolio Value
+                if (valEquity) {
+                    valEquity.textContent = summary.formatted_value || `₹${totalValue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+                }
+                if (valEquityChange) {
+                    valEquityChange.textContent = summary.total_holdings > 0 ? `${summary.total_holdings} Holdings` : 'No Holdings';
+                    valEquityChange.className = 'text-primary text-xs font-bold';
+                }
+
+                // Update P&L
+                if (valPnl) {
+                    const pnlSign = totalPnl >= 0 ? '+' : '';
+                    valPnl.textContent = `${pnlSign}${summary.formatted_pnl || `₹${Math.abs(totalPnl).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}`;
+                    valPnl.className = `text-2xl font-extrabold tracking-tight ${totalPnl >= 0 ? 'text-success' : 'text-danger'}`;
+                }
+                if (valPnlChange) {
+                    const pnlSign = totalPnl >= 0 ? '+' : '';
+                    valPnlChange.textContent = `${pnlSign}${pnlPercent.toFixed(2)}%`;
+                    valPnlChange.className = `text-xs font-bold ${totalPnl >= 0 ? 'text-success' : 'text-danger'}`;
+                }
+            } else {
+                // No holdings - show zeros
+                if (valEquity) valEquity.textContent = '₹0.00';
+                if (valEquityChange) {
+                    valEquityChange.textContent = 'No Holdings';
+                    valEquityChange.className = 'text-slate-400 text-xs font-bold';
+                }
+                if (valPnl) {
+                    valPnl.textContent = '₹0.00';
+                    valPnl.className = 'text-2xl font-extrabold tracking-tight text-slate-400';
+                }
+                if (valPnlChange) {
+                    valPnlChange.textContent = '0.00%';
+                    valPnlChange.className = 'text-slate-400 text-xs font-bold';
+                }
+            }
+        } catch (error) {
+            console.error('Portfolio fetch error:', error);
+            // Show error state
+            if (valEquity) valEquity.textContent = '—';
+            if (valEquityChange) {
+                valEquityChange.textContent = 'Offline';
+                valEquityChange.className = 'text-danger text-xs font-bold';
+            }
+            if (valPnl) {
+                valPnl.textContent = '—';
+                valPnl.className = 'text-2xl font-extrabold tracking-tight text-slate-400';
+            }
+            if (valPnlChange) {
+                valPnlChange.textContent = 'API Error';
+                valPnlChange.className = 'text-danger text-xs font-bold';
+            }
         }
     }
 

@@ -32,17 +32,19 @@ app = Flask(__name__, static_folder=FRONTEND_DIR)
 # Enable CORS for all routes to allow requests from the frontend
 CORS(app)
 
-# Serve frontend files
+# Serve index.html from project root
 @app.route('/')
 def serve_index():
-    return send_from_directory(FRONTEND_DIR, 'index.html')
+    return send_from_directory(PROJECT_ROOT, 'index.html')
 
-@app.route('/pages/<path:filename>')
+# Serve frontend/pages files
+@app.route('/frontend/pages/<path:filename>')
 def serve_pages(filename):
     return send_from_directory(PAGES_DIR, filename)
 
-@app.route('/<path:filename>')
-def serve_static(filename):
+# Serve all frontend static files (css, js, img)
+@app.route('/frontend/<path:filename>')
+def serve_frontend(filename):
     return send_from_directory(FRONTEND_DIR, filename)
 
 def format_currency(value):

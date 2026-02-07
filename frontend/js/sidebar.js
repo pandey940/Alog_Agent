@@ -47,7 +47,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Auto-expand current section based on active page
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const activeLink = document.querySelector(`.submenu a[href="${currentPage}"]`);
+    const isInPagesDir = window.location.pathname.includes('/pages/');
+
+    // Try multiple href patterns to find the active link
+    let activeLink = document.querySelector(`.submenu a[href="${currentPage}"]`);
+
+    // If not found and we're in pages dir, try without pages/ prefix
+    if (!activeLink && isInPagesDir) {
+        activeLink = document.querySelector(`.submenu a[href="pages/${currentPage}"]`);
+    }
+    // If not found and we're at root, try with pages/ prefix
+    if (!activeLink && !isInPagesDir) {
+        activeLink = document.querySelector(`.submenu a[href="pages/${currentPage}"]`);
+    }
 
     if (activeLink) {
         const parentGroup = activeLink.closest('.nav-group');
@@ -68,9 +80,65 @@ document.addEventListener('DOMContentLoaded', function () {
         activeLink.classList.add('active-link');
     }
 
-    // Also check for direct nav items
-    const directActiveLink = document.querySelector(`.nav-item[href="${currentPage}"]`);
+    // Also check for direct nav items (dashboard link)
+    let directActiveLink = document.querySelector(`.nav-item[href="${currentPage}"]`);
+    // Also check for index.html when at root
+    if (!directActiveLink && (currentPage === 'index.html' || currentPage === '')) {
+        directActiveLink = document.querySelector('.nav-item[href="index.html"]') ||
+            document.querySelector('.nav-item[href="../index.html"]');
+    }
     if (directActiveLink) {
         directActiveLink.classList.add('active-link');
     }
+
+    // ================================
+    // Sidebar Toggle (All Screens)
+    // ================================
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    // Check for saved sidebar state
+    const savedState = localStorage.getItem('sidebarCollapsed');
+    if (savedState === 'true' && sidebar) {
+        sidebar.classList.add('collapsed');
+    }
+
+    function toggleSidebar() {
+        if (!sidebar) return;
+
+        const isCollapsed = sidebar.classList.toggle('collapsed');
+
+        // Save state to localStorage
+        localStorage.setItem('sidebarCollapsed', isCollapsed);
+
+        // Update icon
+        if (sidebarToggleBtn) {
+            const icon = sidebarToggleBtn.querySelector('.material-symbols-outlined');
+            if (icon) {
+                icon.textContent = isCollapsed ? 'menu' : 'close';
+            }
+        }
+    }
+
+    // Toggle button click
+    if (sidebarToggleBtn) {
+        sidebarToggleBtn.addEventListener('click', toggleSidebar);
+    }
+
+    // Overlay click to close (mobile)
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function () {
+            if (sidebar && !sidebar.classList.contains('collapsed')) {
+                toggleSidebar();
+            }
+        });
+    }
+
+    // Close on ESC key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && sidebar && !sidebar.classList.contains('collapsed')) {
+            toggleSidebar();
+        }
+    });
 });

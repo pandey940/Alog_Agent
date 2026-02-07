@@ -8,24 +8,47 @@
     <title>SATFIN | Algorithmic Trading Execution Platform</title>
     <meta name="description"
         content="SATFIN - Professional Algorithmic Trading Platform for Indian Stock Market. Trading | Investing | Training">
+
+    <!-- Preconnect for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Fonts - Direct link for production compatibility -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Material Symbols - Direct link for icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+    <!-- External Scripts -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script src="js/config.js"></script>
+    <script src="frontend/js/config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-    <!-- Date adapter -->
-    <link href="css/style.css" rel="stylesheet" />
+
+    <!-- Custom Styles -->
+    <link href="frontend/css/style.css" rel="stylesheet" />
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <!-- Mobile Menu Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay hidden"></div>
+
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar Navigation -->
-        <aside
-            class="w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0">
+        <aside id="sidebar"
+            class="sidebar-nav w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0 transition-all duration-300">
+            <!-- Sidebar Toggle Button (Always Visible) -->
+            <button id="sidebarToggleBtn" class="sidebar-toggle-btn" title="Toggle Sidebar">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
             <!-- Satfin Logo -->
             <div class="p-4 border-b border-slate-200 dark:border-border-dark">
                 <div class="flex items-center justify-center">
-                    <img src="img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
+                    <img src="frontend/img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
                 </div>
                 <p class="text-center text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
                     Platform</p>
@@ -48,9 +71,9 @@
                         <span class="material-symbols-outlined menu-arrow">expand_more</span>
                     </div>
                     <div class="submenu">
-                        <a href="pages/strategy_library.html" class="submenu-item">Strategy Library</a>
-                        <a href="pages/my_strategies.html" class="submenu-item">My Strategies</a>
-                        <a href="pages/create_strategy.html" class="submenu-item">Create New</a>
+                        <a href="frontend/pages/strategy_library.html" class="submenu-item">Strategy Library</a>
+                        <a href="frontend/pages/my_strategies.html" class="submenu-item">My Strategies</a>
+                        <a href="frontend/pages/create_strategy.html" class="submenu-item">Create New</a>
                     </div>
                 </div>
 
@@ -62,10 +85,10 @@
                         <span class="material-symbols-outlined menu-arrow">expand_more</span>
                     </div>
                     <div class="submenu">
-                        <a href="pages/live_trading.html" class="submenu-item">Live Trading</a>
-                        <a href="pages/paper_trading.html" class="submenu-item">Paper Trading</a>
-                        <a href="pages/orders.html" class="submenu-item">Orders</a>
-                        <a href="pages/positions.html" class="submenu-item">Positions</a>
+                        <a href="frontend/pages/live_trading.html" class="submenu-item">Live Trading</a>
+                        <a href="frontend/pages/paper_trading.html" class="submenu-item">Paper Trading</a>
+                        <a href="frontend/pages/orders.html" class="submenu-item">Orders</a>
+                        <a href="frontend/pages/positions.html" class="submenu-item">Positions</a>
                     </div>
                 </div>
 
@@ -80,9 +103,9 @@
                         <span class="material-symbols-outlined menu-arrow">expand_more</span>
                     </div>
                     <div class="submenu">
-                        <a href="pages/backtesting.html" class="submenu-item">Backtesting</a>
-                        <a href="pages/reports.html" class="submenu-item">Reports</a>
-                        <a href="pages/trade_journal.html" class="submenu-item">Trade Journal</a>
+                        <a href="frontend/pages/backtesting.html" class="submenu-item">Backtesting</a>
+                        <a href="frontend/pages/reports.html" class="submenu-item">Reports</a>
+                        <a href="frontend/pages/trade_journal.html" class="submenu-item">Trade Journal</a>
                     </div>
                 </div>
 
@@ -94,9 +117,9 @@
                         <span class="material-symbols-outlined menu-arrow">expand_more</span>
                     </div>
                     <div class="submenu">
-                        <a href="pages/watchlist.html" class="submenu-item">Watchlist</a>
-                        <a href="pages/screener.html" class="submenu-item">Stock Screener</a>
-                        <a href="pages/market_news.html" class="submenu-item">Market News</a>
+                        <a href="frontend/pages/watchlist.html" class="submenu-item">Watchlist</a>
+                        <a href="frontend/pages/screener.html" class="submenu-item">Stock Screener</a>
+                        <a href="frontend/pages/market_news.html" class="submenu-item">Market News</a>
                     </div>
                 </div>
 
@@ -111,10 +134,10 @@
                         <span class="material-symbols-outlined menu-arrow">expand_more</span>
                     </div>
                     <div class="submenu">
-                        <a href="pages/risk_management.html" class="submenu-item">Risk Management</a>
-                        <a href="pages/api_connections.html" class="submenu-item">API Connections</a>
-                        <a href="pages/notifications.html" class="submenu-item">Notifications</a>
-                        <a href="pages/account.html" class="submenu-item">Account</a>
+                        <a href="frontend/pages/risk_management.html" class="submenu-item">Risk Management</a>
+                        <a href="frontend/pages/api_connections.html" class="submenu-item">API Connections</a>
+                        <a href="frontend/pages/notifications.html" class="submenu-item">Notifications</a>
+                        <a href="frontend/pages/account.html" class="submenu-item">Account</a>
                     </div>
                 </div>
             </nav>
@@ -302,9 +325,10 @@
                             <span class="text-xs font-bold text-slate-500 uppercase">Portfolio Value</span>
                             <span class="material-symbols-outlined text-slate-400 text-lg">account_balance</span>
                         </div>
-                        <div id="val-equity" class="text-2xl font-extrabold tracking-tight">₹1,248,500.00</div>
+                        <div id="val-equity" class="text-2xl font-extrabold tracking-tight"><span
+                                class="animate-pulse text-slate-400">—</span></div>
                         <div class="flex items-center gap-1 mt-2">
-                            <span class="text-success text-xs font-bold">+1.2%</span>
+                            <span id="val-equity-change" class="text-xs font-bold">—</span>
                             <span class="text-[10px] text-slate-400 uppercase tracking-wide">TODAY</span>
                         </div>
                     </div>
@@ -314,10 +338,11 @@
                             <span class="text-xs font-bold text-slate-500 uppercase">Net 24h P&amp;L</span>
                             <span class="material-symbols-outlined text-slate-400 text-lg">monitoring</span>
                         </div>
-                        <div id="val-pnl" class="text-2xl font-extrabold tracking-tight text-success">+₹14,240.15</div>
+                        <div id="val-pnl" class="text-2xl font-extrabold tracking-tight"><span
+                                class="animate-pulse text-slate-400">—</span></div>
                         <div class="flex items-center gap-1 mt-2">
-                            <span class="text-success text-xs font-bold">+3.2%</span>
-                            <span class="text-[10px] text-slate-400 uppercase tracking-wide">MTD: +8.4%</span>
+                            <span id="val-pnl-change" class="text-xs font-bold">—</span>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wide">TOTAL P&L</span>
                         </div>
                     </div>
                     <div
@@ -528,12 +553,12 @@
                             </div>
                         </div>
                     </div>
-                    <script src="js/dashboard.js?v=2.4"></script>
+                    <script src="frontend/js/dashboard.js?v=2.4"></script>
                 </div>
             </div>
         </main>
     </div>
-    <script src="js/sidebar.js"></script>
+    <script src="frontend/js/sidebar.js"></script>
 </body>
 
 </html>

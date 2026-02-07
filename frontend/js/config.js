@@ -8,13 +8,13 @@ tailwind.config = {
                 "primary-light": "#b9a86a",     // Lighter gold
                 "primary-dark": "#7a6b3c",      // Darker gold
 
-                // Background Colors - Dark theme with gold accents
-                "background-light": "#faf9f6",  // Warm off-white
-                "background-dark": "#0f1318",   // Deep dark
-                "panel-dark": "#161a20",        // Panel background
-                "card-dark": "#1c2128",         // Card background
-                "surface-dark": "#14171c",      // Surface dark
-                "border-dark": "#2a3038",       // Border color
+                // Background Colors - Warm theme matching logo
+                "background-light": "#faf8f3",  // Warm cream like logo
+                "background-dark": "#0d0f12",   // Deep dark with warmth
+                "panel-dark": "#151810",        // Warm panel with olive tint
+                "card-dark": "#1a1e16",         // Warmer card background
+                "surface-dark": "#121510",      // Warm surface
+                "border-dark": "#2a2e24",       // Warm olive border
 
                 // Candlestick Colors
                 "bullish": "#1a7a4c",           // Green candle from logo

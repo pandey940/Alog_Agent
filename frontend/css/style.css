@@ -12,10 +12,26 @@
     --satfin-gold-dark: #7a6b3c;
     --satfin-green: #1a7a4c;
     --satfin-red: #c92a2a;
-    --bg-dark: #0f1318;
-    --panel-dark: #161a20;
-    --card-dark: #1c2128;
-    --border-dark: #2a3038;
+
+    /* Updated backgrounds to match logo's warm cream/gold tones */
+    --bg-dark: #0d0f12;
+    /* Deeper, warmer dark base */
+    --panel-dark: #151810;
+    /* Warm dark with slight olive tint */
+    --card-dark: #1a1e16;
+    /* Warmer card background */
+    --border-dark: #2a2e24;
+    /* Warm olive-tinted border */
+
+    /* Light mode alternatives */
+    --bg-light: #faf8f3;
+    /* Warm cream like logo background */
+    --panel-light: #f5f2ea;
+    /* Light ivory panel */
+    --card-light: #fffdf7;
+    /* Warm white card */
+    --border-light: #e8e4d9;
+    /* Soft gold-tinted border */
 }
 
 body {
@@ -456,4 +472,246 @@ body {
 .status-error {
     background: var(--satfin-red);
     box-shadow: 0 0 8px var(--satfin-red);
+}
+
+/* ================================
+   Skeleton Loading Animation
+   ================================ */
+.skeleton {
+    background: linear-gradient(90deg, var(--panel-dark) 25%, var(--card-dark) 50%, var(--panel-dark) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 0.25rem;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ================================
+   Stat Card Hover Effects
+   ================================ */
+.stat-card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.stat-card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: rgba(157, 138, 77, 0.5);
+}
+
+/* ================================
+   Connection Status Indicator
+   ================================ */
+.connection-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.connection-status.online {
+    background: rgba(26, 122, 76, 0.15);
+    color: var(--satfin-green);
+    border: 1px solid rgba(26, 122, 76, 0.3);
+}
+
+.connection-status.offline {
+    background: rgba(201, 42, 42, 0.15);
+    color: var(--satfin-red);
+    border: 1px solid rgba(201, 42, 42, 0.3);
+}
+
+.connection-status .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.connection-status.online .status-dot {
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ================================
+   Responsive Sidebar - Toggle
+   ================================ */
+
+/* Sidebar Toggle Button - Always Visible */
+.sidebar-toggle-btn {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 55;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: var(--satfin-gold);
+    border: 2px solid var(--satfin-gold-dark);
+    border-radius: 0.5rem;
+    color: #0d0f12;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(157, 138, 77, 0.4);
+}
+
+.sidebar-toggle-btn:hover {
+    background: var(--satfin-gold-light);
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(157, 138, 77, 0.5);
+}
+
+.sidebar-toggle-btn .material-symbols-outlined {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Sidebar Collapsed State */
+.sidebar-nav.collapsed {
+    width: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+    border-right: none;
+}
+
+.sidebar-nav.collapsed * {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sidebar-nav.collapsed .sidebar-toggle-btn {
+    opacity: 1;
+    visibility: visible;
+    position: fixed;
+    left: 0.75rem;
+    top: 0.75rem;
+    right: auto;
+    background: var(--panel-dark);
+    border: 1px solid var(--border-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 40;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Sidebar Close Button */
+.sidebar-close-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 55;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: 0.375rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-close-btn:hover {
+    background: rgba(100, 116, 139, 0.2);
+    color: var(--satfin-gold);
+}
+
+/* Sidebar Responsive Styles */
+@media (max-width: 1023px) {
+    .sidebar-nav {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 50;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .sidebar-nav.open {
+        transform: translateX(0);
+    }
+
+    /* Adjust main content for mobile */
+    main {
+        margin-left: 0 !important;
+    }
+}
+
+/* Desktop - Hide mobile elements */
+@media (min-width: 1024px) {
+    .mobile-menu-btn {
+        display: none;
+    }
+
+    .sidebar-close-btn {
+        display: none;
+    }
+
+    .sidebar-overlay {
+        display: none;
+    }
+}
+
+/* Tablet Adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .mobile-menu-btn {
+        top: 0.75rem;
+        left: 0.75rem;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 640px) {
+    .sidebar-nav {
+        width: 280px;
+    }
+
+    /* Hide some header elements on very small screens */
+    header .hidden.sm\\:inline-flex {
+        display: none !important;
+    }
 }
