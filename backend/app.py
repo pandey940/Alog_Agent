@@ -35,8 +35,9 @@ FRONTEND_DIR = os.path.join(PROJECT_ROOT, 'frontend')
 PAGES_DIR = os.path.join(FRONTEND_DIR, 'pages')
 
 app = Flask(__name__, static_folder=FRONTEND_DIR)
-# Restrict CORS to trusted local origins only
-CORS(app, origins=["http://localhost:5001", "http://127.0.0.1:5001"])
+# Enable CORS for all domains (Required for Hostinger Frontend -> GCP Backend)
+# In production, replace "*" with your specific Hostinger domain (e.g., "https://your-site.com")
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Serve index.html from project root
 @app.route('/')

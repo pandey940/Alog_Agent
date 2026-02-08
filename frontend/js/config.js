@@ -58,7 +58,12 @@ tailwind.config = {
 // App Configuration
 // NOTE: API keys must never be hardcoded here. Use backend endpoints instead.
 window.APP_CONFIG = {
+    // DEVELOPMENT (Localhost):
     PYTHON_API_URL: "http://127.0.0.1:5001/api",
+
+    // PRODUCTION (GCP Backend):
+    // Replace the URL below with your GCP External IP (hurry, verify this on GCP!)
+    // PYTHON_API_URL: "http://<YOUR_GCP_EXTERNAL_IP>:5001/api",
     COMPANY_NAME: "SATFIN",
     TAGLINE: "Trading | Investing | Training",
     PLATFORM_NAME: "Algorithmic Trading Execution Platform"
