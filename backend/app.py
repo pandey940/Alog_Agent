@@ -6,6 +6,8 @@ import pandas as pd
 import requests
 from dhanhq import dhanhq
 import os
+import time
+import collections
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
@@ -16,12 +18,16 @@ load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
 DHAN_CLIENT_ID = os.getenv('DHAN_CLIENT_ID')
 DHAN_ACCESS_TOKEN = os.getenv('DHAN_ACCESS_TOKEN')
 
+API_SECRET_KEY = os.getenv('API_SECRET_KEY')
+if not API_SECRET_KEY or API_SECRET_KEY == 'change-me-to-a-strong-random-secret':
+    print("WARNING: API_SECRET_KEY not set or is default. Set a strong secret in .env file")
+
 if not DHAN_CLIENT_ID or not DHAN_ACCESS_TOKEN:
     print("WARNING: Dhan API credentials not found. Set DHAN_CLIENT_ID and DHAN_ACCESS_TOKEN in .env file")
     dhan = None
 else:
     dhan = dhanhq(DHAN_CLIENT_ID, DHAN_ACCESS_TOKEN)
-    print(f"DhanHQ client initialized for client: {DHAN_CLIENT_ID}")
+    print("DhanHQ client initialized")
 
 # Get the parent directory (project root) for serving static files
 PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..')
@@ -29,8 +35,8 @@ FRONTEND_DIR = os.path.join(PROJECT_ROOT, 'frontend')
 PAGES_DIR = os.path.join(FRONTEND_DIR, 'pages')
 
 app = Flask(__name__, static_folder=FRONTEND_DIR)
-# Enable CORS for all routes to allow requests from the frontend
-CORS(app)
+# Restrict CORS to trusted local origins only
+CORS(app, origins=["http://localhost:5001", "http://127.0.0.1:5001"])
 
 # Serve index.html from project root
 @app.route('/')
@@ -50,9 +56,20 @@ def serve_frontend(filename):
 def format_currency(value):
     return f"₹{value:,.2f}"
 
+from functools import wraps
+
+def require_auth(f):
+    """Decorator to authenticate requests via Bearer token"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        auth_header = request.headers.get('Authorization', '')
+        if not auth_header.startswith('Bearer ') or auth_header[7:] != API_SECRET_KEY:
+            return jsonify({"error": "Unauthorized"}), 401
+        return f(*args, **kwargs)
+    return decorated_function
+
 def require_dhan(f):
     """Decorator to check if Dhan client is available"""
-    from functools import wraps
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if dhan is None:
@@ -60,11 +77,33 @@ def require_dhan(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# Simple in-memory rate limiter: {ip: deque of request timestamps}
+_rate_limit_store = collections.defaultdict(collections.deque)
+
+def rate_limit(max_calls, period_seconds):
+    """Decorator: allow at most max_calls per period_seconds per IP."""
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            ip = request.remote_addr
+            now = time.monotonic()
+            timestamps = _rate_limit_store[ip]
+            # Evict timestamps outside the window
+            while timestamps and timestamps[0] < now - period_seconds:
+                timestamps.popleft()
+            if len(timestamps) >= max_calls:
+                return jsonify({"error": "Too many requests. Please slow down."}), 429
+            timestamps.append(now)
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
 # ===========================
 # ACCOUNT ENDPOINTS (DHAN API)
 # ===========================
 
 @app.route('/api/account/funds', methods=['GET'])
+@require_auth
 @require_dhan
 def get_fund_limits():
     """Get fund limits/balance from Dhan account"""
@@ -89,9 +128,11 @@ def get_fund_limits():
             return jsonify({"status": "failure", "error": response.get('remarks', 'Unknown error')}), 400
     except Exception as e:
         print(f"Fund limits error: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"Internal error in {request.path}: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
 
 @app.route('/api/account/holdings', methods=['GET'])
+@require_auth
 @require_dhan
 def get_holdings():
     """Get portfolio holdings from Dhan account"""
@@ -145,9 +186,11 @@ def get_holdings():
             return jsonify({"status": "failure", "error": remarks}), 400
     except Exception as e:
         print(f"Holdings error: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"Internal error in {request.path}: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
 
 @app.route('/api/account/positions', methods=['GET'])
+@require_auth
 @require_dhan
 def get_positions():
     """Get open positions from Dhan account"""
@@ -194,13 +237,15 @@ def get_positions():
             return jsonify({"status": "failure", "error": response.get('remarks', 'Unknown error')}), 400
     except Exception as e:
         print(f"Positions error: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"Internal error in {request.path}: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
 
 # ===========================
 # ORDER MANAGEMENT (DHAN API)
 # ===========================
 
 @app.route('/api/orders', methods=['GET'])
+@require_auth
 @require_dhan
 def get_orders():
     """Get order book from Dhan account"""
@@ -241,15 +286,26 @@ def get_orders():
             return jsonify({"status": "success", "data": {"orders": [], "total_orders": 0}})
     except Exception as e:
         print(f"Orders error: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"Internal error in {request.path}: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
 
 @app.route('/api/orders/place', methods=['POST'])
+@require_auth
 @require_dhan
 def place_order():
     """Place a new order via Dhan API"""
+    VALID_EXCHANGES = {'NSE', 'BSE', 'MCX'}
+    VALID_SEGMENTS = {'NSE_EQ', 'NSE_FNO', 'BSE_EQ', 'BSE_FNO', 'MCX_COMM'}
+    VALID_TRANSACTION_TYPES = {'BUY', 'SELL'}
+    VALID_ORDER_TYPES = {'MARKET', 'LIMIT', 'STOP_LOSS', 'STOP_LOSS_MARKET'}
+    VALID_PRODUCT_TYPES = {'CNC', 'INTRADAY', 'MARGIN', 'CO', 'BO'}
+    VALID_VALIDITY = {'DAY', 'IOC'}
+
     try:
         data = request.get_json()
-        
+        if not data:
+            return jsonify({"error": "Invalid JSON body"}), 400
+
         # Required fields
         security_id = data.get('security_id')
         exchange = data.get('exchange', 'NSE')
@@ -261,19 +317,43 @@ def place_order():
         price = data.get('price', 0)
         trigger_price = data.get('trigger_price', 0)
         validity = data.get('validity', 'DAY')
-        
-        if not security_id or not quantity:
+
+        if not security_id or quantity is None:
             return jsonify({"error": "security_id and quantity are required"}), 400
-        
+
+        try:
+            quantity = int(quantity)
+            price = float(price)
+            trigger_price = float(trigger_price)
+        except (TypeError, ValueError):
+            return jsonify({"error": "quantity must be an integer; price and trigger_price must be numbers"}), 400
+
+        if quantity <= 0:
+            return jsonify({"error": "quantity must be a positive integer"}), 400
+        if price < 0 or trigger_price < 0:
+            return jsonify({"error": "price and trigger_price must be non-negative"}), 400
+        if transaction_type not in VALID_TRANSACTION_TYPES:
+            return jsonify({"error": f"transaction_type must be one of {VALID_TRANSACTION_TYPES}"}), 400
+        if exchange not in VALID_EXCHANGES:
+            return jsonify({"error": f"exchange must be one of {VALID_EXCHANGES}"}), 400
+        if segment not in VALID_SEGMENTS:
+            return jsonify({"error": f"segment must be one of {VALID_SEGMENTS}"}), 400
+        if order_type not in VALID_ORDER_TYPES:
+            return jsonify({"error": f"order_type must be one of {VALID_ORDER_TYPES}"}), 400
+        if product_type not in VALID_PRODUCT_TYPES:
+            return jsonify({"error": f"product_type must be one of {VALID_PRODUCT_TYPES}"}), 400
+        if validity not in VALID_VALIDITY:
+            return jsonify({"error": f"validity must be one of {VALID_VALIDITY}"}), 400
+
         response = dhan.place_order(
             security_id=security_id,
             exchange_segment=segment,
             transaction_type=transaction_type,
-            quantity=int(quantity),
+            quantity=quantity,
             order_type=order_type,
             product_type=product_type,
-            price=float(price),
-            trigger_price=float(trigger_price),
+            price=price,
+            trigger_price=trigger_price,
             validity=validity
         )
         
@@ -290,9 +370,11 @@ def place_order():
             return jsonify({"status": "failure", "error": response.get('remarks', response)}), 400
     except Exception as e:
         print(f"Place order error: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"Internal error in {request.path}: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
 
 @app.route('/api/orders/modify', methods=['PUT'])
+@require_auth
 @require_dhan
 def modify_order():
     """Modify an existing order via Dhan API"""
@@ -328,9 +410,11 @@ def modify_order():
             return jsonify({"status": "failure", "error": response.get('remarks', response)}), 400
     except Exception as e:
         print(f"Modify order error: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"Internal error in {request.path}: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
 
 @app.route('/api/orders/cancel', methods=['DELETE'])
+@require_auth
 @require_dhan
 def cancel_order():
     """Cancel an existing order via Dhan API"""
@@ -352,9 +436,11 @@ def cancel_order():
             return jsonify({"status": "failure", "error": response.get('remarks', response)}), 400
     except Exception as e:
         print(f"Cancel order error: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"Internal error in {request.path}: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
 
 @app.route('/api/trades', methods=['GET'])
+@require_auth
 @require_dhan
 def get_trades():
     """Get trade book from Dhan account"""
@@ -389,7 +475,8 @@ def get_trades():
             return jsonify({"status": "success", "data": {"trades": [], "total_trades": 0}})
     except Exception as e:
         print(f"Trades error: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"Internal error in {request.path}: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
 
 # ===========================
 # DASHBOARD STATS (REAL DATA)
@@ -439,15 +526,16 @@ def get_stats():
 # ===========================
 
 @app.route('/api/search', methods=['GET'])
+@rate_limit(max_calls=30, period_seconds=60)
 def search_symbol():
     query = request.args.get('q')
     if not query:
         return jsonify({"bestMatches": []})
         
     try:
-        url = f"https://query2.finance.yahoo.com/v1/finance/search?q={query}&lang=en-US&region=IN&quotesCount=10&newsCount=0"
+        params = {'q': query, 'lang': 'en-US', 'region': 'IN', 'quotesCount': 10, 'newsCount': 0}
         headers = {'User-Agent': 'Mozilla/5.0'}
-        response = requests.get(url, headers=headers)
+        response = requests.get("https://query2.finance.yahoo.com/v1/finance/search", params=params, headers=headers)
         data = response.json()
         
         matches = []
@@ -477,11 +565,11 @@ def status():
     return jsonify({
         "status": "online",
         "service": "Satfin Python Market Data",
-        "dhan_api": dhan_status,
-        "client_id": DHAN_CLIENT_ID if dhan else None
+        "dhan_api": dhan_status
     })
 
 @app.route('/api/quote', methods=['GET'])
+@rate_limit(max_calls=60, period_seconds=60)
 def get_quote():
     symbol = request.args.get('symbol')
     if not symbol:
@@ -519,7 +607,8 @@ def get_quote():
         
     except Exception as e:
         print(f"Error fetching {symbol}: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"Internal error in {request.path}: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
 
 @app.route('/api/history', methods=['GET'])
 def get_history():
@@ -585,7 +674,8 @@ def get_history():
         
     except Exception as e:
         print(f"History error: {e}")
-        return jsonify({"error": str(e)}), 500
+        print(f"Internal error in {request.path}: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
 
 # ===========================
 # LEGACY ENDPOINTS (MOCK DATA)
@@ -650,4 +740,5 @@ def get_exposure():
 if __name__ == '__main__':
     print("Starting Satfin Python Backend on port 5001...")
     print(f"Dhan API: {'Connected' if dhan else 'Not configured'}")
-    app.run(debug=True, port=5001)
+    debug_mode = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
+    app.run(debug=debug_mode, port=5001)

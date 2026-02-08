@@ -56,8 +56,8 @@ tailwind.config = {
 }
 
 // App Configuration
+// NOTE: API keys must never be hardcoded here. Use backend endpoints instead.
 window.APP_CONFIG = {
-    ALPHA_VANTAGE_API_KEY: "9DYPCB792ENKLXZ3",
     PYTHON_API_URL: "http://127.0.0.1:5001/api",
     COMPANY_NAME: "SATFIN",
     TAGLINE: "Trading | Investing | Training",

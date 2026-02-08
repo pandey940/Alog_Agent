@@ -1,10 +1,17 @@
+function escapeHtml(str) {
+    if (str == null) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Mock position data
     const positionsData = [
-        { symbol: 'AAPL', qty: 50, avgEntry: 172.40, markPrice: 178.85 },
-        { symbol: 'MSFT', qty: 30, avgEntry: 400.00, markPrice: 415.32 },
-        { symbol: 'NVDA', qty: 15, avgEntry: 850.00, markPrice: 878.50 },
-        { symbol: 'GOOGL', qty: 20, avgEntry: 148.00, markPrice: 151.20 },
+        { symbol: 'RELIANCE', qty: 10, avgEntry: 2880.00, markPrice: 2945.50 },
+        { symbol: 'TCS', qty: 5, avgEntry: 3750.00, markPrice: 3820.00 },
+        { symbol: 'HDFCBANK', qty: 15, avgEntry: 1680.00, markPrice: 1720.30 },
+        { symbol: 'INFY', qty: 20, avgEntry: 1760.00, markPrice: 1785.00 },
     ];
 
     const tableBody = document.getElementById('positions-table-body');
@@ -38,19 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
             return `
                 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     <td class="px-4 py-3">
-                        <span class="font-semibold text-slate-900 dark:text-white">${pos.symbol}</span>
+                        <span class="font-semibold text-slate-900 dark:text-white">${escapeHtml(pos.symbol)}</span>
                     </td>
-                    <td class="px-4 py-3 text-right font-mono">${pos.qty}</td>
-                    <td class="px-4 py-3 text-right font-mono text-slate-500">₹${pos.avgEntry.toFixed(2)}</td>
-                    <td class="px-4 py-3 text-right font-mono font-semibold text-slate-900 dark:text-white">₹${pos.markPrice.toFixed(2)}</td>
+                    <td class="px-4 py-3 text-right font-mono">${escapeHtml(String(pos.qty))}</td>
+                    <td class="px-4 py-3 text-right font-mono text-slate-500">₹${escapeHtml(pos.avgEntry.toFixed(2))}</td>
+                    <td class="px-4 py-3 text-right font-mono font-semibold text-slate-900 dark:text-white">₹${escapeHtml(pos.markPrice.toFixed(2))}</td>
                     <td class="px-4 py-3 text-right font-mono font-semibold ${isProfit ? 'text-emerald-500' : 'text-rose-500'}">
-                        ${isProfit ? '+' : ''}₹${pnlDollar.toFixed(2)}
+                        ${isProfit ? '+' : ''}₹${escapeHtml(pnlDollar.toFixed(2))}
                     </td>
                     <td class="px-4 py-3 text-right font-mono font-semibold ${isProfit ? 'text-emerald-500' : 'text-rose-500'}">
-                        ${isProfit ? '+' : ''}${pnlPercent.toFixed(2)}%
+                        ${isProfit ? '+' : ''}${escapeHtml(pnlPercent.toFixed(2))}%
                     </td>
                     <td class="px-4 py-3 text-right">
-                        <button class="px-3 py-1 text-xs font-semibold bg-rose-500 hover:bg-rose-600 text-white rounded transition-colors" onclick="closePosition('${pos.symbol}')">Close</button>
+                        <button class="px-3 py-1 text-xs font-semibold bg-rose-500 hover:bg-rose-600 text-white rounded transition-colors" data-action="close" data-symbol="${escapeHtml(pos.symbol)}">Close</button>
                     </td>
                 </tr>
             `;
@@ -70,13 +77,17 @@ document.addEventListener('DOMContentLoaded', () => {
         pnlElement.innerHTML = `${isOverallProfit ? '+' : ''}₹${totalPnl.toFixed(0)} <span class="text-sm font-medium">(${isOverallProfit ? '+' : ''}${totalPnlPercent.toFixed(1)}%)</span>`;
     };
 
-    // Global close function
-    window.closePosition = (symbol) => {
-        if (confirm(`Close entire position in ${symbol}?`)) {
-            alert(`Position in ${symbol} closed at market price.`);
-            // In real app, remove from data and re-render
+    // Event delegation for close buttons
+    tableBody.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-action="close"]');
+        if (btn) {
+            const symbol = btn.dataset.symbol;
+            if (confirm(`Close entire position in ${symbol}?`)) {
+                alert(`Position in ${symbol} closed at market price.`);
+                // In real app, remove from data and re-render
+            }
         }
-    };
+    });
 
     // Initial render
     renderPositions();

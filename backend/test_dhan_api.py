@@ -27,7 +27,7 @@ def test_connection():
         return False
     
     print(f"✓ Client ID: {DHAN_CLIENT_ID}")
-    print(f"✓ Access Token: {DHAN_ACCESS_TOKEN[:20]}...{DHAN_ACCESS_TOKEN[-10:]}")
+    print("✓ Access Token: [redacted]")
     print()
     
     try:

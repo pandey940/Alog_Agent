@@ -268,10 +268,7 @@ body {
     overflow: hidden;
     transition: max-height 0.3s ease-out;
 }
-
-.submenu.open {
-    max-height: 500px;
-}
+/* max-height for .submenu.open is set dynamically via JS (scrollHeight) to avoid close-animation delay */
 
 .submenu-item {
     display: flex;

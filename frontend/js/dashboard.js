@@ -45,17 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500); // Debounce for 500ms
     });
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-            searchResults.classList.add('hidden');
-        }
-    });
 
     async function fetchStockData(query) {
         // Use local Python API for search (Yahoo Finance Autocomplete)
         const baseUrl = window.APP_CONFIG.PYTHON_API_URL || 'http://127.0.0.1:5001/api';
-        const url = `${baseUrl}/search?q=${query}`;
+        const url = `${baseUrl}/search?q=${encodeURIComponent(query)}`;
 
         try {
             const response = await fetch(url);
@@ -166,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Extract data from Python API response
-            const price = data.price;
             const change = data.change;
             const changePercent = data.change_percent;
             const formattedPrice = data.formatted_price;
@@ -226,8 +219,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Close dropdowns when clicking outside
+    // Close all dropdowns when clicking outside (consolidated listener)
     document.addEventListener('click', (e) => {
+        if (searchInput && !searchInput.contains(e.target) && searchResults && !searchResults.contains(e.target)) {
+            searchResults.classList.add('hidden');
+        }
         if (notificationDropdown && !notificationDropdown.contains(e.target) && !notificationBtn?.contains(e.target)) {
             notificationDropdown.classList.add('hidden');
         }
@@ -533,7 +529,7 @@ async function fetchAllBarQuotes() {
     const results = await Promise.allSettled(
         allSymbols.map(sym => fetch(`${baseUrl}/quote?symbol=${sym}`).then(r => r.json()))
     );
-    results.forEach((result, i) => {
+    results.forEach((result) => {
         if (result.status === 'fulfilled' && result.value && !result.value.error) {
             const d = result.value;
             updateTopStockChipQuote(d.symbol, d.change_percent, d.formatted_price);
@@ -991,18 +987,6 @@ function getUnitForPeriod(period) {
     if (period === '6mo') return 'month';
     return 'month';
 }
-
-function getTimeConfig(period) {
-    if (period === '1d') {
-        return {
-            unit: 'minute',
-            displayFormats: { minute: 'h:mm a' },
-            tooltipFormat: 'h:mm a'
-        };
-    }
-    return { unit: getUnitForPeriod(period) };
-}
-
 
 
 
