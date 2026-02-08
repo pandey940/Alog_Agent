@@ -12,21 +12,21 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
 # Load environment variables from .env file
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
+load_dotenv()
 
 # Initialize DhanHQ client with credentials from environment variables
-DHAN_CLIENT_ID = os.getenv('DHAN_CLIENT_ID')
-DHAN_ACCESS_TOKEN = os.getenv('DHAN_ACCESS_TOKEN')
+client_id = os.getenv('DHAN_CLIENT_ID')
+access_token = os.getenv('DHAN_ACCESS_TOKEN')
 
 API_SECRET_KEY = os.getenv('API_SECRET_KEY')
 if not API_SECRET_KEY or API_SECRET_KEY == 'change-me-to-a-strong-random-secret':
     print("WARNING: API_SECRET_KEY not set or is default. Set a strong secret in .env file")
 
-if not DHAN_CLIENT_ID or not DHAN_ACCESS_TOKEN:
+if not client_id or not access_token:
     print("WARNING: Dhan API credentials not found. Set DHAN_CLIENT_ID and DHAN_ACCESS_TOKEN in .env file")
     dhan = None
 else:
-    dhan = dhanhq(DHAN_CLIENT_ID, DHAN_ACCESS_TOKEN)
+    dhan = dhanhq(client_id, access_token)
     print("DhanHQ client initialized")
 
 # Get the parent directory (project root) for serving static files
