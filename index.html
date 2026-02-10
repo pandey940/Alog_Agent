@@ -89,6 +89,7 @@
                         <a href="frontend/pages/paper_trading.html" class="submenu-item">Paper Trading</a>
                         <a href="frontend/pages/orders.html" class="submenu-item">Orders</a>
                         <a href="frontend/pages/positions.html" class="submenu-item">Positions</a>
+                        <a href="frontend/pages/agent.html" class="submenu-item">AI Agent</a>
                     </div>
                 </div>
 
@@ -143,23 +144,24 @@
             </nav>
             <div class="p-4 space-y-4">
                 <!-- AI Agent Status -->
-                <div class="p-3 bg-primary/10 border border-primary/20 rounded-lg">
+                <a href="frontend/pages/agent.html"
+                    class="block p-3 bg-primary/10 border border-primary/20 rounded-lg hover:bg-primary/15 transition-colors cursor-pointer no-underline">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-[10px] uppercase tracking-widest text-primary font-bold">AI Agent</span>
-                        <span class="size-2 rounded-full bg-green-400 animate-pulse"></span>
+                        <span id="agentDot" class="size-2 rounded-full bg-slate-400"></span>
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary text-xl">smart_toy</span>
                         <div>
                             <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Satfin AI</h3>
-                            <p class="text-xs text-green-400">Running • 3 Active</p>
+                            <p id="agentStatusText" class="text-xs text-slate-400">Checking...</p>
                         </div>
                     </div>
-                    <div class="mt-2 text-[10px] text-slate-500 dark:text-slate-400">
-                        Last Analysis: 2 min ago
+                    <div id="agentLastScan" class="mt-2 text-[10px] text-slate-500 dark:text-slate-400">
+                        Last Analysis: —
                     </div>
-                </div>
-                <button
+                </a>
+                <button id="dashKillSwitch" onclick="dashboardKillSwitch()"
                     class="w-full flex items-center justify-center gap-2 py-3 rounded bg-danger hover:bg-danger/90 text-white font-bold text-xs tracking-widest uppercase transition-all shadow-lg shadow-danger/20">
                     <span class="material-symbols-outlined text-base">emergency_home</span>
                     KILL SWITCH
@@ -559,6 +561,59 @@
         </main>
     </div>
     <script src="frontend/js/sidebar.js?v=2.4"></script>
+    <script>
+        // AI Agent widget — live status from backend
+        (function () {
+            const API = (window.APP_CONFIG?.PYTHON_API_URL || 'http://127.0.0.1:5001/api');
+            const TOKEN = window.APP_CONFIG?.API_TOKEN || 'change-me-to-a-strong-random-secret';
+            const hdr = { 'Authorization': 'Bearer ' + TOKEN, 'Content-Type': 'application/json' };
+
+            async function refreshAgentStatus() {
+                try {
+                    const [cfgRes, sigRes] = await Promise.all([
+                        fetch(API + '/agent/config', { headers: hdr }).then(r => r.json()),
+                        fetch(API + '/agent/signals', { headers: hdr }).then(r => r.json())
+                    ]);
+                    const dot = document.getElementById('agentDot');
+                    const txt = document.getElementById('agentStatusText');
+                    const last = document.getElementById('agentLastScan');
+                    if (!dot || !txt) return;
+
+                    const active = cfgRes?.data?.agent_active;
+                    const stats = sigRes?.stats || {};
+                    const count = stats.qualified || 0;
+
+                    if (active) {
+                        dot.className = 'size-2 rounded-full bg-green-400 animate-pulse';
+                        txt.className = 'text-xs text-green-400';
+                        txt.textContent = 'Running • ' + count + ' Qualified';
+                    } else {
+                        dot.className = 'size-2 rounded-full bg-red-400';
+                        txt.className = 'text-xs text-red-400';
+                        txt.textContent = 'Deactivated';
+                    }
+
+                    if (stats.total_signals > 0) {
+                        last.textContent = 'Signals: ' + stats.total_signals + ' total';
+                    }
+                } catch (e) {
+                    const txt = document.getElementById('agentStatusText');
+                    if (txt) { txt.textContent = 'Offline'; txt.className = 'text-xs text-slate-400'; }
+                }
+            }
+
+            window.dashboardKillSwitch = async function () {
+                if (!confirm('⚠️ This will deactivate the agent and clear ALL signals. Continue?')) return;
+                try {
+                    await fetch(API + '/agent/kill', { method: 'POST', headers: hdr });
+                    refreshAgentStatus();
+                } catch (e) { alert('Kill switch failed'); }
+            };
+
+            refreshAgentStatus();
+            setInterval(refreshAgentStatus, 30000);
+        })();
+    </script>
 </body>
 
 </html>

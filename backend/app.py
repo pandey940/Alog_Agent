@@ -679,6 +679,202 @@ def get_history():
         return jsonify({"error": "An internal server error occurred"}), 500
 
 # ===========================
+# AI AGENT ENDPOINTS
+# ===========================
+
+import agent_config
+import agent_engine
+import agent_log
+
+@app.route('/api/agent/config', methods=['GET'])
+@require_auth
+def get_agent_config():
+    """Return current agent configuration."""
+    try:
+        config = agent_config.get_config()
+        config["agent_active"] = agent_config.is_agent_active()
+        config["available_sectors"] = sorted(agent_config.SECTOR_SCRIPS.keys())
+        return jsonify({"status": "success", "data": config})
+    except Exception as e:
+        print(f"Agent config error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+@app.route('/api/agent/configure', methods=['POST'])
+@require_auth
+def update_agent_config():
+    """Update agent configuration with user-defined values."""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid JSON body"}), 400
+        updated = agent_config.update_config(data)
+        updated["agent_active"] = agent_config.is_agent_active()
+        return jsonify({"status": "success", "message": "Configuration updated", "data": updated})
+    except ValueError as ve:
+        return jsonify({"status": "failure", "error": str(ve)}), 400
+    except Exception as e:
+        print(f"Agent configure error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+@app.route('/api/agent/scan', methods=['POST'])
+@require_auth
+@rate_limit(max_calls=5, period_seconds=60)
+def agent_scan():
+    """Trigger a market scan across allowed sectors. Returns generated signals."""
+    try:
+        if not agent_config.is_agent_active():
+            return jsonify({"status": "failure", "error": "Agent is deactivated. Use kill switch reset to reactivate."}), 403
+
+        config = agent_config.get_config()
+
+        # Fetch real capital from Dhan if available
+        if dhan:
+            try:
+                fund_response = dhan.get_fund_limits()
+                if fund_response.get('status') == 'success':
+                    capital = fund_response.get('data', {}).get('availabelBalance', 0)
+                    agent_config.set_capital(capital)
+                    config["capital_available"] = capital
+            except Exception as e:
+                print(f"[Agent] Could not fetch capital from Dhan: {e}")
+
+        # Run the scan
+        signals = agent_engine.scan_markets(config)
+
+        # Log all signals
+        logged_signals = []
+        for sig in signals:
+            logged = agent_log.log_signal(sig)
+            logged_signals.append(logged)
+
+        # Cache results
+        agent_log.store_scan_results(logged_signals)
+
+        return jsonify({
+            "status": "success",
+            "scan_time": datetime.now().isoformat(),
+            "total_signals": len(logged_signals),
+            "qualified": sum(1 for s in logged_signals if s["signal_status"] == "QUALIFIED"),
+            "rejected": sum(1 for s in logged_signals if s["signal_status"] == "REJECTED"),
+            "signals": logged_signals,
+            "config_snapshot": {
+                "trading_mode": config["trading_mode"],
+                "execution_mode": config["execution_mode"],
+                "allowed_sectors": config["allowed_sectors"],
+                "capital_available": config["capital_available"],
+            }
+        })
+    except Exception as e:
+        print(f"Agent scan error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+@app.route('/api/agent/signals', methods=['GET'])
+@require_auth
+def get_agent_signals():
+    """Return cached signals from the last scan."""
+    try:
+        signals = agent_log.get_signals()
+        stats = agent_log.get_stats()
+        return jsonify({
+            "status": "success",
+            "signals": signals,
+            "stats": stats,
+        })
+    except Exception as e:
+        print(f"Agent signals error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+@app.route('/api/agent/log', methods=['GET'])
+@require_auth
+def get_agent_log():
+    """Return the full decision log."""
+    try:
+        limit = request.args.get('limit', 50, type=int)
+        log_entries = agent_log.get_log(limit)
+        stats = agent_log.get_stats()
+        return jsonify({
+            "status": "success",
+            "log": log_entries,
+            "stats": stats,
+        })
+    except Exception as e:
+        print(f"Agent log error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+@app.route('/api/agent/approve/<signal_id>', methods=['POST'])
+@require_auth
+def approve_signal(signal_id):
+    """Approve a MANUAL_CONFIRM signal."""
+    try:
+        signal = agent_log.get_signal_by_id(signal_id)
+        if not signal:
+            return jsonify({"error": "Signal not found"}), 404
+        if signal.get("signal_status") != "QUALIFIED":
+            return jsonify({"error": "Only QUALIFIED signals can be approved"}), 400
+        if signal.get("execution_instruction") != "WAIT_FOR_USER_CONFIRMATION":
+            return jsonify({"error": "Signal is not awaiting user confirmation"}), 400
+
+        updated = agent_log.update_signal_status(signal_id, "APPROVED")
+        return jsonify({
+            "status": "success",
+            "message": f"Signal {signal_id} approved",
+            "signal": updated,
+        })
+    except Exception as e:
+        print(f"Approve signal error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+@app.route('/api/agent/reject/<signal_id>', methods=['POST'])
+@require_auth
+def reject_signal(signal_id):
+    """Reject a signal by user decision."""
+    try:
+        signal = agent_log.get_signal_by_id(signal_id)
+        if not signal:
+            return jsonify({"error": "Signal not found"}), 404
+
+        updated = agent_log.update_signal_status(signal_id, "REJECTED_BY_USER")
+        return jsonify({
+            "status": "success",
+            "message": f"Signal {signal_id} rejected",
+            "signal": updated,
+        })
+    except Exception as e:
+        print(f"Reject signal error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+@app.route('/api/agent/kill', methods=['POST'])
+@require_auth
+def agent_kill_switch():
+    """Emergency kill switch — deactivate agent and clear all signals."""
+    try:
+        agent_config.deactivate_agent()
+        agent_log.clear_all()
+        return jsonify({
+            "status": "success",
+            "message": "Agent deactivated. All signals and logs cleared.",
+            "agent_active": False,
+        })
+    except Exception as e:
+        print(f"Kill switch error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+@app.route('/api/agent/activate', methods=['POST'])
+@require_auth
+def agent_activate():
+    """Reactivate agent after kill switch."""
+    try:
+        agent_config.activate_agent()
+        return jsonify({
+            "status": "success",
+            "message": "Agent reactivated.",
+            "agent_active": True,
+        })
+    except Exception as e:
+        print(f"Activate error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+# ===========================
 # LEGACY ENDPOINTS (MOCK DATA)
 # ===========================
 

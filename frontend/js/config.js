@@ -61,6 +61,9 @@ window.APP_CONFIG = {
     // DEVELOPMENT (Localhost):
     PYTHON_API_URL: "http://127.0.0.1:5001/api",
 
+    // API Auth Token — must match API_SECRET_KEY in .env
+    API_TOKEN: "change-me-to-a-strong-random-secret",
+
     // PRODUCTION (GCP Backend):
     // Replace the URL below with your GCP External IP (hurry, verify this on GCP!)
     // PYTHON_API_URL: "http://<YOUR_GCP_EXTERNAL_IP>:5001/api",

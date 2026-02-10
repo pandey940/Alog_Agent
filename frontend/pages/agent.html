@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <title>AI Market Intelligence Agent | SATFIN</title>
+    <meta name="description"
+        content="SATFIN AI Market Intelligence Agent — Rule-based signal generation for Indian stock market.">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="../js/config.js"></script>
+    <link href="../css/style.css" rel="stylesheet" />
+    <style>
+        .signal-pulse {
+            animation: signalPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes signalPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .scan-spin {
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .rule-check {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .rule-pass {
+            background: rgba(26, 122, 76, 0.15);
+            color: #1a7a4c;
+        }
+
+        .rule-fail {
+            background: rgba(201, 42, 42, 0.15);
+            color: #c92a2a;
+        }
+
+        .config-input {
+            background: #ffffff !important;
+            border: 1px solid rgba(100, 116, 139, 0.4);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827 !important;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+
+        .config-input:focus {
+            outline: none;
+            border-color: #9d8a4d;
+            box-shadow: 0 0 0 2px rgba(157, 138, 77, 0.2);
+        }
+
+        .config-input option {
+            background: #ffffff;
+            color: #111827;
+        }
+
+        .sector-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(100, 116, 139, 0.3);
+        }
+
+        .sector-chip.active {
+            background: rgba(157, 138, 77, 0.2);
+            border-color: #9d8a4d;
+            color: #9d8a4d;
+        }
+
+        .sector-chip:not(.active) {
+            color: #64748b;
+        }
+
+        .sector-chip:not(.active):hover {
+            border-color: #9d8a4d;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+    <div id="sidebarOverlay" class="sidebar-overlay hidden"></div>
+    <div class="flex h-screen overflow-hidden">
+        <button id="mobileMenuBtn" class="mobile-menu-btn lg:hidden">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+        <aside id="sidebar"
+            class="sidebar-nav w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0">
+            <button id="sidebarCloseBtn" class="sidebar-close-btn lg:hidden">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="p-4 border-b border-slate-200 dark:border-border-dark">
+                <div class="flex items-center justify-center">
+                    <img src="../img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
+                </div>
+                <p class="text-center text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
+                    Platform</p>
+            </div>
+            <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
+                <a href="/" class="nav-item text-slate-600 dark:text-slate-400">
+                    <span class="material-symbols-outlined text-xl">dashboard</span><span
+                        class="text-sm font-medium">Dashboard</span>
+                </a>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Trading</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">settings_input_component</span><span
+                            class="text-sm font-medium">Strategies</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="strategy_library.html" class="submenu-item">Strategy Library</a><a
+                            href="my_strategies.html" class="submenu-item">My Strategies</a><a
+                            href="create_strategy.html" class="submenu-item">Create New</a></div>
+                </div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">bolt</span><span
+                            class="text-sm font-medium">Trading</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="live_trading.html" class="submenu-item">Live Trading</a><a
+                            href="paper_trading.html" class="submenu-item">Paper Trading</a><a href="orders.html"
+                            class="submenu-item">Orders</a><a href="positions.html" class="submenu-item">Positions</a><a
+                            href="agent.html" class="submenu-item active">AI Agent</a></div>
+                </div>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Analytics</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">analytics</span><span
+                            class="text-sm font-medium">Performance</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="backtesting.html" class="submenu-item">Backtesting</a><a
+                            href="reports.html" class="submenu-item">Reports</a><a href="trade_journal.html"
+                            class="submenu-item">Trade Journal</a></div>
+                </div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">show_chart</span><span
+                            class="text-sm font-medium">Market Data</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="watchlist.html" class="submenu-item">Watchlist</a><a
+                            href="screener.html" class="submenu-item">Stock Screener</a><a href="market_news.html"
+                            class="submenu-item">Market News</a></div>
+                </div>
+                <div class="menu-section-divider"></div>
+                <div class="menu-section-label">Configuration</div>
+                <div class="nav-group">
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
+                            class="material-symbols-outlined text-xl">settings</span><span
+                            class="text-sm font-medium">Settings</span><span
+                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="risk_management.html" class="submenu-item">Risk Management</a><a
+                            href="api_connections.html" class="submenu-item">API Connections</a><a
+                            href="notifications.html" class="submenu-item">Notifications</a><a href="account.html"
+                            class="submenu-item">Account</a></div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50 dark:bg-background-dark">
+            <!-- Header -->
+            <header
+                class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex items-center justify-between px-8 shrink-0">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary text-2xl">smart_toy</span>
+                    <div>
+                        <h1 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wide">AI Market
+                            Intelligence</h1>
+                        <p class="text-[10px] text-slate-500 uppercase tracking-wider">Signal Generation Agent</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <!-- Agent Status Badge -->
+                    <div id="agentStatusBadge"
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full"></span>
+                        <span class="status-text">Loading...</span>
+                    </div>
+                    <!-- Trading Mode Badge -->
+                    <div id="tradingModeBadge"
+                        class="px-3 py-1.5 rounded-lg border text-[10px] font-bold uppercase tracking-widest">
+                        PAPER
+                    </div>
+                </div>
+            </header>
+
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar">
+
+                <!-- Status Cards Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div
+                        class="bg-white dark:bg-panel-dark p-4 rounded-lg border border-slate-200 dark:border-slate-800">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Capital Available
+                        </p>
+                        <p class="text-xl font-extrabold" id="stat-capital">₹0.00</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-panel-dark p-4 rounded-lg border border-slate-200 dark:border-slate-800">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Signals Generated
+                        </p>
+                        <p class="text-xl font-extrabold" id="stat-total">0</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-panel-dark p-4 rounded-lg border border-slate-200 dark:border-slate-800">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Qualified</p>
+                        <p class="text-xl font-extrabold text-success" id="stat-qualified">0</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-panel-dark p-4 rounded-lg border border-slate-200 dark:border-slate-800">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Rejected</p>
+                        <p class="text-xl font-extrabold text-danger" id="stat-rejected">0</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-panel-dark p-4 rounded-lg border border-slate-200 dark:border-slate-800">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Last Scan</p>
+                        <p class="text-sm font-bold" id="stat-last-scan">Never</p>
+                    </div>
+                </div>
+
+                <!-- Main Grid: Config + Signals -->
+                <div class="grid grid-cols-12 gap-6">
+
+                    <!-- Configuration Panel (Left) -->
+                    <div class="col-span-12 lg:col-span-4 space-y-4">
+                        <div
+                            class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
+                            <div
+                                class="px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                <h3 class="text-xs font-bold uppercase tracking-wide flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary text-sm">tune</span>
+                                    Agent Configuration
+                                </h3>
+                                <button id="saveConfigBtn"
+                                    class="px-3 py-1 bg-primary hover:bg-primary-dark text-white text-[10px] font-bold uppercase rounded transition-all">Save</button>
+                            </div>
+                            <div class="p-5 space-y-4">
+                                <!-- Sectors -->
+                                <div>
+                                    <label
+                                        class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-2">Allowed
+                                        Sectors</label>
+                                    <div id="sectorChips" class="flex flex-wrap gap-2">
+                                        <!-- Filled by JS -->
+                                    </div>
+                                </div>
+                                <!-- Risk Settings -->
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label
+                                            class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Max
+                                            Capital / Trade (%)</label>
+                                        <input type="number" id="cfgMaxCapital" class="config-input" value="5" min="1"
+                                            max="100" step="1">
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Risk
+                                            / Trade (%)</label>
+                                        <input type="number" id="cfgRiskPerTrade" class="config-input" value="2"
+                                            min="0.5" max="100" step="0.5">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label
+                                            class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Max
+                                            Trades / Day</label>
+                                        <input type="number" id="cfgMaxTrades" class="config-input" value="3" min="1"
+                                            max="50" step="1">
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Stop
+                                            Loss (%)</label>
+                                        <input type="number" id="cfgStopLoss" class="config-input" value="1.5" min="0.1"
+                                            max="50" step="0.1">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label
+                                            class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Target
+                                            Profit (%)</label>
+                                        <input type="number" id="cfgTargetProfit" class="config-input" value="3"
+                                            min="0.5" max="100" step="0.5">
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Execution
+                                            Mode</label>
+                                        <select id="cfgExecutionMode" class="config-input">
+                                            <option value="MANUAL_CONFIRM">Manual Confirm</option>
+                                            <option value="AUTO_RULED">Auto Ruled</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label
+                                        class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Trading
+                                        Mode</label>
+                                    <select id="cfgTradingMode" class="config-input">
+                                        <option value="PAPER">Paper Trading</option>
+                                        <option value="LIVE">Live Trading</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scan Button -->
+                        <button id="scanBtn"
+                            class="w-full py-3.5 rounded-lg bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white font-bold text-sm uppercase tracking-widest transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-lg" id="scanIcon">radar</span>
+                            <span id="scanText">Scan Markets</span>
+                        </button>
+
+                        <!-- Kill Switch -->
+                        <div class="flex gap-2">
+                            <button id="killSwitchBtn"
+                                class="flex-1 py-2.5 rounded-lg bg-danger hover:bg-danger/90 text-white font-bold text-xs uppercase tracking-widest transition-all shadow-lg shadow-danger/20 flex items-center justify-center gap-1.5">
+                                <span class="material-symbols-outlined text-sm">emergency_home</span>
+                                Kill Switch
+                            </button>
+                            <button id="activateBtn"
+                                class="flex-1 py-2.5 rounded-lg bg-success hover:bg-success/90 text-white font-bold text-xs uppercase tracking-widest transition-all hidden items-center justify-center gap-1.5">
+                                <span class="material-symbols-outlined text-sm">play_arrow</span>
+                                Reactivate
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Signals Panel (Right) -->
+                    <div class="col-span-12 lg:col-span-8 space-y-4">
+                        <!-- Signals Table -->
+                        <div
+                            class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
+                            <div
+                                class="px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                <h3 class="text-xs font-bold uppercase tracking-wide flex items-center gap-2">
+                                    <span
+                                        class="material-symbols-outlined text-primary text-sm">notifications_active</span>
+                                    Trade Signals
+                                </h3>
+                                <span class="text-[10px] text-slate-500 font-mono" id="signalCount">0 signals</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead
+                                        class="bg-slate-50 dark:bg-slate-800/30 text-[10px] uppercase tracking-wider text-slate-500">
+                                        <tr>
+                                            <th class="text-left px-4 py-2.5 font-bold">Symbol</th>
+                                            <th class="text-left px-4 py-2.5 font-bold">Sector</th>
+                                            <th class="text-right px-4 py-2.5 font-bold">Entry</th>
+                                            <th class="text-right px-4 py-2.5 font-bold">SL</th>
+                                            <th class="text-right px-4 py-2.5 font-bold">Target</th>
+                                            <th class="text-center px-4 py-2.5 font-bold">R:R</th>
+                                            <th class="text-center px-4 py-2.5 font-bold">Status</th>
+                                            <th class="text-center px-4 py-2.5 font-bold">Rules</th>
+                                            <th class="text-center px-4 py-2.5 font-bold">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="signalsTableBody"
+                                        class="divide-y divide-slate-100 dark:divide-slate-800">
+                                        <tr>
+                                            <td colspan="9" class="px-4 py-8 text-center text-slate-400 text-xs">
+                                                <span
+                                                    class="material-symbols-outlined text-3xl block mb-2 text-slate-300">radar</span>
+                                                No signals yet. Click "Scan Markets" to begin analysis.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Decision Log -->
+                        <div
+                            class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
+                            <div
+                                class="px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                <h3 class="text-xs font-bold uppercase tracking-wide flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary text-sm">history</span>
+                                    Decision Log
+                                </h3>
+                                <button id="refreshLogBtn"
+                                    class="text-[10px] text-primary font-bold uppercase flex items-center gap-1 hover:underline">
+                                    <span class="material-symbols-outlined text-xs">refresh</span> Refresh
+                                </button>
+                            </div>
+                            <div id="decisionLog" class="max-h-64 overflow-y-auto">
+                                <div class="px-5 py-4 text-center text-slate-400 text-xs">No log entries yet.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/agent.js"></script>
+</body>
+
+</html>
