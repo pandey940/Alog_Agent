@@ -11,9 +11,9 @@
         rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-    <title>AI Market Intelligence Agent | SATFIN</title>
+    <title>AI Market Intelligence Agent | Algo Agent</title>
     <meta name="description"
-        content="SATFIN AI Market Intelligence Agent — Rule-based signal generation for Indian stock market.">
+        content="Algo Agent AI Market Intelligence Agent — Rule-based signal generation for Indian stock market.">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="../js/config.js"></script>
     <link href="../css/style.css" rel="stylesheet" />
@@ -57,12 +57,12 @@
 
         .rule-pass {
             background: rgba(26, 122, 76, 0.15);
-            color: #1a7a4c;
+            color: #00E676;
         }
 
         .rule-fail {
             background: rgba(201, 42, 42, 0.15);
-            color: #c92a2a;
+            color: #FF5252;
         }
 
         .config-input {
@@ -79,8 +79,8 @@
 
         .config-input:focus {
             outline: none;
-            border-color: #9d8a4d;
-            box-shadow: 0 0 0 2px rgba(157, 138, 77, 0.2);
+            border-color: #00E5CC;
+            box-shadow: 0 0 0 2px rgba(0, 229, 204, 0.2);
         }
 
         .config-input option {
@@ -102,9 +102,9 @@
         }
 
         .sector-chip.active {
-            background: rgba(157, 138, 77, 0.2);
-            border-color: #9d8a4d;
-            color: #9d8a4d;
+            background: rgba(0, 229, 204, 0.2);
+            border-color: #00E5CC;
+            color: #00E5CC;
         }
 
         .sector-chip:not(.active) {
@@ -112,7 +112,7 @@
         }
 
         .sector-chip:not(.active):hover {
-            border-color: #9d8a4d;
+            border-color: #00E5CC;
         }
 
         .fade-in {
@@ -144,12 +144,10 @@
             <button id="sidebarCloseBtn" class="sidebar-close-btn lg:hidden">
                 <span class="material-symbols-outlined">close</span>
             </button>
-            <div class="p-4 border-b border-slate-200 dark:border-border-dark">
-                <div class="flex items-center justify-center">
-                    <img src="../img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
-                </div>
-                <p class="text-center text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
-                    Platform</p>
+            <div class="p-4 border-b border-slate-200 dark:border-border-dark flex flex-col items-center justify-center">
+                <img src="../img/alog-logo.png" alt="Alog Logo" class="h-16 w-16 rounded-lg object-contain">
+                <h1 class="text-sm font-bold text-slate-900 dark:text-white tracking-wide mt-2">Algo Agent</h1>
+                <p class="text-[10px] text-slate-500 uppercase tracking-wider">Algo Trading</p>
             </div>
             <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
                 <a href="/" class="nav-item text-slate-600 dark:text-slate-400">
@@ -370,6 +368,53 @@
                             <span id="scanText">Scan Markets</span>
                         </button>
 
+                        <!-- Auto Trading Controls -->
+                        <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
+                            <div class="px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                <h3 class="text-xs font-bold uppercase tracking-wide flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary text-sm">auto_mode</span>
+                                    Autonomous Trading
+                                </h3>
+                                <div id="autoStatusBadge" class="flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-bold uppercase border border-slate-300 dark:border-slate-700 text-slate-500">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                    Stopped
+                                </div>
+                            </div>
+                            <div class="p-5 space-y-3">
+                                <div class="grid grid-cols-2 gap-3 text-center">
+                                    <div class="p-2 bg-slate-50 dark:bg-slate-800/30 rounded">
+                                        <p class="text-[10px] text-slate-500 uppercase font-bold">Open Positions</p>
+                                        <p class="text-lg font-extrabold" id="stat-open-positions">0</p>
+                                    </div>
+                                    <div class="p-2 bg-slate-50 dark:bg-slate-800/30 rounded">
+                                        <p class="text-[10px] text-slate-500 uppercase font-bold">Trades Today</p>
+                                        <p class="text-lg font-extrabold" id="stat-trades-today">0</p>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] text-slate-500 flex justify-between">
+                                    <span>Next scan in: <span id="autoNextScan" class="font-bold text-slate-300">--</span></span>
+                                    <span>Market: <span id="autoMarketStatus" class="font-bold">--</span></span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button id="startAutoBtn"
+                                        class="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-success to-emerald-600 hover:from-emerald-600 hover:to-success text-white font-bold text-xs uppercase tracking-widest transition-all shadow-lg shadow-success/20 flex items-center justify-center gap-1.5">
+                                        <span class="material-symbols-outlined text-sm">play_arrow</span>
+                                        Start Auto
+                                    </button>
+                                    <button id="stopAutoBtn"
+                                        class="flex-1 py-2.5 rounded-lg bg-slate-600 hover:bg-slate-500 text-white font-bold text-xs uppercase tracking-widest transition-all hidden items-center justify-center gap-1.5">
+                                        <span class="material-symbols-outlined text-sm">stop</span>
+                                        Stop Auto
+                                    </button>
+                                </div>
+                                <button id="forceRunBtn"
+                                    class="w-full py-2 rounded-lg border border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary font-bold text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-1.5">
+                                    <span class="material-symbols-outlined text-xs">bolt</span>
+                                    Force Run Now (Testing)
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- Kill Switch -->
                         <div class="flex gap-2">
                             <button id="killSwitchBtn"
@@ -422,6 +467,40 @@
                                                 <span
                                                     class="material-symbols-outlined text-3xl block mb-2 text-slate-300">radar</span>
                                                 No signals yet. Click "Scan Markets" to begin analysis.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Open Positions (Agent Managed) -->
+                        <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
+                            <div class="px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                <h3 class="text-xs font-bold uppercase tracking-wide flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary text-sm">trending_up</span>
+                                    Open Positions (Agent)
+                                </h3>
+                                <span class="text-[10px] text-slate-500 font-mono" id="openPositionCount">0 positions</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-slate-50 dark:bg-slate-800/30 text-[10px] uppercase tracking-wider text-slate-500">
+                                        <tr>
+                                            <th class="text-left px-4 py-2.5 font-bold">Symbol</th>
+                                            <th class="text-right px-4 py-2.5 font-bold">Entry</th>
+                                            <th class="text-right px-4 py-2.5 font-bold">SL</th>
+                                            <th class="text-right px-4 py-2.5 font-bold">Target</th>
+                                            <th class="text-center px-4 py-2.5 font-bold">Qty</th>
+                                            <th class="text-center px-4 py-2.5 font-bold">Mode</th>
+                                            <th class="text-left px-4 py-2.5 font-bold">Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="openPositionsBody" class="divide-y divide-slate-100 dark:divide-slate-800">
+                                        <tr>
+                                            <td colspan="7" class="px-4 py-6 text-center text-slate-400 text-xs">
+                                                <span class="material-symbols-outlined text-2xl block mb-1 text-slate-300">inbox</span>
+                                                No open positions
                                             </td>
                                         </tr>
                                     </tbody>

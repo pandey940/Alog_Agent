@@ -1,7 +1,8 @@
 /**
  * AI Market Intelligence Agent — Frontend Logic
  * Handles config load/save, scan trigger, signal rendering,
- * approve/reject actions, kill switch, and decision log.
+ * approve/reject actions, kill switch, decision log,
+ * auto-trading controls, and open positions monitoring.
  */
 
 const API_URL = window.APP_CONFIG?.PYTHON_API_URL || 'http://127.0.0.1:5001/api';
@@ -17,6 +18,8 @@ let currentConfig = {};
 let allSectors = [];
 let selectedSectors = [];
 let agentActive = true;
+let autoRunning = false;
+let autoStatusInterval = null;
 
 // ─── DOM Elements ─────────────────────────────
 const $ = id => document.getElementById(id);
@@ -30,6 +33,9 @@ const killSwitchBtn = $('killSwitchBtn');
 const activateBtn = $('activateBtn');
 const saveConfigBtn = $('saveConfigBtn');
 const refreshLogBtn = $('refreshLogBtn');
+const startAutoBtn = $('startAutoBtn');
+const stopAutoBtn = $('stopAutoBtn');
+const forceRunBtn = $('forceRunBtn');
 
 // ─── API Helpers ──────────────────────────────
 async function apiGet(path) {
@@ -53,6 +59,7 @@ async function loadConfig() {
         if (res.status === 'success') {
             currentConfig = res.data;
             allSectors = res.data.available_sectors || [];
+
             selectedSectors = res.data.allowed_sectors || [];
             agentActive = res.data.agent_active;
             renderSectorChips();
@@ -181,6 +188,7 @@ async function triggerScan() {
             $('stat-last-scan').textContent = new Date(res.scan_time).toLocaleTimeString('en-IN');
             updateCapitalStat(res.config_snapshot?.capital_available || 0);
             loadLog();
+            loadOpenPositions();
         } else {
             alert('Scan error: ' + (res.error || 'Unknown'));
         }
@@ -222,7 +230,9 @@ function renderSignals(signals) {
         }).join(' ');
 
         let actionHtml = '';
-        if (isQualified && sig.execution_instruction === 'WAIT_FOR_USER_CONFIRMATION' && !sig.user_action) {
+        if (sig.user_action === 'AUTO_EXECUTED') {
+            actionHtml = `<span class="text-[10px] font-bold text-primary uppercase">⚡ Auto Executed</span>`;
+        } else if (isQualified && sig.execution_instruction === 'WAIT_FOR_USER_CONFIRMATION' && !sig.user_action) {
             actionHtml = `
                 <button onclick="approveSignal('${sig.id}')" class="px-2 py-1 bg-success/10 text-success text-[10px] font-bold rounded hover:bg-success/20 transition-all mr-1">Approve</button>
                 <button onclick="rejectSignal('${sig.id}')" class="px-2 py-1 bg-danger/10 text-danger text-[10px] font-bold rounded hover:bg-danger/20 transition-all">Reject</button>`;
@@ -332,6 +342,8 @@ function renderLog(entries) {
             actionBadge = '<span class="px-1.5 py-0.5 rounded bg-success/10 text-success text-[9px] font-bold uppercase">Approved</span>';
         } else if (entry.user_action === 'REJECTED_BY_USER') {
             actionBadge = '<span class="px-1.5 py-0.5 rounded bg-danger/10 text-danger text-[9px] font-bold uppercase">User Rejected</span>';
+        } else if (entry.user_action === 'AUTO_EXECUTED') {
+            actionBadge = '<span class="px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[9px] font-bold uppercase">Auto Executed</span>';
         }
 
         return `<div class="px-5 py-2.5 border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors flex items-start gap-3">
@@ -350,22 +362,211 @@ function renderLog(entries) {
     }).join('');
 }
 
+// ─── Open Positions ───────────────────────────
+async function loadOpenPositions() {
+    try {
+        const res = await apiGet('/agent/trades/open');
+        if (res.status === 'success') {
+            renderOpenPositions(res.data.trades || []);
+        }
+    } catch (e) {
+        console.error('Load open positions error:', e);
+    }
+}
+
+function renderOpenPositions(trades) {
+    const body = $('openPositionsBody');
+    const count = $('openPositionCount');
+
+    count.textContent = `${trades.length} positions`;
+    $('stat-open-positions').textContent = trades.length;
+
+    if (!trades.length) {
+        body.innerHTML = `<tr><td colspan="7" class="px-4 py-6 text-center text-slate-400 text-xs">
+            <span class="material-symbols-outlined text-2xl block mb-1 text-slate-300">inbox</span>
+            No open positions</td></tr>`;
+        return;
+    }
+
+    body.innerHTML = trades.map(t => {
+        const time = new Date(t.entry_time).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+        const modeClass = t.trading_mode === 'LIVE' ? 'bg-danger/10 text-danger' : 'bg-primary/10 text-primary';
+        return `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+            <td class="px-4 py-2.5">
+                <div class="font-bold text-xs">${t.display_symbol || t.symbol}</div>
+                <div class="text-[10px] text-slate-400">${t.sector}</div>
+            </td>
+            <td class="px-4 py-2.5 text-right font-mono text-xs">₹${t.entry_price?.toLocaleString('en-IN')}</td>
+            <td class="px-4 py-2.5 text-right font-mono text-xs text-danger">₹${t.stop_loss?.toLocaleString('en-IN')}</td>
+            <td class="px-4 py-2.5 text-right font-mono text-xs text-success">₹${t.target_price?.toLocaleString('en-IN')}</td>
+            <td class="px-4 py-2.5 text-center text-xs font-bold">${t.quantity}</td>
+            <td class="px-4 py-2.5 text-center"><span class="px-1.5 py-0.5 rounded text-[9px] font-bold ${modeClass}">${t.trading_mode}</span></td>
+            <td class="px-4 py-2.5 text-xs text-slate-500">${time}</td>
+        </tr>`;
+    }).join('');
+}
+
+// ─── Auto Trading Controls ────────────────────
+async function startAutoTrading() {
+    if (currentConfig.execution_mode !== 'AUTO_RULED') {
+        if (confirm('Auto-trading requires "Autonomous Execution" mode. Switch mode and start?')) {
+            // Update config first
+            try {
+                const newConfig = { ...currentConfig, execution_mode: 'AUTO_RULED' };
+                // Also update the UI form to reflect this
+                $('cfgExecutionMode').value = 'AUTO_RULED';
+
+                const saveRes = await apiPost('/agent/configure', {
+                    allowed_sectors: selectedSectors,
+                    max_capital_per_trade: parseFloat($('cfgMaxCapital').value),
+                    risk_per_trade: parseFloat($('cfgRiskPerTrade').value),
+                    max_trades_per_day: parseInt($('cfgMaxTrades').value),
+                    stop_loss_rule: { type: 'fixed_percent', value: parseFloat($('cfgStopLoss').value) },
+                    profit_booking_rule: { type: 'target_percent', value: parseFloat($('cfgTargetProfit').value) },
+                    execution_mode: 'AUTO_RULED',
+                    trading_mode: $('cfgTradingMode').value,
+                });
+
+                if (saveRes.status === 'success') {
+                    currentConfig = saveRes.data;
+                    console.log('Switched to AUTO_RULED mode');
+                } else {
+                    alert('Failed to switch mode: ' + saveRes.error);
+                    return;
+                }
+            } catch (e) {
+                console.error('Config update error:', e);
+                return;
+            }
+        } else {
+            return;
+        }
+    }
+
+    try {
+        const res = await apiPost('/agent/auto/start', { interval: 300 });
+        if (res.status === 'success') {
+            autoRunning = true;
+            updateAutoUI();
+            startAutoStatusPolling();
+        } else {
+            alert('Start auto-trading failed: ' + (res.error || 'Unknown'));
+        }
+    } catch (e) {
+        console.error('Start auto error:', e);
+        alert('Failed to start auto-trading');
+    }
+}
+
+async function stopAutoTrading() {
+    try {
+        const res = await apiPost('/agent/auto/stop');
+        if (res.status === 'success') {
+            autoRunning = false;
+            updateAutoUI();
+            stopAutoStatusPolling();
+        }
+    } catch (e) {
+        console.error('Stop auto error:', e);
+    }
+}
+
+async function forceRunNow() {
+    try {
+        forceRunBtn.textContent = 'Running...';
+        forceRunBtn.disabled = true;
+        const res = await apiPost('/agent/auto/force');
+        if (res.status === 'success') {
+            loadSignals();
+            loadLog();
+            loadOpenPositions();
+            loadAutoStatus();
+        } else {
+            alert('Force run failed: ' + (res.error || 'Unknown'));
+        }
+    } catch (e) {
+        console.error('Force run error:', e);
+    } finally {
+        forceRunBtn.innerHTML = '<span class="material-symbols-outlined text-xs">bolt</span> Force Run Now (Testing)';
+        forceRunBtn.disabled = false;
+    }
+}
+
+async function loadAutoStatus() {
+    try {
+        const res = await apiGet('/agent/auto/status');
+        if (res.status === 'success') {
+            const data = res.data;
+            autoRunning = data.running;
+            updateAutoUI();
+            $('stat-open-positions').textContent = data.open_positions || 0;
+            $('stat-trades-today').textContent = data.trades_today || 0;
+            $('autoMarketStatus').textContent = data.market_hours ? 'OPEN' : 'CLOSED';
+            $('autoMarketStatus').className = `font-bold ${data.market_hours ? 'text-success' : 'text-danger'}`;
+
+            if (data.last_scan_time) {
+                $('stat-last-scan').textContent = new Date(data.last_scan_time).toLocaleTimeString('en-IN');
+            }
+
+            // Load open positions whenever status is polled
+            loadOpenPositions();
+        }
+    } catch (e) {
+        console.error('Auto status error:', e);
+    }
+}
+
+function updateAutoUI() {
+    const badge = $('autoStatusBadge');
+    if (autoRunning) {
+        badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-success animate-pulse"></span> Running';
+        badge.className = 'flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-bold uppercase border border-success/30 bg-success/10 text-success';
+        startAutoBtn.classList.add('hidden');
+        startAutoBtn.classList.remove('flex');
+        stopAutoBtn.classList.remove('hidden');
+        stopAutoBtn.classList.add('flex');
+    } else {
+        badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Stopped';
+        badge.className = 'flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-bold uppercase border border-slate-300 dark:border-slate-700 text-slate-500';
+        startAutoBtn.classList.remove('hidden');
+        startAutoBtn.classList.add('flex');
+        stopAutoBtn.classList.add('hidden');
+        stopAutoBtn.classList.remove('flex');
+    }
+}
+
+function startAutoStatusPolling() {
+    if (autoStatusInterval) clearInterval(autoStatusInterval);
+    autoStatusInterval = setInterval(loadAutoStatus, 15000); // every 15s
+}
+
+function stopAutoStatusPolling() {
+    if (autoStatusInterval) {
+        clearInterval(autoStatusInterval);
+        autoStatusInterval = null;
+    }
+}
+
 // ─── Kill Switch ──────────────────────────────
 async function killSwitch() {
-    if (!confirm('⚠️ This will deactivate the agent and clear ALL signals and logs. Continue?')) return;
+    if (!confirm('This will deactivate the agent, stop auto-trading, and close all open positions. Continue?')) return;
     try {
         const res = await apiPost('/agent/kill');
         if (res.status === 'success') {
             agentActive = false;
+            autoRunning = false;
             updateStatusBadges();
+            updateAutoUI();
+            stopAutoStatusPolling();
             signalsTableBody.innerHTML = `<tr><td colspan="9" class="px-4 py-8 text-center text-danger text-xs font-bold">
                 <span class="material-symbols-outlined text-3xl block mb-2">emergency_home</span>
-                Agent deactivated. All signals cleared.</td></tr>`;
+                Agent deactivated. ${res.positions_closed || 0} positions closed.</td></tr>`;
             decisionLog.innerHTML = '<div class="px-5 py-4 text-center text-danger text-xs font-bold">Log cleared by kill switch.</div>';
             $('stat-total').textContent = '0';
             $('stat-qualified').textContent = '0';
             $('stat-rejected').textContent = '0';
             $('signalCount').textContent = '0 signals';
+            loadOpenPositions();
         }
     } catch (e) {
         console.error('Kill switch error:', e);
@@ -390,10 +591,15 @@ killSwitchBtn.addEventListener('click', killSwitch);
 activateBtn.addEventListener('click', activateAgent);
 saveConfigBtn.addEventListener('click', saveConfig);
 refreshLogBtn.addEventListener('click', loadLog);
+startAutoBtn.addEventListener('click', startAutoTrading);
+stopAutoBtn.addEventListener('click', stopAutoTrading);
+forceRunBtn.addEventListener('click', forceRunNow);
 
 // ─── Init ─────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     loadConfig();
     loadSignals();
     loadLog();
+    loadAutoStatus();
+    loadOpenPositions();
 });

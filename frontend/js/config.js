@@ -3,37 +3,37 @@ tailwind.config = {
     theme: {
         extend: {
             colors: {
-                // Satfin Brand Colors from Logo
-                "primary": "#9d8a4d",           // Gold/Olive from logo text
-                "primary-light": "#b9a86a",     // Lighter gold
-                "primary-dark": "#7a6b3c",      // Darker gold
+                // Algo Agent Brand Colors - Bright Cyan/Teal
+                "primary": "#00FFE5",           // Bright neon cyan
+                "primary-light": "#5CFFE8",     // Lighter vibrant cyan
+                "primary-dark": "#00CDB5",      // Slightly darker teal
 
-                // Background Colors - Warm theme matching logo
-                "background-light": "#faf8f3",  // Warm cream like logo
-                "background-dark": "#0d0f12",   // Deep dark with warmth
-                "panel-dark": "#151810",        // Warm panel with olive tint
-                "card-dark": "#1a1e16",         // Warmer card background
-                "surface-dark": "#121510",      // Warm surface
-                "border-dark": "#2a2e24",       // Warm olive border
+                // Background Colors - Brighter dark tech theme
+                "background-light": "#f0f4f8",  // Cool light gray
+                "background-dark": "#111827",   // Lighter dark blue
+                "panel-dark": "#1a2332",        // Brighter panel
+                "card-dark": "#1e293b",         // Brighter card
+                "surface-dark": "#162031",      // Brighter surface
+                "border-dark": "#2d3f55",       // Visible border
 
                 // Candlestick Colors
-                "bullish": "#1a7a4c",           // Green candle from logo
-                "bearish": "#c92a2a",           // Red candle from logo
-                "success": "#1a7a4c",           // Same as bullish
-                "danger": "#c92a2a",            // Same as bearish
+                "bullish": "#00FF88",           // Bright green
+                "bearish": "#FF6B6B",           // Bright red
+                "success": "#00FF88",           // Same as bullish
+                "danger": "#FF6B6B",            // Same as bearish
 
                 // Accent Colors
-                "accent-green": "#1a7a4c",
-                "accent-red": "#c92a2a",
-                "accent-gold": "#9d8a4d",
+                "accent-green": "#00FF88",
+                "accent-red": "#FF6B6B",
+                "accent-cyan": "#00FFE5",
 
                 // Risk Management Colors
-                "risk-warn": "#e6a23c",
-                "risk-danger": "#c92a2a",
+                "risk-warn": "#FFD166",
+                "risk-danger": "#FF6B6B",
 
                 // Legacy compatibility
-                "loss": "#c92a2a",
-                "accent-orange": "#e6a23c"
+                "loss": "#FF6B6B",
+                "accent-orange": "#FFD166"
             },
             fontFamily: {
                 "display": ["Manrope", "sans-serif"],
@@ -47,9 +47,9 @@ tailwind.config = {
                 "full": "9999px"
             },
             boxShadow: {
-                "glow-gold": "0 0 20px rgba(157, 138, 77, 0.3)",
-                "glow-green": "0 0 20px rgba(26, 122, 76, 0.3)",
-                "glow-red": "0 0 20px rgba(201, 42, 42, 0.3)"
+                "glow-cyan": "0 0 20px rgba(0, 255, 229, 0.35)",
+                "glow-green": "0 0 20px rgba(0, 255, 136, 0.35)",
+                "glow-red": "0 0 20px rgba(255, 107, 107, 0.35)"
             }
         },
     },
@@ -67,7 +67,7 @@ window.APP_CONFIG = {
     // PRODUCTION (GCP Backend):
     // Replace the URL below with your GCP External IP (hurry, verify this on GCP!)
     // PYTHON_API_URL: "http://<YOUR_GCP_EXTERNAL_IP>:5001/api",
-    COMPANY_NAME: "SATFIN",
-    TAGLINE: "Trading | Investing | Training",
+    COMPANY_NAME: "Algo Agent",
+    TAGLINE: "Algorithmic Trading",
     PLATFORM_NAME: "Algorithmic Trading Execution Platform"
 };

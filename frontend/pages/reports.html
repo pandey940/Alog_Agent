@@ -8,236 +8,202 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-    <title>Reports | SATFIN</title>
+    <title>Reports | Algo Agent</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="../js/config.js"></script>
     <link href="../css/style.css" rel="stylesheet" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet">
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
-    <!-- Mobile Menu Overlay -->
     <div id="sidebarOverlay" class="sidebar-overlay hidden"></div>
     <div class="flex h-screen overflow-hidden">
-        <!-- Mobile Menu Toggle Button -->
         <button id="mobileMenuBtn" class="mobile-menu-btn lg:hidden">
             <span class="material-symbols-outlined">menu</span>
         </button>
         <aside id="sidebar"
             class="sidebar-nav w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0">
-            <!-- Close button for mobile -->
             <button id="sidebarCloseBtn" class="sidebar-close-btn lg:hidden">
                 <span class="material-symbols-outlined">close</span>
             </button>
-            <div class="p-4 border-b border-slate-200 dark:border-border-dark">
-                <div class="flex items-center justify-center">
-                    <img src="../img/satfin-logo.png" alt="SATFIN Logo" class="h-16 w-auto" />
-                </div>
-                <p class="text-center text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Algo Trading
-                    Platform</p>
+            <div class="p-4 border-b border-slate-200 dark:border-border-dark flex flex-col items-center justify-center">
+                <img src="../img/alog-logo.png" alt="Alog Logo" class="h-16 w-16 rounded-lg object-contain">
+                <h1 class="text-sm font-bold text-slate-900 dark:text-white tracking-wide mt-2">Algo Agent</h1>
+                <p class="text-[10px] text-slate-500 uppercase tracking-wider">Algo Trading</p>
             </div>
             <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
                 <a href="/" class="nav-item text-slate-600 dark:text-slate-400">
-                    <span class="material-symbols-outlined text-xl">dashboard</span><span
-                        class="text-sm font-medium">Dashboard</span>
+                    <span class="material-symbols-outlined text-xl">dashboard</span><span class="text-sm font-medium">Dashboard</span>
                 </a>
                 <div class="menu-section-divider"></div>
                 <div class="menu-section-label">Trading</div>
                 <div class="nav-group">
-                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
-                            class="material-symbols-outlined text-xl">settings_input_component</span><span
-                            class="text-sm font-medium">Strategies</span><span
-                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
-                    <div class="submenu"><a href="strategy_library.html" class="submenu-item">Strategy Library</a><a
-                            href="my_strategies.html" class="submenu-item">My Strategies</a><a
-                            href="create_strategy.html" class="submenu-item">Create New</a></div>
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span class="material-symbols-outlined text-xl">settings_input_component</span><span class="text-sm font-medium">Strategies</span><span class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="strategy_library.html" class="submenu-item">Strategy Library</a><a href="my_strategies.html" class="submenu-item">My Strategies</a><a href="create_strategy.html" class="submenu-item">Create New</a></div>
                 </div>
                 <div class="nav-group">
-                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
-                            class="material-symbols-outlined text-xl">bolt</span><span
-                            class="text-sm font-medium">Trading</span><span
-                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
-                    <div class="submenu"><a href="live_trading.html" class="submenu-item">Live Trading</a><a
-                            href="paper_trading.html" class="submenu-item">Paper Trading</a><a href="orders.html"
-                            class="submenu-item">Orders</a><a href="positions.html" class="submenu-item">Positions</a><a href="agent.html" class="submenu-item">AI Agent</a>
-                    </div>
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span class="material-symbols-outlined text-xl">bolt</span><span class="text-sm font-medium">Trading</span><span class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="live_trading.html" class="submenu-item">Live Trading</a><a href="paper_trading.html" class="submenu-item">Paper Trading</a><a href="orders.html" class="submenu-item">Orders</a><a href="positions.html" class="submenu-item">Positions</a><a href="agent.html" class="submenu-item">AI Agent</a></div>
                 </div>
                 <div class="menu-section-divider"></div>
                 <div class="menu-section-label">Analytics</div>
                 <div class="nav-group">
-                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
-                            class="material-symbols-outlined text-xl">analytics</span><span
-                            class="text-sm font-medium">Performance</span><span
-                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
-                    <div class="submenu"><a href="backtesting.html" class="submenu-item">Backtesting</a><a
-                            href="reports.html" class="submenu-item active">Reports</a><a href="trade_journal.html"
-                            class="submenu-item">Trade Journal</a></div>
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span class="material-symbols-outlined text-xl">analytics</span><span class="text-sm font-medium">Performance</span><span class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="backtesting.html" class="submenu-item">Backtesting</a><a href="reports.html" class="submenu-item active">Reports</a><a href="trade_journal.html" class="submenu-item">Trade Journal</a></div>
                 </div>
                 <div class="nav-group">
-                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
-                            class="material-symbols-outlined text-xl">show_chart</span><span
-                            class="text-sm font-medium">Market Data</span><span
-                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
-                    <div class="submenu"><a href="watchlist.html" class="submenu-item">Watchlist</a><a
-                            href="screener.html" class="submenu-item">Stock Screener</a><a href="market_news.html"
-                            class="submenu-item">Market News</a></div>
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span class="material-symbols-outlined text-xl">show_chart</span><span class="text-sm font-medium">Market Data</span><span class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="watchlist.html" class="submenu-item">Watchlist</a><a href="screener.html" class="submenu-item">Stock Screener</a><a href="market_news.html" class="submenu-item">Market News</a></div>
                 </div>
                 <div class="menu-section-divider"></div>
                 <div class="menu-section-label">Configuration</div>
                 <div class="nav-group">
-                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span
-                            class="material-symbols-outlined text-xl">settings</span><span
-                            class="text-sm font-medium">Settings</span><span
-                            class="material-symbols-outlined menu-arrow">expand_more</span></div>
-                    <div class="submenu"><a href="risk_management.html" class="submenu-item">Risk Management</a><a
-                            href="api_connections.html" class="submenu-item">API Connections</a><a
-                            href="notifications.html" class="submenu-item">Notifications</a><a href="account.html"
-                            class="submenu-item">Account</a></div>
+                    <div class="menu-toggle text-slate-600 dark:text-slate-400"><span class="material-symbols-outlined text-xl">settings</span><span class="text-sm font-medium">Settings</span><span class="material-symbols-outlined menu-arrow">expand_more</span></div>
+                    <div class="submenu"><a href="risk_management.html" class="submenu-item">Risk Management</a><a href="api_connections.html" class="submenu-item">API Connections</a><a href="notifications.html" class="submenu-item">Notifications</a><a href="account.html" class="submenu-item">Account</a></div>
                 </div>
             </nav>
         </aside>
+
         <main class="flex-1 flex flex-col overflow-hidden bg-slate-50 dark:bg-background-dark">
-            <header
-                class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex items-center justify-between px-8 shrink-0">
-                <h1 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wide">Performance Reports
-                </h1>
-                <div class="flex items-center gap-4"><button
-                        class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/30"><span
-                            class="material-symbols-outlined text-primary">person</span></button></div>
-            </header>
-            <div class="flex-1 overflow-y-auto p-8">
-                <!-- Date Range Selector -->
-                <div class="flex items-center justify-between mb-6">
-                    <div class="flex items-center gap-2">
-                        <button class="px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded">7D</button>
-                        <button
-                            class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-700">30D</button>
-                        <button
-                            class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-700">90D</button>
-                        <button
-                            class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-700">1Y</button>
-                        <button
-                            class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-slate-700">All</button>
+            <header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-panel-dark flex items-center justify-between px-8 shrink-0">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary text-2xl">analytics</span>
+                    <div>
+                        <h1 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wide">Performance Reports</h1>
+                        <p class="text-[10px] text-slate-500 uppercase tracking-wider">Agent Trade Analysis</p>
                     </div>
-                    <button
-                        class="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-primary text-white rounded hover:brightness-110 transition-all">
-                        <span class="material-symbols-outlined text-base">download</span> Export PDF
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/30">
+                        <span class="material-symbols-outlined text-primary">person</span>
                     </button>
+                </div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-8 space-y-6 no-scrollbar">
+                <!-- Date Range Selector -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <button data-days="7" class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200">7D</button>
+                        <button data-days="30" class="px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded">30D</button>
+                        <button data-days="90" class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200">90D</button>
+                        <button data-days="365" class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200">1Y</button>
+                        <button data-days="9999" class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded hover:bg-slate-200">All</button>
+                    </div>
                 </div>
 
                 <!-- Summary Cards -->
-                <div class="grid grid-cols-5 gap-4 mb-6">
-                    <div
-                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4">
+                <div class="grid grid-cols-5 gap-4">
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4">
                         <p class="text-xs text-slate-500 uppercase font-semibold tracking-wider mb-1">Total P&L</p>
-                        <p class="text-2xl font-bold text-emerald-500">+₹12,458</p>
+                        <p class="text-2xl font-bold text-slate-400" id="rpt-total-pnl">₹0.00</p>
                     </div>
-                    <div
-                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4">
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4">
                         <p class="text-xs text-slate-500 uppercase font-semibold tracking-wider mb-1">Win Rate</p>
-                        <p class="text-2xl font-bold text-slate-900 dark:text-white">68.5%</p>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white" id="rpt-win-rate">0%</p>
+                        <div class="w-full h-1.5 bg-slate-200 dark:bg-background-dark rounded-full mt-2 overflow-hidden flex">
+                            <div id="rpt-win-bar" class="h-full bg-emerald-500 transition-all" style="width: 0%"></div>
+                            <div id="rpt-loss-bar" class="h-full bg-rose-500 transition-all" style="width: 100%"></div>
+                        </div>
                     </div>
-                    <div
-                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4">
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4">
                         <p class="text-xs text-slate-500 uppercase font-semibold tracking-wider mb-1">Total Trades</p>
-                        <p class="text-2xl font-bold text-slate-900 dark:text-white">127</p>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white" id="rpt-total-trades">0</p>
                     </div>
-                    <div
-                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4">
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4">
                         <p class="text-xs text-slate-500 uppercase font-semibold tracking-wider mb-1">Avg. Trade</p>
-                        <p class="text-2xl font-bold text-emerald-500">+₹98.09</p>
+                        <p class="text-2xl font-bold text-slate-400" id="rpt-avg-trade">₹0.00</p>
                     </div>
-                    <div
-                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4">
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-4">
                         <p class="text-xs text-slate-500 uppercase font-semibold tracking-wider mb-1">Sharpe Ratio</p>
-                        <p class="text-2xl font-bold text-slate-900 dark:text-white">1.85</p>
+                        <p class="text-2xl font-bold text-slate-900 dark:text-white" id="rpt-sharpe">0</p>
+                    </div>
+                </div>
+
+                <!-- Detailed Stats Row -->
+                <div class="grid grid-cols-6 gap-4">
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-3 text-center">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Wins</p>
+                        <p class="text-lg font-extrabold text-emerald-500" id="rpt-wins">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-3 text-center">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Losses</p>
+                        <p class="text-lg font-extrabold text-rose-500" id="rpt-losses">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-3 text-center">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Best Trade</p>
+                        <p class="text-lg font-extrabold text-emerald-500" id="rpt-max-win">₹0</p>
+                    </div>
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-3 text-center">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Worst Trade</p>
+                        <p class="text-lg font-extrabold text-rose-500" id="rpt-max-loss">₹0</p>
+                    </div>
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-3 text-center">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Max Drawdown</p>
+                        <p class="text-lg font-extrabold text-amber-500" id="rpt-max-drawdown">₹0</p>
+                    </div>
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-3 text-center">
+                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Open Trades</p>
+                        <p class="text-lg font-extrabold text-primary" id="rpt-open-trades">0</p>
                     </div>
                 </div>
 
                 <!-- Charts Row -->
-                <div class="grid grid-cols-2 gap-6 mb-6">
-                    <div
-                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-6">
-                        <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4">
-                            Equity Curve</h3>
-                        <div
-                            class="h-64 flex items-center justify-center bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 rounded-lg">
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-6">
+                        <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4">Daily P&L</h3>
+                        <div id="rpt-daily-pnl" class="h-48 flex items-center justify-center text-slate-400 text-xs">
                             <div class="text-center">
-                                <span
-                                    class="material-symbols-outlined text-4xl text-emerald-500 mb-2">trending_up</span>
-                                <p class="text-sm text-slate-500">Chart visualization placeholder</p>
+                                <span class="material-symbols-outlined text-4xl text-slate-300 mb-2">bar_chart</span>
+                                <p>Loading...</p>
                             </div>
                         </div>
                     </div>
-                    <div
-                        class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-6">
-                        <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4">
-                            Monthly Returns</h3>
-                        <div
-                            class="h-64 flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-lg">
-                            <div class="text-center">
-                                <span class="material-symbols-outlined text-4xl text-indigo-500 mb-2">bar_chart</span>
-                                <p class="text-sm text-slate-500">Chart visualization placeholder</p>
-                            </div>
+                    <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 p-6">
+                        <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4">Sector Performance</h3>
+                        <div id="rpt-sector-breakdown" class="max-h-48 overflow-y-auto">
+                            <div class="text-center text-slate-400 text-xs py-4">Loading...</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recent Trades Table -->
-                <div
-                    class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
-                    <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
-                        <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Recent
-                            Trades</h3>
+                <!-- Trades Table -->
+                <div class="bg-white dark:bg-panel-dark rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
+                    <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-sm">receipt_long</span>
+                            Trade History
+                        </h3>
                     </div>
-                    <table class="w-full text-sm">
-                        <thead
-                            class="bg-slate-50 dark:bg-slate-800/50 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                            <tr>
-                                <th class="text-left px-4 py-2 font-semibold">Symbol</th>
-                                <th class="text-left px-4 py-2 font-semibold">Side</th>
-                                <th class="text-right px-4 py-2 font-semibold">Entry</th>
-                                <th class="text-right px-4 py-2 font-semibold">Exit</th>
-                                <th class="text-right px-4 py-2 font-semibold">P&L</th>
-                                <th class="text-left px-4 py-2 font-semibold">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                                <td class="px-4 py-2 font-semibold">AAPL</td>
-                                <td class="px-4 py-2 text-emerald-500">Long</td>
-                                <td class="px-4 py-2 text-right font-mono">₹172.40</td>
-                                <td class="px-4 py-2 text-right font-mono">₹178.85</td>
-                                <td class="px-4 py-2 text-right font-mono text-emerald-500">+₹322.50</td>
-                                <td class="px-4 py-2 text-slate-500">Feb 5</td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                                <td class="px-4 py-2 font-semibold">TSLA</td>
-                                <td class="px-4 py-2 text-rose-500">Short</td>
-                                <td class="px-4 py-2 text-right font-mono">₹255.00</td>
-                                <td class="px-4 py-2 text-right font-mono">₹248.30</td>
-                                <td class="px-4 py-2 text-right font-mono text-emerald-500">+₹134.00</td>
-                                <td class="px-4 py-2 text-slate-500">Feb 4</td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                                <td class="px-4 py-2 font-semibold">NVDA</td>
-                                <td class="px-4 py-2 text-emerald-500">Long</td>
-                                <td class="px-4 py-2 text-right font-mono">₹875.00</td>
-                                <td class="px-4 py-2 text-right font-mono">₹862.50</td>
-                                <td class="px-4 py-2 text-right font-mono text-rose-500">-₹187.50</td>
-                                <td class="px-4 py-2 text-slate-500">Feb 3</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-50 dark:bg-slate-800/50 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-semibold">Symbol</th>
+                                    <th class="text-left px-4 py-2 font-semibold">Sector</th>
+                                    <th class="text-right px-4 py-2 font-semibold">Entry</th>
+                                    <th class="text-right px-4 py-2 font-semibold">Exit</th>
+                                    <th class="text-center px-4 py-2 font-semibold">Qty</th>
+                                    <th class="text-right px-4 py-2 font-semibold">P&L</th>
+                                    <th class="text-center px-4 py-2 font-semibold">Exit Reason</th>
+                                    <th class="text-left px-4 py-2 font-semibold">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rpt-trades-body" class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr>
+                                    <td colspan="8" class="px-4 py-8 text-center text-slate-400 text-xs">
+                                        <span class="material-symbols-outlined text-3xl block mb-2 text-slate-300">receipt_long</span>
+                                        Loading trades...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
     <script src="../js/sidebar.js"></script>
+    <script src="../js/reports.js"></script>
 </body>
 
 </html>

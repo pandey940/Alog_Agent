@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import random
-import yfinance as yf
+# import yfinance as yf  <-- Moved to local scope
 import pandas as pd
 import requests
 from dhanhq import dhanhq
@@ -26,8 +26,9 @@ if not client_id or not access_token:
     print("WARNING: Dhan API credentials not found. Set DHAN_CLIENT_ID and DHAN_ACCESS_TOKEN in .env file")
     dhan = None
 else:
+    # print(f"DEBUG: Initializing DhanHQ with client_id={client_id}")
     dhan = dhanhq(client_id, access_token)
-    print("DhanHQ client initialized")
+    print("DhanHQ client initialized", flush=True)
 
 # Get the parent directory (project root) for serving static files
 PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..')
@@ -579,6 +580,7 @@ def get_quote():
     yf_symbol = symbol.replace('.BSE', '.BO')
     
     try:
+        import yfinance as yf
         ticker = yf.Ticker(yf_symbol)
         hist = ticker.history(period="1d")
         
@@ -623,6 +625,7 @@ def get_history():
     yf_symbol = symbol.replace('.BSE', '.BO')
     
     try:
+        import yfinance as yf
         ticker = yf.Ticker(yf_symbol)
         hist = ticker.history(period=period, interval=interval)
         
@@ -682,18 +685,35 @@ def get_history():
 # AI AGENT ENDPOINTS
 # ===========================
 
+# print("DEBUG: Before agent imports")
 import agent_config
 import agent_engine
 import agent_log
+import trade_store
+import auto_executor
+import auto_scheduler
+# print("DEBUG: After agent imports")
 
 @app.route('/api/agent/config', methods=['GET'])
 @require_auth
 def get_agent_config():
-    """Return current agent configuration."""
+    """Return current agent configuration with live Dhan balance."""
     try:
         config = agent_config.get_config()
         config["agent_active"] = agent_config.is_agent_active()
         config["available_sectors"] = sorted(agent_config.SECTOR_SCRIPS.keys())
+
+        # Fetch live balance from Dhan so it reflects immediately
+        if dhan:
+            try:
+                fund_response = dhan.get_fund_limits()
+                if fund_response.get('status') == 'success':
+                    capital = fund_response.get('data', {}).get('availabelBalance', 0)
+                    agent_config.set_capital(capital)
+                    config["capital_available"] = capital
+            except Exception as e:
+                print(f"[Agent Config] Could not fetch Dhan balance: {e}")
+
         return jsonify({"status": "success", "data": config})
     except Exception as e:
         print(f"Agent config error: {e}")
@@ -750,12 +770,28 @@ def agent_scan():
         # Cache results
         agent_log.store_scan_results(logged_signals)
 
+        # Auto-execute qualified signals when in AUTO_RULED mode
+        auto_executed = 0
+        if config.get("execution_mode") == "AUTO_RULED":
+            today_count = trade_store.get_today_trade_count()
+            max_trades = config.get("max_trades_per_day", 3)
+            for sig in logged_signals:
+                if sig["signal_status"] == "QUALIFIED" and sig.get("execution_instruction") == "FORWARD_TO_EXECUTION_ENGINE":
+                    if today_count >= max_trades:
+                        break
+                    trade = auto_executor.execute_signal(sig, config, dhan)
+                    if trade:
+                        agent_log.update_signal_status(sig["id"], "AUTO_EXECUTED")
+                        auto_executed += 1
+                        today_count += 1
+
         return jsonify({
             "status": "success",
             "scan_time": datetime.now().isoformat(),
             "total_signals": len(logged_signals),
             "qualified": sum(1 for s in logged_signals if s["signal_status"] == "QUALIFIED"),
             "rejected": sum(1 for s in logged_signals if s["signal_status"] == "REJECTED"),
+            "auto_executed": auto_executed,
             "signals": logged_signals,
             "config_snapshot": {
                 "trading_mode": config["trading_mode"],
@@ -846,14 +882,22 @@ def reject_signal(signal_id):
 @app.route('/api/agent/kill', methods=['POST'])
 @require_auth
 def agent_kill_switch():
-    """Emergency kill switch — deactivate agent and clear all signals."""
+    """Emergency kill switch — deactivate agent, stop auto-trading, close positions."""
     try:
+        # Stop auto-scheduler first
+        auto_scheduler.stop_scheduler()
+
+        # Close all open positions
+        config = agent_config.get_config()
+        closed = auto_executor.close_all_positions(dhan, config, reason="KILL_SWITCH")
+
         agent_config.deactivate_agent()
         agent_log.clear_all()
         return jsonify({
             "status": "success",
-            "message": "Agent deactivated. All signals and logs cleared.",
+            "message": f"Agent deactivated. Auto-trading stopped. {len(closed)} positions closed.",
             "agent_active": False,
+            "positions_closed": len(closed),
         })
     except Exception as e:
         print(f"Kill switch error: {e}")
@@ -873,6 +917,151 @@ def agent_activate():
     except Exception as e:
         print(f"Activate error: {e}")
         return jsonify({"error": "An internal server error occurred"}), 500
+
+# ===========================
+# AUTO-TRADING ENDPOINTS
+# ===========================
+
+@app.route('/api/agent/auto/start', methods=['POST'])
+@require_auth
+def start_auto_trading():
+    """Start the autonomous trading scheduler."""
+    try:
+        if not agent_config.is_agent_active():
+            return jsonify({"status": "failure", "error": "Agent is deactivated. Activate first."}), 403
+
+        config = agent_config.get_config()
+        if config.get("execution_mode") != "AUTO_RULED":
+            return jsonify({"status": "failure", "error": "Execution mode must be AUTO_RULED for auto-trading."}), 400
+
+        data = request.get_json() or {}
+        interval = data.get("interval", 300)
+
+        result = auto_scheduler.start_scheduler(dhan_client=dhan, interval=interval)
+        if result.get("status") == "already_running":
+             return jsonify({"status": "success", "message": "Auto-trading is already running", **result})
+        return jsonify({"status": "success", **result})
+    except Exception as e:
+        print(f"Start auto-trading error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+
+@app.route('/api/agent/auto/stop', methods=['POST'])
+@require_auth
+def stop_auto_trading():
+    """Stop the autonomous trading scheduler."""
+    try:
+        result = auto_scheduler.stop_scheduler()
+        return jsonify({"status": "success", **result})
+    except Exception as e:
+        print(f"Stop auto-trading error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+
+@app.route('/api/agent/auto/status', methods=['GET'])
+@require_auth
+def auto_trading_status():
+    """Get auto-trading scheduler status."""
+    try:
+        status = auto_scheduler.get_status()
+        return jsonify({"status": "success", "data": status})
+    except Exception as e:
+        print(f"Auto status error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+
+@app.route('/api/agent/auto/force', methods=['POST'])
+@require_auth
+def force_scan_cycle():
+    """Force an immediate scan+execute cycle (for testing)."""
+    try:
+        result = auto_scheduler.force_run_now()
+        if "error" in result:
+            return jsonify({"status": "failure", "error": result["error"]}), 400
+        return jsonify({"status": "success", **result})
+    except Exception as e:
+        print(f"Force scan error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+
+# ===========================
+# TRADE HISTORY ENDPOINTS
+# ===========================
+
+@app.route('/api/agent/trades', methods=['GET'])
+@require_auth
+def get_agent_trades():
+    """Get trade history from persistent store."""
+    try:
+        limit = request.args.get('limit', 100, type=int)
+        trades = trade_store.get_all_trades(limit)
+        return jsonify({"status": "success", "data": {"trades": trades, "total": len(trades)}})
+    except Exception as e:
+        print(f"Agent trades error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+
+@app.route('/api/agent/trades/open', methods=['GET'])
+@require_auth
+def get_open_trades():
+    """Get currently open positions managed by agent."""
+    try:
+        trades = trade_store.get_open_trades()
+        return jsonify({"status": "success", "data": {"trades": trades, "total": len(trades)}})
+    except Exception as e:
+        print(f"Open trades error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+
+@app.route('/api/agent/trades/summary', methods=['GET'])
+@require_auth
+def get_trades_summary():
+    """Get trade summary statistics."""
+    try:
+        summary = trade_store.get_trades_summary()
+        return jsonify({"status": "success", "data": summary})
+    except Exception as e:
+        print(f"Trades summary error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
+
+# ===========================
+# REPORTS ENDPOINT
+# ===========================
+
+@app.route('/api/reports', methods=['GET'])
+@require_auth
+def get_reports():
+    """Get performance reports from trade history."""
+    try:
+        days = request.args.get('days', 30, type=int)
+        summary = trade_store.get_trades_summary()
+        trades = trade_store.get_trades_by_date_range(days)
+        all_closed = trade_store.get_closed_trades(200)
+
+        # Daily P&L breakdown
+        daily_pnl = {}
+        for t in all_closed:
+            exit_date = t.get("exit_time", "")[:10]
+            if exit_date:
+                if exit_date not in daily_pnl:
+                    daily_pnl[exit_date] = 0
+                daily_pnl[exit_date] += t.get("pnl", 0)
+
+        daily_pnl_list = [{"date": d, "pnl": round(v, 2)} for d, v in sorted(daily_pnl.items())]
+
+        return jsonify({
+            "status": "success",
+            "data": {
+                "summary": summary,
+                "trades": trades,
+                "daily_pnl": daily_pnl_list,
+            }
+        })
+    except Exception as e:
+        print(f"Reports error: {e}")
+        return jsonify({"error": "An internal server error occurred"}), 500
+
 
 # ===========================
 # LEGACY ENDPOINTS (MOCK DATA)
@@ -935,7 +1124,8 @@ def get_exposure():
     return jsonify({"equities": equities, "crypto": crypto, "fx": fx})
 
 if __name__ == '__main__':
-    print("Starting Satfin Python Backend on port 5001...")
+    # print("DEBUG: Entering main")
+    print("Starting Satfin Python Backend on port 5001...", flush=True)
     print(f"Dhan API: {'Connected' if dhan else 'Not configured'}")
     debug_mode = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
     app.run(debug=debug_mode, port=5001)

@@ -2,36 +2,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
 /* ================================
-   SATFIN Brand Theme
-   Colors: Gold (#9d8a4d), Green (#1a7a4c), Red (#c92a2a)
+   Algo Agent Brand Theme
+   Colors: Cyan (#00E5CC), Green (#00E676), Red (#FF5252)
    ================================ */
 
 :root {
-    --satfin-gold: #9d8a4d;
-    --satfin-gold-light: #b9a86a;
-    --satfin-gold-dark: #7a6b3c;
-    --satfin-green: #1a7a4c;
-    --satfin-red: #c92a2a;
+    --primary-cyan: #00FFE5;
+    --primary-cyan-light: #5CFFE8;
+    --primary-cyan-dark: #00CDB5;
+    --accent-green: #00FF88;
+    --accent-red: #FF6B6B;
 
-    /* Updated backgrounds to match logo's warm cream/gold tones */
-    --bg-dark: #0d0f12;
-    /* Deeper, warmer dark base */
-    --panel-dark: #151810;
-    /* Warm dark with slight olive tint */
-    --card-dark: #1a1e16;
-    /* Warmer card background */
-    --border-dark: #2a2e24;
-    /* Warm olive-tinted border */
+    /* Dark mode backgrounds - Brighter, lighter dark theme */
+    --bg-dark: #111827;
+    --panel-dark: #1a2332;
+    --card-dark: #1e293b;
+    --border-dark: #2d3f55;
 
     /* Light mode alternatives */
-    --bg-light: #faf8f3;
-    /* Warm cream like logo background */
-    --panel-light: #f5f2ea;
-    /* Light ivory panel */
-    --card-light: #fffdf7;
-    /* Warm white card */
-    --border-light: #e8e4d9;
-    /* Soft gold-tinted border */
+    --bg-light: #f0f4f8;
+    --panel-light: #e8eef4;
+    --card-light: #ffffff;
+    --border-light: #d0d8e0;
 }
 
 body {
@@ -45,7 +37,7 @@ body {
 }
 
 /* ================================
-   Custom Scrollbar - Satfin Gold Theme
+   Custom Scrollbar - Cyan Theme
    ================================ */
 ::-webkit-scrollbar {
     width: 6px;
@@ -57,20 +49,20 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--satfin-gold-dark);
+    background: var(--primary-cyan-dark);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--satfin-gold);
+    background: var(--primary-cyan);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-    background: #3a3d42;
+    background: #1a2a3a;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-    background: var(--satfin-gold-dark);
+    background: var(--primary-cyan-dark);
 }
 
 /* Utility Classes */
@@ -120,21 +112,21 @@ body {
 }
 
 .top-stock-chip:hover {
-    background: rgba(157, 138, 77, 0.2);
-    color: var(--satfin-gold);
-    border-color: rgba(157, 138, 77, 0.4);
+    background: rgba(0, 229, 204, 0.15);
+    color: var(--primary-cyan);
+    border-color: rgba(0, 229, 204, 0.4);
 }
 
 .top-stock-chip.active {
-    background: rgba(157, 138, 77, 0.25);
-    color: var(--satfin-gold);
-    border-color: var(--satfin-gold);
+    background: rgba(0, 229, 204, 0.2);
+    color: var(--primary-cyan);
+    border-color: var(--primary-cyan);
 }
 
 .dark .top-stock-chip.active {
-    background: rgba(157, 138, 77, 0.2);
-    color: var(--satfin-gold-light);
-    border-color: var(--satfin-gold);
+    background: rgba(0, 229, 204, 0.15);
+    color: var(--primary-cyan-light);
+    border-color: var(--primary-cyan);
 }
 
 .top-stock-chip .chip-change {
@@ -143,11 +135,11 @@ body {
 }
 
 .top-stock-chip .chip-change.positive {
-    color: var(--satfin-green);
+    color: var(--accent-green);
 }
 
 .top-stock-chip .chip-change.negative {
-    color: var(--satfin-red);
+    color: var(--accent-red);
 }
 
 .top-stock-chip .chip-price {
@@ -161,7 +153,7 @@ body {
 }
 
 .top-stock-chip.active .chip-price {
-    color: var(--satfin-gold-light);
+    color: var(--primary-cyan-light);
 }
 
 /* ================================
@@ -169,7 +161,7 @@ body {
    ================================ */
 .terminal-grid,
 .chart-grid {
-    background-image: radial-gradient(circle, rgba(157, 138, 77, 0.15) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(0, 229, 204, 0.08) 1px, transparent 1px);
     background-size: 24px 24px;
 }
 
@@ -192,19 +184,19 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: #0d0f11;
+    background: #0a0e14;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: var(--satfin-gold-dark);
+    background: var(--primary-cyan-dark);
 }
 
 .simulation-banner {
     background: repeating-linear-gradient(45deg,
-            rgba(157, 138, 77, 0.1),
-            rgba(157, 138, 77, 0.1) 10px,
-            rgba(157, 138, 77, 0.05) 10px,
-            rgba(157, 138, 77, 0.05) 20px);
+            rgba(0, 229, 204, 0.08),
+            rgba(0, 229, 204, 0.08) 10px,
+            rgba(0, 229, 204, 0.04) 10px,
+            rgba(0, 229, 204, 0.04) 20px);
 }
 
 /* ================================
@@ -233,23 +225,23 @@ body {
 }
 
 .menu-toggle:hover {
-    background: rgba(157, 138, 77, 0.1);
+    background: rgba(0, 229, 204, 0.1);
 }
 
 .dark .menu-toggle:hover {
-    background: rgba(157, 138, 77, 0.15);
+    background: rgba(0, 229, 204, 0.12);
 }
 
 .menu-toggle.active,
 .nav-item.active-link {
-    background: rgba(157, 138, 77, 0.15);
-    color: var(--satfin-gold);
+    background: rgba(0, 229, 204, 0.15);
+    color: var(--primary-cyan);
 }
 
 .dark .menu-toggle.active,
 .dark .nav-item.active-link {
-    background: rgba(157, 138, 77, 0.2);
-    color: var(--satfin-gold-light);
+    background: rgba(0, 229, 204, 0.15);
+    color: var(--primary-cyan-light);
 }
 
 .menu-arrow {
@@ -268,6 +260,7 @@ body {
     overflow: hidden;
     transition: max-height 0.3s ease-out;
 }
+
 /* max-height for .submenu.open is set dynamically via JS (scrollHeight) to avoid close-animation delay */
 
 .submenu-item {
@@ -283,18 +276,18 @@ body {
 }
 
 .submenu-item:hover {
-    background: rgba(157, 138, 77, 0.1);
-    color: var(--satfin-gold);
+    background: rgba(0, 229, 204, 0.1);
+    color: var(--primary-cyan);
 }
 
 .dark .submenu-item:hover {
-    background: rgba(157, 138, 77, 0.15);
-    color: var(--satfin-gold-light);
+    background: rgba(0, 229, 204, 0.12);
+    color: var(--primary-cyan-light);
 }
 
 .submenu-item.active-link {
-    background: rgba(157, 138, 77, 0.15);
-    color: var(--satfin-gold);
+    background: rgba(0, 229, 204, 0.15);
+    color: var(--primary-cyan);
     font-weight: 600;
 }
 
@@ -308,7 +301,7 @@ body {
 }
 
 .submenu-item.active-link::before {
-    background: var(--satfin-gold);
+    background: var(--primary-cyan);
     opacity: 1;
 }
 
@@ -324,11 +317,11 @@ body {
 }
 
 .nav-item:hover {
-    background: rgba(157, 138, 77, 0.1);
+    background: rgba(0, 229, 204, 0.1);
 }
 
 .dark .nav-item:hover {
-    background: rgba(157, 138, 77, 0.15);
+    background: rgba(0, 229, 204, 0.12);
 }
 
 .menu-section-label {
@@ -336,18 +329,18 @@ body {
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--satfin-gold);
+    color: var(--primary-cyan);
     padding: 1rem 0.75rem 0.5rem;
 }
 
 .menu-section-divider {
     height: 1px;
-    background: linear-gradient(to right, transparent, var(--satfin-gold-dark), transparent);
+    background: linear-gradient(to right, transparent, var(--primary-cyan-dark), transparent);
     margin: 0.5rem 0;
 }
 
 /* ================================
-   Satfin Logo in Sidebar
+   Algo Agent Logo in Sidebar
    ================================ */
 .satfin-logo {
     width: 100%;
@@ -367,66 +360,68 @@ body {
    Trading Specific Styles
    ================================ */
 .bullish-candle {
-    fill: var(--satfin-green);
-    stroke: var(--satfin-green);
+    fill: var(--accent-green);
+    stroke: var(--accent-green);
 }
 
 .bearish-candle {
-    fill: var(--satfin-red);
-    stroke: var(--satfin-red);
+    fill: var(--accent-red);
+    stroke: var(--accent-red);
 }
 
 .price-up {
-    color: var(--satfin-green);
+    color: var(--accent-green);
 }
 
 .price-down {
-    color: var(--satfin-red);
+    color: var(--accent-red);
 }
 
 /* Glow Effects */
-.glow-gold {
-    box-shadow: 0 0 20px rgba(157, 138, 77, 0.3);
+.glow-gold,
+.glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 229, 204, 0.3);
 }
 
 .glow-green {
-    box-shadow: 0 0 20px rgba(26, 122, 76, 0.3);
+    box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
 }
 
 .glow-red {
-    box-shadow: 0 0 20px rgba(201, 42, 42, 0.3);
+    box-shadow: 0 0 20px rgba(255, 82, 82, 0.3);
 }
 
 /* ================================
-   Button Styles with Satfin Theme
+   Button Styles with Algo Agent Theme
    ================================ */
 .btn-primary {
-    background: var(--satfin-gold);
-    color: white;
+    background: var(--primary-cyan);
+    color: #0a0e14;
+    font-weight: 600;
     transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
-    background: var(--satfin-gold-light);
-    box-shadow: 0 4px 12px rgba(157, 138, 77, 0.3);
+    background: var(--primary-cyan-light);
+    box-shadow: 0 4px 12px rgba(0, 229, 204, 0.3);
 }
 
 .btn-success {
-    background: var(--satfin-green);
-    color: white;
+    background: var(--accent-green);
+    color: #0a0e14;
 }
 
 .btn-success:hover {
-    background: #1f8f5a;
+    background: #2bff8e;
 }
 
 .btn-danger {
-    background: var(--satfin-red);
+    background: var(--accent-red);
     color: white;
 }
 
 .btn-danger:hover {
-    background: #d93636;
+    background: #ff6b6b;
 }
 
 /* ================================
@@ -438,15 +433,15 @@ body {
 }
 
 .card-gold-hover:hover {
-    border-color: rgba(157, 138, 77, 0.5);
-    box-shadow: 0 8px 24px rgba(157, 138, 77, 0.15);
+    border-color: rgba(0, 229, 204, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 229, 204, 0.1);
 }
 
 /* ================================
    Gradient Backgrounds
    ================================ */
 .gradient-gold {
-    background: linear-gradient(135deg, var(--satfin-gold) 0%, var(--satfin-gold-dark) 100%);
+    background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-cyan-dark) 100%);
 }
 
 .gradient-dark {
@@ -457,18 +452,18 @@ body {
    Status Indicators
    ================================ */
 .status-live {
-    background: var(--satfin-green);
-    box-shadow: 0 0 8px var(--satfin-green);
+    background: var(--accent-green);
+    box-shadow: 0 0 8px var(--accent-green);
 }
 
 .status-paper {
-    background: var(--satfin-gold);
-    box-shadow: 0 0 8px var(--satfin-gold);
+    background: var(--primary-cyan);
+    box-shadow: 0 0 8px var(--primary-cyan);
 }
 
 .status-error {
-    background: var(--satfin-red);
-    box-shadow: 0 0 8px var(--satfin-red);
+    background: var(--accent-red);
+    box-shadow: 0 0 8px var(--accent-red);
 }
 
 /* ================================
@@ -501,7 +496,7 @@ body {
 .stat-card-hover:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    border-color: rgba(157, 138, 77, 0.5);
+    border-color: rgba(0, 229, 204, 0.4);
 }
 
 /* ================================
@@ -519,15 +514,15 @@ body {
 }
 
 .connection-status.online {
-    background: rgba(26, 122, 76, 0.15);
-    color: var(--satfin-green);
-    border: 1px solid rgba(26, 122, 76, 0.3);
+    background: rgba(0, 230, 118, 0.15);
+    color: var(--accent-green);
+    border: 1px solid rgba(0, 230, 118, 0.3);
 }
 
 .connection-status.offline {
-    background: rgba(201, 42, 42, 0.15);
-    color: var(--satfin-red);
-    border: 1px solid rgba(201, 42, 42, 0.3);
+    background: rgba(255, 82, 82, 0.15);
+    color: var(--accent-red);
+    border: 1px solid rgba(255, 82, 82, 0.3);
 }
 
 .connection-status .status-dot {
@@ -568,19 +563,19 @@ body {
     justify-content: center;
     width: 42px;
     height: 42px;
-    background: var(--satfin-gold);
-    border: 2px solid var(--satfin-gold-dark);
+    background: var(--primary-cyan);
+    border: 2px solid var(--primary-cyan-dark);
     border-radius: 0.5rem;
-    color: #0d0f12;
+    color: #0a0e14;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(157, 138, 77, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 229, 204, 0.4);
 }
 
 .sidebar-toggle-btn:hover {
-    background: var(--satfin-gold-light);
+    background: var(--primary-cyan-light);
     transform: scale(1.08);
-    box-shadow: 0 4px 12px rgba(157, 138, 77, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 229, 204, 0.5);
 }
 
 .sidebar-toggle-btn .material-symbols-outlined {
@@ -652,7 +647,7 @@ body {
 
 .sidebar-close-btn:hover {
     background: rgba(100, 116, 139, 0.2);
-    color: var(--satfin-gold);
+    color: var(--primary-cyan);
 }
 
 /* Sidebar Responsive Styles */

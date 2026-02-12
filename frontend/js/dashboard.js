@@ -253,10 +253,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const baseUrl = window.APP_CONFIG?.PYTHON_API_URL || 'http://127.0.0.1:5001/api';
+        const authToken = window.APP_CONFIG?.API_TOKEN || '';
         setLoading();
 
         try {
-            const response = await fetch(baseUrl + '/stats');
+            const response = await fetch(baseUrl + '/stats', {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
             if (!response.ok) throw new Error('Stats API Error');
             const data = await response.json();
 
@@ -305,8 +308,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!headerFundEl) return;
 
         const baseUrl = window.APP_CONFIG?.PYTHON_API_URL || 'http://127.0.0.1:5001/api';
+        const authToken = window.APP_CONFIG?.API_TOKEN || '';
         try {
-            const response = await fetch(`${baseUrl}/account/funds`);
+            const response = await fetch(`${baseUrl}/account/funds`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
             if (!response.ok) throw new Error('Funds API Error');
             const data = await response.json();
 
@@ -330,9 +336,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const valPnlChange = document.getElementById('val-pnl-change');
 
         const baseUrl = window.APP_CONFIG?.PYTHON_API_URL || 'http://127.0.0.1:5001/api';
+        const authToken = window.APP_CONFIG?.API_TOKEN || '';
 
         try {
-            const response = await fetch(`${baseUrl}/account/holdings`);
+            const response = await fetch(`${baseUrl}/account/holdings`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
             if (!response.ok) throw new Error('Holdings API Error');
             const data = await response.json();
 

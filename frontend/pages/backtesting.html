@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en">
 
 <head>
@@ -9,37 +8,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-    <title>SATFIN | Backtesting Engine</title>
-    <meta name="description" content="SATFIN - Historical backtesting engine for algorithmic strategies">
+    <title>Algo Agent | Backtesting Engine</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="../js/config.js"></script>
     <link href="../css/style.css" rel="stylesheet" />
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex overflow-hidden">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex overflow-hidden">
+    <div id="sidebarOverlay" class="sidebar-overlay hidden"></div>
     <!-- Left Sidebar Navigation -->
     <aside id="sidebar"
         class="sidebar-nav w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col shrink-0">
-            <!-- Close button for mobile -->
-            <button id="sidebarCloseBtn" class="sidebar-close-btn lg:hidden">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-        <div class="p-4 flex flex-col items-center border-b border-slate-200 dark:border-border-dark">
-            <img src="../img/satfin-logo.png" alt="SATFIN Logo" class="h-14 w-auto" />
-            <p class="text-[10px] text-primary font-semibold mt-1 uppercase tracking-wider">Backtesting Engine</p>
+        <button id="sidebarCloseBtn" class="sidebar-close-btn lg:hidden">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        <div class="p-4 border-b border-slate-200 dark:border-border-dark flex flex-col items-center justify-center">
+            <img src="../img/alog-logo.png" alt="Alog Logo" class="h-16 w-16 rounded-lg object-contain">
+            <h1 class="text-sm font-bold text-slate-900 dark:text-white tracking-wide mt-2">Algo Agent</h1>
+            <p class="text-[10px] text-slate-500 uppercase tracking-wider">Algo Trading</p>
         </div>
         <nav class="flex-1 px-3 sidebar-nav overflow-y-auto">
-            <!-- Dashboard - Direct Link -->
             <a href="/" class="nav-item text-slate-600 dark:text-slate-400">
                 <span class="material-symbols-outlined text-xl">dashboard</span>
                 <span class="text-sm font-medium">Dashboard</span>
             </a>
-
             <div class="menu-section-divider"></div>
             <div class="menu-section-label">Trading</div>
-
-            <!-- Strategies Menu -->
             <div class="nav-group">
                 <div class="menu-toggle text-slate-600 dark:text-slate-400">
                     <span class="material-symbols-outlined text-xl">settings_input_component</span>
@@ -52,8 +46,6 @@
                     <a href="create_strategy.html" class="submenu-item">Create New</a>
                 </div>
             </div>
-
-            <!-- Trading Menu -->
             <div class="nav-group">
                 <div class="menu-toggle text-slate-600 dark:text-slate-400">
                     <span class="material-symbols-outlined text-xl">bolt</span>
@@ -64,14 +56,12 @@
                     <a href="live_trading.html" class="submenu-item">Live Trading</a>
                     <a href="paper_trading.html" class="submenu-item">Paper Trading</a>
                     <a href="orders.html" class="submenu-item">Orders</a>
-                    <a href="positions.html" class="submenu-item">Positions</a><a href="agent.html" class="submenu-item">AI Agent</a>
+                    <a href="positions.html" class="submenu-item">Positions</a>
+                    <a href="agent.html" class="submenu-item">AI Agent</a>
                 </div>
             </div>
-
             <div class="menu-section-divider"></div>
             <div class="menu-section-label">Analytics</div>
-
-            <!-- Analytics Menu -->
             <div class="nav-group">
                 <div class="menu-toggle text-slate-600 dark:text-slate-400">
                     <span class="material-symbols-outlined text-xl">analytics</span>
@@ -84,8 +74,6 @@
                     <a href="trade_journal.html" class="submenu-item">Trade Journal</a>
                 </div>
             </div>
-
-            <!-- Market Data Menu -->
             <div class="nav-group">
                 <div class="menu-toggle text-slate-600 dark:text-slate-400">
                     <span class="material-symbols-outlined text-xl">show_chart</span>
@@ -98,11 +86,8 @@
                     <a href="market_news.html" class="submenu-item">Market News</a>
                 </div>
             </div>
-
             <div class="menu-section-divider"></div>
             <div class="menu-section-label">Configuration</div>
-
-            <!-- Settings Menu -->
             <div class="nav-group">
                 <div class="menu-toggle text-slate-600 dark:text-slate-400">
                     <span class="material-symbols-outlined text-xl">settings</span>
@@ -117,327 +102,118 @@
                 </div>
             </div>
         </nav>
-        <!-- AI Agent Status -->
-        <div class="p-4 border-t border-slate-200 dark:border-border-dark">
-            <div class="p-3 bg-primary/10 border border-primary/20 rounded-lg mb-3">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary text-xl">smart_toy</span>
-                    <div>
-                        <h3 class="text-sm font-semibold">Satfin AI</h3>
-                        <p class="text-xs text-primary">Ready</p>
-                    </div>
-                    <span class="size-2 rounded-full bg-green-400 animate-pulse ml-auto"></span>
-                </div>
-            </div>
-            <div class="flex items-center gap-3 p-2 bg-slate-100 dark:bg-panel-dark rounded">
-                <div class="size-8 rounded-full bg-slate-200 dark:bg-card-dark flex items-center justify-center overflow-hidden border border-border-dark">
-                    <svg class="w-full h-full" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="User avatar">
-                        <circle cx="16" cy="16" r="16" fill="#2a2e24"/>
-                        <circle cx="16" cy="13" r="5" fill="#9d8a4d"/>
-                        <path d="M6 26c0-5.523 4.477-10 10-10s10 4.477 10 10" fill="#9d8a4d"/>
-                    </svg>
-                </div>
-                <div class="flex-1 overflow-hidden">
-                    <p class="text-xs font-bold truncate">Alex Chen</p>
-                    <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Pro Plan</p>
-                </div>
-                <span class="material-symbols-outlined text-slate-400 text-sm">unfold_more</span>
-            </div>
-        </div>
     </aside>
+
     <!-- Main Workspace -->
     <main class="flex-1 flex flex-col overflow-hidden">
         <!-- Top Navigation -->
-        <header
-            class="h-16 border-b border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark flex items-center justify-between px-6 shrink-0">
-            <div class="flex items-center gap-4">
-                <div class="flex items-center gap-2 text-sm">
-                    <span class="text-slate-400">Strategies</span>
-                    <span class="text-slate-400">/</span>
-                    <span class="font-semibold">Mean Reversion v2.1</span>
-                    <span
-                        class="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-accent-green/20 text-accent-green uppercase tracking-wide">Ready</span>
+        <header class="h-16 border-b border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark flex items-center justify-between px-6 shrink-0">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary text-2xl">candlestick_chart</span>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wide">Backtesting Engine</h1>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-wider">Agent Trade Performance Analysis</p>
                 </div>
             </div>
             <div class="flex items-center gap-4">
-                <div class="relative">
-                    <span
-                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
-                    <input
-                        class="bg-slate-100 dark:bg-panel-dark border-none rounded text-sm pl-10 pr-4 py-2 w-64 focus:ring-1 focus:ring-primary"
-                        placeholder="Search data points..." type="text" />
-                </div>
-                <button
-                    class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded text-sm font-bold transition-all">
-                    <span class="material-symbols-outlined text-sm">save</span>
-                    Save State
+                <button onclick="location.reload()" class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded text-sm font-bold transition-all">
+                    <span class="material-symbols-outlined text-sm">refresh</span>
+                    Refresh Data
                 </button>
             </div>
         </header>
+
         <!-- Content Area -->
-        <div class="flex-1 flex overflow-hidden">
-            <!-- Central Visualizer -->
-            <div class="flex-1 flex flex-col p-6 gap-6 overflow-y-auto">
-                <!-- Main Chart Stage -->
-                <div
-                    class="flex-1 min-h-[400px] bg-white dark:bg-panel-dark rounded-xl border border-slate-200 dark:border-border-dark overflow-hidden flex flex-col shadow-sm">
-                    <div
-                        class="p-4 border-b border-slate-200 dark:border-border-dark flex items-center justify-between bg-slate-50/50 dark:bg-background-dark/30">
-                        <div class="flex items-center gap-4">
-                            <h3 class="text-sm font-bold flex items-center gap-2">
-                                <span class="material-symbols-outlined text-primary text-lg">candlestick_chart</span>
-                                RELIANCE.NSE <span class="text-slate-400 font-normal">1H Timeframe</span>
-                            </h3>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-border-dark"><span
-                                    class="material-symbols-outlined text-sm">zoom_in</span></button>
-                            <button class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-border-dark"><span
-                                    class="material-symbols-outlined text-sm">photo_camera</span></button>
-                            <button class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-border-dark"><span
-                                    class="material-symbols-outlined text-sm">fullscreen</span></button>
-                        </div>
-                    </div>
-                    <div class="flex-1 relative chart-grid flex flex-col p-4">
-                        <!-- Abstract Chart Visualization using SVG -->
-                        <div class="flex-1 relative">
-                            <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 400">
-                                <!-- Price Line -->
-                                <path
-                                    d="M0,320 L50,310 L100,340 L150,280 L200,300 L250,250 L300,270 L350,200 L400,220 L450,150 L500,180 L550,120 L600,140 L650,100 L700,130 L750,90 L800,110 L850,50 L900,80 L1000,20"
-                                    fill="none" stroke="#007f80" stroke-width="2"></path>
-                                <!-- Secondary Equity Curve -->
-                                <path
-                                    d="M0,380 L100,375 L200,360 L300,340 L400,300 L500,280 L600,220 L700,180 L800,120 L900,100 L1000,40"
-                                    fill="none" stroke="#8dcece" stroke-dasharray="4" stroke-width="1"></path>
-                                <!-- Buy Signal Markers -->
-                                <polygon fill="#0bda50" points="150,275 145,285 155,285"></polygon>
-                                <polygon fill="#0bda50" points="450,145 445,155 455,155"></polygon>
-                                <polygon fill="#0bda50" points="850,45 845,55 855,55"></polygon>
-                                <!-- Sell Signal Markers -->
-                                <polygon fill="#f08c1e" points="250,255 245,245 255,245"></polygon>
-                                <polygon fill="#f08c1e" points="550,125 545,115 555,115"></polygon>
-                            </svg>
-                            <!-- Legend / Floating Tooltip -->
-                            <div
-                                class="absolute top-4 left-4 bg-white/90 dark:bg-background-dark/90 border border-slate-200 dark:border-border-dark p-3 rounded-lg shadow-xl backdrop-blur text-xs">
-                                <div class="flex items-center gap-4 mb-2">
-                                    <div class="flex items-center gap-1.5">
-                                        <div class="size-2 rounded-full bg-primary"></div> Price
-                                    </div>
-                                    <div class="flex items-center gap-1.5">
-                                        <div
-                                            class="size-2 rounded-full border border-primary border-dashed bg-transparent">
-                                        </div> Equity
-                                    </div>
-                                </div>
-                                <div class="flex flex-col gap-1 text-[10px] text-slate-500">
-                                    <div class="flex justify-between gap-8"><span>Entry Price</span> <span
-                                            class="font-bold text-slate-900 dark:text-white">₹2,934.50</span></div>
-                                    <div class="flex justify-between gap-8"><span>Strategy RSI</span> <span
-                                            class="font-bold text-accent-green">32.4 (Oversold)</span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Volume Area -->
-                        <div class="h-24 flex items-end gap-[2px] mt-4 opacity-30">
-                            <div class="flex-1 bg-slate-400 h-[40%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[60%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[55%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-accent-green h-[80%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[45%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[30%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-accent-orange h-[90%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[40%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[70%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[50%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[40%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[60%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[55%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-accent-green h-[80%] rounded-t-sm"></div>
-                            <div class="flex-1 bg-slate-400 h-[45%] rounded-t-sm"></div>
+        <div class="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar">
+            <!-- Main Chart Stage — Equity Curve -->
+            <div class="min-h-[350px] bg-white dark:bg-panel-dark rounded-xl border border-slate-200 dark:border-border-dark overflow-hidden flex flex-col shadow-sm">
+                <div class="p-4 border-b border-slate-200 dark:border-border-dark flex items-center justify-between bg-slate-50/50 dark:bg-background-dark/30">
+                    <h3 class="text-sm font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-lg">show_chart</span>
+                        Equity Curve <span class="text-slate-400 font-normal">Cumulative P&L</span>
+                    </h3>
+                </div>
+                <div id="bt-equity-curve" class="flex-1 relative p-4 min-h-[280px]">
+                    <div class="flex items-center justify-center h-full text-slate-400 text-xs">
+                        <div class="text-center">
+                            <span class="material-symbols-outlined text-4xl block mb-2">trending_up</span>
+                            Loading equity curve...
                         </div>
                     </div>
                 </div>
-                <!-- Metrics Grid -->
-                <div class="grid grid-cols-4 gap-4 shrink-0">
-                    <div
-                        class="bg-white dark:bg-panel-dark p-5 rounded-xl border border-slate-200 dark:border-border-dark flex flex-col gap-1">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">CAGR</span>
-                        <div class="text-2xl font-extrabold">+24.8%</div>
-                        <div class="flex items-center gap-1 text-[10px] font-bold text-accent-green">
-                            <span class="material-symbols-outlined text-xs">trending_up</span> +3.2% vs Benchmark
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-panel-dark p-5 rounded-xl border border-slate-200 dark:border-border-dark flex flex-col gap-1">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Max Drawdown</span>
-                        <div class="text-2xl font-extrabold text-accent-orange">-12.4%</div>
-                        <div class="flex items-center gap-1 text-[10px] font-bold text-slate-400">
-                            Occurred Oct 2023
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-panel-dark p-5 rounded-xl border border-slate-200 dark:border-border-dark flex flex-col gap-1">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sharpe Ratio</span>
-                        <div class="text-2xl font-extrabold">1.92</div>
-                        <div class="flex items-center gap-1 text-[10px] font-bold text-accent-green">
-                            High Efficiency
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white dark:bg-panel-dark p-5 rounded-xl border border-slate-200 dark:border-border-dark flex flex-col gap-1">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Win/Loss
-                            Ratio</span>
-                        <div class="text-2xl font-extrabold">68.5%</div>
-                        <div
-                            class="w-full h-1.5 bg-slate-200 dark:bg-background-dark rounded-full mt-2 overflow-hidden flex">
-                            <div class="h-full bg-primary" style="width: 68.5%"></div>
-                            <div class="h-full bg-accent-orange" style="width: 31.5%"></div>
-                        </div>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="grid grid-cols-4 gap-4 shrink-0">
+                <div class="bg-white dark:bg-panel-dark p-5 rounded-xl border border-slate-200 dark:border-border-dark flex flex-col gap-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total P&L</span>
+                    <div class="text-2xl font-extrabold" id="bt-total-pnl">₹0.00</div>
+                    <div class="flex items-center gap-1 text-[10px] text-slate-400">
+                        <span id="bt-total-trades">0</span> trades |
+                        <span class="text-emerald-500" id="bt-wins">0</span>W /
+                        <span class="text-rose-500" id="bt-losses">0</span>L
                     </div>
                 </div>
-                <!-- Trade Log -->
-                <div
-                    class="bg-white dark:bg-panel-dark rounded-xl border border-slate-200 dark:border-border-dark overflow-hidden flex flex-col shadow-sm">
-                    <div
-                        class="p-4 border-b border-slate-200 dark:border-border-dark flex items-center justify-between">
-                        <h3 class="text-sm font-bold">Execution Log</h3>
-                        <span class="text-xs text-slate-400">Showing last 50 trades</span>
+                <div class="bg-white dark:bg-panel-dark p-5 rounded-xl border border-slate-200 dark:border-border-dark flex flex-col gap-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Max Drawdown</span>
+                    <div class="text-2xl font-extrabold text-amber-500" id="bt-max-drawdown">₹0.00</div>
+                    <div class="flex items-center gap-1 text-[10px] font-bold text-slate-400">
+                        Avg Win: <span class="text-emerald-500" id="bt-avg-win">₹0</span> |
+                        Avg Loss: <span class="text-rose-500" id="bt-avg-loss">₹0</span>
                     </div>
+                </div>
+                <div class="bg-white dark:bg-panel-dark p-5 rounded-xl border border-slate-200 dark:border-border-dark flex flex-col gap-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sharpe Ratio</span>
+                    <div class="text-2xl font-extrabold" id="bt-sharpe">0</div>
+                    <div id="bt-sharpe-label" class="flex items-center gap-1 text-[10px] font-bold text-slate-400">
+                        —
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-panel-dark p-5 rounded-xl border border-slate-200 dark:border-border-dark flex flex-col gap-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Win/Loss Ratio</span>
+                    <div class="text-2xl font-extrabold" id="bt-win-rate">0%</div>
+                    <div class="w-full h-1.5 bg-slate-200 dark:bg-background-dark rounded-full mt-2 overflow-hidden flex">
+                        <div id="bt-win-bar" class="h-full bg-emerald-500 transition-all" style="width: 0%"></div>
+                        <div id="bt-loss-bar" class="h-full bg-rose-500 transition-all" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Execution Log -->
+            <div class="bg-white dark:bg-panel-dark rounded-xl border border-slate-200 dark:border-border-dark overflow-hidden flex flex-col shadow-sm">
+                <div class="p-4 border-b border-slate-200 dark:border-border-dark flex items-center justify-between">
+                    <h3 class="text-sm font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-sm">receipt_long</span>
+                        Execution Log
+                    </h3>
+                    <span class="text-xs text-slate-400">Showing last 50 trades</span>
+                </div>
+                <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
-                        <thead
-                            class="bg-slate-50 dark:bg-background-dark/50 border-b border-slate-200 dark:border-border-dark">
+                        <thead class="bg-slate-50 dark:bg-background-dark/50 border-b border-slate-200 dark:border-border-dark">
                             <tr>
                                 <th class="px-4 py-3 font-bold text-slate-400 uppercase tracking-wide">Date</th>
                                 <th class="px-4 py-3 font-bold text-slate-400 uppercase tracking-wide">Type</th>
-                                <th class="px-4 py-3 font-bold text-slate-400 uppercase tracking-wide">Price</th>
+                                <th class="px-4 py-3 font-bold text-slate-400 uppercase tracking-wide">Trade</th>
                                 <th class="px-4 py-3 font-bold text-slate-400 uppercase tracking-wide">Size</th>
-                                <th class="px-4 py-3 font-bold text-slate-400 uppercase tracking-wide text-right">
-                                    P&amp;L</th>
+                                <th class="px-4 py-3 font-bold text-slate-400 uppercase tracking-wide text-right">P&L</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100 dark:divide-border-dark">
-                            <tr class="hover:bg-slate-50 dark:hover:bg-background-dark/40 transition-colors">
-                                <td class="px-4 py-3 font-medium">2024-03-12 14:00</td>
-                                <td class="px-4 py-3"><span
-                                        class="px-2 py-0.5 bg-accent-green/10 text-accent-green rounded text-[10px] font-bold uppercase">Buy
-                                        Long</span></td>
-                                <td class="px-4 py-3">₹2,934.50</td>
-                                <td class="px-4 py-3">150 Shares</td>
-                                <td class="px-4 py-3 text-right font-bold text-accent-green">+₹4,520</td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 dark:hover:bg-background-dark/40 transition-colors">
-                                <td class="px-4 py-3 font-medium">2024-03-12 18:30</td>
-                                <td class="px-4 py-3"><span
-                                        class="px-2 py-0.5 bg-accent-orange/10 text-accent-orange rounded text-[10px] font-bold uppercase">Sell
-                                        Close</span></td>
-                                <td class="px-4 py-3">₹2,964.70</td>
-                                <td class="px-4 py-3">150 Shares</td>
-                                <td class="px-4 py-3 text-right font-bold text-accent-green">+₹7,680</td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 dark:hover:bg-background-dark/40 transition-colors">
-                                <td class="px-4 py-3 font-medium">2024-03-13 09:15</td>
-                                <td class="px-4 py-3"><span
-                                        class="px-2 py-0.5 bg-accent-green/10 text-accent-green rounded text-[10px] font-bold uppercase">Buy
-                                        Long</span></td>
-                                <td class="px-4 py-3">₹2,948.00</td>
-                                <td class="px-4 py-3">100 Shares</td>
-                                <td class="px-4 py-3 text-right font-bold text-accent-orange">-₹1,204</td>
+                        <tbody id="bt-execution-log" class="divide-y divide-slate-100 dark:divide-border-dark">
+                            <tr>
+                                <td colspan="5" class="px-4 py-8 text-center text-slate-400 text-xs">
+                                    <span class="material-symbols-outlined text-3xl block mb-2 text-slate-300">receipt_long</span>
+                                    Loading execution log...
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <!-- Configuration Sidebar -->
-            <div
-                class="w-80 border-l border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark p-6 flex flex-col gap-6 overflow-y-auto shrink-0">
-                <div>
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Simulation Scope</h3>
-                    <div class="flex flex-col gap-4">
-                        <div class="flex flex-col gap-1.5">
-                            <label class="text-xs font-semibold">Asset Pair</label>
-                            <select
-                                class="bg-slate-100 dark:bg-panel-dark border-none rounded text-sm p-2.5 focus:ring-1 focus:ring-primary">
-                                <option>RELIANCE.NSE</option>
-                                <option>TATASTEEL.NSE</option>
-                                <option>INFY.NSE</option>
-                                <option>HDFCBANK.NSE</option>
-                                <option>TCS.NSE</option>
-                            </select>
-                        </div>
-                        <div class="flex flex-col gap-1.5">
-                            <label class="text-xs font-semibold">Time Range</label>
-                            <div class="grid grid-cols-1 gap-2">
-                                <div class="flex items-center bg-slate-100 dark:bg-panel-dark rounded px-3 py-2">
-                                    <span
-                                        class="material-symbols-outlined text-sm text-slate-400 mr-2">calendar_today</span>
-                                    <input class="bg-transparent border-none p-0 text-xs w-full focus:ring-0"
-                                        type="text" value="2023-01-01" />
-                                </div>
-                                <div class="flex items-center bg-slate-100 dark:bg-panel-dark rounded px-3 py-2">
-                                    <span class="material-symbols-outlined text-sm text-slate-400 mr-2">event</span>
-                                    <input class="bg-transparent border-none p-0 text-xs w-full focus:ring-0"
-                                        type="text" value="2024-01-01" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-t border-slate-100 dark:border-border-dark pt-6">
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Parameters</h3>
-                    <div class="flex flex-col gap-4">
-                        <div class="flex flex-col gap-1.5">
-                            <label class="text-xs font-semibold">Initial Capital (INR)</label>
-                            <input
-                                class="bg-slate-100 dark:bg-panel-dark border-none rounded text-sm p-2.5 focus:ring-1 focus:ring-primary"
-                                type="number" value="100000" />
-                        </div>
-                        <div class="flex flex-col gap-1.5">
-                            <label class="text-xs font-semibold flex items-center justify-between">
-                                Slippage (%)
-                                <span class="text-[10px] text-primary">Est: ₹14.20/trade</span>
-                            </label>
-                            <input class="accent-primary" max="1" min="0" step="0.05" type="range" value="0.1" />
-                        </div>
-                        <div class="flex flex-col gap-1.5">
-                            <label class="text-xs font-semibold">Brokerage Fee (%)</label>
-                            <input
-                                class="bg-slate-100 dark:bg-panel-dark border-none rounded text-sm p-2.5 focus:ring-1 focus:ring-primary"
-                                step="0.01" type="number" value="0.04" />
-                        </div>
-                        <div class="flex flex-col gap-1.5">
-                            <label class="text-xs font-semibold">Leverage</label>
-                            <div class="flex gap-2">
-                                <button class="flex-1 py-2 text-xs font-bold bg-primary text-white rounded">1x</button>
-                                <button
-                                    class="flex-1 py-2 text-xs font-bold bg-slate-100 dark:bg-panel-dark rounded">5x</button>
-                                <button
-                                    class="flex-1 py-2 text-xs font-bold bg-slate-100 dark:bg-panel-dark rounded">10x</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-auto pt-6 flex flex-col gap-3">
-                    <div class="p-3 bg-primary/5 border border-primary/20 rounded-lg">
-                        <div class="flex items-center gap-2 text-primary mb-1">
-                            <span class="material-symbols-outlined text-sm">info</span>
-                            <span class="text-[10px] font-bold uppercase tracking-tight">System Notice</span>
-                        </div>
-                        <p class="text-[10px] text-slate-500 leading-relaxed">
-                            Backtest uses 1-minute historical ticks with latency simulation enabled.
-                        </p>
-                    </div>
-                    <button
-                        class="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 transition-all active:scale-95">
-                        <span class="material-symbols-outlined">play_arrow</span>
-                        Run Backtest
-                    </button>
-                </div>
-            </div>
         </div>
     </main>
     <script src="../js/sidebar.js"></script>
+    <script src="../js/backtesting.js"></script>
 </body>
 
 </html>

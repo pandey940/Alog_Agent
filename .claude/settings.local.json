@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(ls:*)",
+      "Bash(wc:*)",
+      "Bash(/Users/punitpandey/Documents/GitHub/Alog_Agent/backend/venv/bin/python:*)",
+      "Bash(/Users/punitpandey/Documents/GitHub/Alog_Agent/backend/venv/bin/pip list:*)"
     ]
   }
 }

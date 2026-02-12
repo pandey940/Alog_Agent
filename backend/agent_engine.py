@@ -7,7 +7,7 @@ rule-validated trade SIGNALS (never decisions or advice).
 This module is stateless — it receives config and returns signal dicts.
 """
 
-import yfinance as yf
+# import yfinance as yf  <-- Moved to scan_markets
 import pandas as pd
 from datetime import datetime
 
@@ -196,6 +196,7 @@ def scan_markets(config: dict) -> list:
             seen_symbols.add(symbol)
 
             try:
+                import yfinance as yf
                 ticker = yf.Ticker(symbol)
                 hist = ticker.history(period="1mo", interval="1d")
 
